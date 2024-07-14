@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* global Style */
+* { 
+    font-family: "Lexend Deca", sans-serif; 
+    scrollbar-color: #2C2E34 #17191C;
+    scrollbar-width: thin;
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+
+.blinking {
+    animation: blink 2s infinite;
+}

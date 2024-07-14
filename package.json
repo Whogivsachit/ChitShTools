@@ -1,0 +1,11 @@
+{
+    "name": "mevntemplate",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "dev": "concurrently \"cd client && npm run dev \" \"cd server && npm run dev\""
+    },
+    "author": "",
+    "license": "ISC"
+}
