@@ -5,8 +5,8 @@
 
             <!-- Header -->
             <div class="flex flex-col py-16 text-center text-white">
-                <h1 class="text-5xl font-bold">QrCode Generator</h1>
-                <p class="text-xl pt-2">Quickly and efficiently genereate masked/shortened urls</p>
+                <h1 class="text-5xl font-bold">Qr-Code Generator</h1>
+                <p class="text-xl pt-2">Quickly and efficiently generate QrCodes</p>
             </div>
 
             <!-- Main Content -->
@@ -41,7 +41,7 @@
                     </div>
                     <hr class="border-borders my-2 mb-3">
                     <div class="flex justify-center">
-                        <img v-if="qrCode" :src="qrCode" alt="QR Code" class="w-1/3 p-5">
+                        <img v-if="qrCode" :src="qrCode" alt="QR Code" class="w-1/2 p-5">
                     </div>
                 </div>
 
@@ -49,22 +49,41 @@
                 <div class="p-5 bg-foreground rounded-md w-1/2 text-white">
                     <h1 class="text-2xl">Themes</h1>
                     <hr class="border-borders my-2">
-                    <div class="flex gap-3 pt-2">
-                        <div @click="setTheme('classic')" class="flex flex-col align-middle w-1/4">
-                            <img src="https://cdn.chit.sh/i13LYVU3ZBij7rlMsO0S3Xgu.png" alt="Classic" class="p-5 bg-background rounded-md transition-transform duration-300 transform hover:scale-105">
-                            <p class="text-center pt-2" :class="this.theme === 'classic' ? 'text-white' : 'text-muted'">Classic</p>
+                    <div class="flex place-content-between">
+                        <div class="flex gap-3 pt-2 w-full">
+                            <div @click="setTheme('#000000', '#ffffff')" class="flex flex-col align-middle">
+                                <img src="https://cdn.chit.sh/i13LYVU3ZBij7rlMsO0S3Xgu.png" alt="Classic" class="p-5 bg-background rounded-md transition-transform duration-300 transform hover:scale-105">
+                                <p class="text-center pt-2">Classic</p>
+                            </div>
+                            <div @click="setTheme('#FFFFFF', '#1D1F23')" class="flex flex-col align-middle">
+                                <img src="https://cdn.chit.sh/kBVmbBQFyIQ8gKurzGa9UYDn.png" alt="Classic" class="p-5 bg-background rounded-md transition-transform duration-300 transform hover:scale-105">
+                                <p class="text-center pt-2">Dark</p>
+                            </div>
+                            <div @click="setTheme('#FA4033', '#1D1F23')" class="flex flex-col align-middle">
+                                <img src="https://cdn.chit.sh/4cE3Ry1oWREQHguiqiEslpH2.png" alt="Classic" class="p-5 bg-background rounded-md transition-transform duration-300 transform hover:scale-105">
+                                <p class="text-center pt-2">ChitSh Theme</p>
+                            </div>
+                            <div @click="setTheme('#FFA000', '#000000')" class="flex flex-col align-middle">
+                                <img src="https://cdn.chit.sh/z84XrxUwd0wq8XaoNFRnuyky.png" alt="Classic" class="p-5 bg-background rounded-md transition-transform duration-300 transform hover:scale-105">
+                                <p class="text-center pt-2">Orange Dream</p>
+                            </div>
                         </div>
-                        <div @click="setTheme('dark')" class="flex flex-col align-middle w-1/4">
-                            <img src="https://cdn.chit.sh/kBVmbBQFyIQ8gKurzGa9UYDn.png" alt="Classic" class="p-5 bg-background rounded-md transition-transform duration-300 transform hover:scale-105">
-                            <p class="text-center pt-2" :class="this.theme === 'dark' ? 'text-white' : 'text-muted'">Dark</p>
+                    </div>
+                    <hr class="border-borders my-2">
+                    <div class="flex gap-6 py-5 place-content-between">
+                        <div>
+                            <span class="text-white">Foreground Color</span>
+                            <div class="flex">
+                                <input type="color" class="h-[2rem] bg-background border border-borders" v-model="foregroundColor">
+                                <input type="text" class="h-[2rem] bg-background border border-borders" v-model="foregroundColor">
+                            </div>
                         </div>
-                        <div @click="setTheme('chitsh')" class="flex flex-col align-middle w-1/4">
-                            <img src="https://cdn.chit.sh/4cE3Ry1oWREQHguiqiEslpH2.png" alt="Classic" class="p-5 bg-background rounded-md transition-transform duration-300 transform hover:scale-105">
-                            <p class="text-center pt-2" :class="this.theme === 'chitsh' ? 'text-white' : 'text-muted'">ChitSh Theme</p>
-                        </div>
-                        <div @click="setTheme('orange')" class="flex flex-col align-middle w-1/4">
-                            <img src="https://cdn.chit.sh/z84XrxUwd0wq8XaoNFRnuyky.png" alt="Classic" class="p-5 bg-background rounded-md transition-transform duration-300 transform hover:scale-105">
-                            <p class="text-center pt-2" :class="this.theme === 'orange' ? 'text-white' : 'text-muted'">Orange Dream</p>
+                        <div>
+                            <span class="text-white">Background Color</span>
+                            <div class="flex">
+                                <input type="color" class="h-[2rem] bg-background border border-borders" v-model="backgroundColor">
+                                <input type="text" class="h-[2rem] bg-background border border-borders" v-model="backgroundColor">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -82,7 +101,8 @@ export default {
         return {
             text: '',
             qrCode: '',
-            theme: 'classic',
+            foregroundColor: '#000000',
+            backgroundColor: '#ffffff',
             successMessage: '',
             errorMessage: '',
             isLoading: false,
@@ -100,7 +120,12 @@ export default {
             this.successMessage = '';
             this.qrCode = ''
 
-            const response = await coreService.generateQrCode({ text: this.text, theme: this.theme });
+            if(!this.text) {
+                this.errorMessage = 'Please enter valid url or text';
+                return this.isLoading = false;
+            }
+
+            const response = await coreService.generateQrCode({ text: this.text, colors: { foreground: this.foregroundColor, background: this.backgroundColor} });
 
             if(response.status === 200) {
                 this.qrCode = response.data;
@@ -113,8 +138,9 @@ export default {
             this.isLoading = false;
         },
 
-        setTheme(theme) {
-            this.theme = theme;
+        setTheme(foreground, background) {
+            this.foregroundColor = foreground;
+            this.backgroundColor = background;
         }
     }
 }

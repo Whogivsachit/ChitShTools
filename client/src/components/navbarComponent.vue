@@ -17,7 +17,7 @@
             </div>
         </div>
         <!-- Dropdown Navbar -->
-        <div v-if="dropdown" ref="dropdown" v-click-outside="closeDropdown" class="bg-foreground absolute w-full animate__animated animate__fadeIn animate__faster">
+        <div v-if="dropdown" ref="dropdown" v-click-outside="closeDropdown" class="bg-foreground absolute w-full animate__animated animate__fadeIn animate__faster border-b-2 border-borders">
             <div class="container mx-auto px-4 md:px-0 flex items-center h-max py-2">
             <div class="flex flex-col md:flex-row gap-6 mx-auto text-white w-3/4">
                 <div class="w-full md:w-2/3">
@@ -26,6 +26,8 @@
                     <router-link to="/mdownloader" class="block px-4 py-2 text-muted hover:text-white">[YT/SC] Media Downloader</router-link>
                     <router-link to="/shorten" class="block px-4 py-2 text-muted hover:text-white">Url Shortener</router-link>
                     <router-link to="/qrcode" class="block px-4 py-2 text-muted hover:text-white">QR Code Generator</router-link>
+                    <router-link to="/json" class="block px-4 py-2 text-muted hover:text-white">Json Beautify</router-link>
+                    <router-link to="/password" class="block px-4 py-2 text-muted hover:text-white">Password Generator</router-link>
                 </div>
                 <div class="w-full md:w-2/3">
                     <h1 class="px-4 py-2 font-bold text-xl">Senders</h1>
@@ -44,6 +46,7 @@
                     <hr class="border-t border-borders">
                     <router-link to="/" class="block px-4 py-2 text-muted hover:text-white line-through">PDF Converter</router-link>
                     <router-link to="/" class="block px-4 py-2 text-muted hover:text-white line-through">FileType Converter</router-link>
+                    <router-link to="/b64" class="block px-4 py-2 text-muted hover:text-white">Base64 Encode/Decode</router-link>
                 </div>
             </div>
         </div>

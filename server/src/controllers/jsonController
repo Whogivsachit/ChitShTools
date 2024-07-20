@@ -1,0 +1,9 @@
+
+exports.beautifyJson = async (req, res) => {
+    console.log("Beautify Json Controller");
+    const { rawJson } = req.body;
+    if(!rawJson) return res.send({status: 400, message: 'Malformed Body'});
+
+    const beautifiedJson = JSON.stringify(JSON.parse(rawJson), null, 2);
+    res.send({status: 200, message: 'Successfuly Beautified Json', code: beautifiedJson});
+}

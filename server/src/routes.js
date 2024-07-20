@@ -25,6 +25,9 @@ module.exports = (app) => {
 
     // QR Code Routes
     app.post('/generateQRCode', controllers.qrController.generateQrCode);
+
+    // JSON Routes
+    app.post('/beautifyJson', controllers.jsonController.beautifyJson);
     
     // Default Route
     app.use((req, res) => {

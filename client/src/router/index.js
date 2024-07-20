@@ -47,6 +47,21 @@ const router = createRouter({
       component: () => import('../views/qrCodePage.vue')
     },
     {
+      path: '/b64',
+      name: 'base64',
+      component: () => import('../views/base64Page.vue')
+    },
+    {
+      path: '/json',
+      name: 'json',
+      component: () => import('../views/jsonPage.vue')
+    },
+    {
+      path: '/password',
+      name: 'password',
+      component: () => import('../views/passwordPage.vue')
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: '404',
       component: () => import('../views/404Page.vue'),

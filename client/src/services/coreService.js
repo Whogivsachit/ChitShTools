@@ -50,4 +50,10 @@ export default {
         .then(response => response.data)
     },
 
+    // Beautify JSON
+    async beautifyJson(body) {
+        return Api().post(`beautifyJson`, body)
+        .then(response => response.data)
+    },
+
 }

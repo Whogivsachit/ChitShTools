@@ -152,7 +152,7 @@ export default {
     name: 'webhookPage',
     data() {
         return {
-            webhookUrl: 'https://discord.com/api/webhooks/1094472430019412019/sqA0gGRB-KWvYJBaB0tgoyS1PYPlT2s7SV2qppHeR2Le-351meUDv5GSiG64LzN-ps0v',
+            webhookUrl: '',
             content: `Hey, welcome to ${this.$appName} Embed Sender! 🎉`,
             profile: `${this.$appName}`,
             profileIcon: 'https://cdn.chit.sh/537AYgyfHpvYQkkUErZmtRsv.jpg',
