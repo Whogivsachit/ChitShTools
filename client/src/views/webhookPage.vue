@@ -1,5 +1,5 @@
 <template>
-    <appLayout title="GameInformation">
+    <appLayout title="webhookPage">
         <div class="container mx-auto px-2 md:px-0">
             <loadingBar :isLoading="isLoading" />
 
@@ -146,32 +146,26 @@
 
 
 <script>
-import appLayout from '@/layouts/appLayout.vue';
 import coreService from '@/services/coreService.js';
-import loadingBar from '@/components/loadingBar.vue';
 
 export default {
     name: 'webhookPage',
-    components: {
-        appLayout,
-        loadingBar,
-    },
     data() {
         return {
             webhookUrl: 'https://discord.com/api/webhooks/1094472430019412019/sqA0gGRB-KWvYJBaB0tgoyS1PYPlT2s7SV2qppHeR2Le-351meUDv5GSiG64LzN-ps0v',
-            content: 'Hey, welcome to CshTools Embed Sender! 🎉',
-            profile: 'CshTools',
+            content: `Hey, welcome to ${this.$appName} Embed Sender! 🎉`,
+            profile: `${this.$appName}`,
             profileIcon: 'https://cdn.chit.sh/537AYgyfHpvYQkkUErZmtRsv.jpg',
             profileUrl: 'https://chit.sh/',
-            author: 'CshTools',
+            author: `${this.$appName}`,
             authorIcon: 'https://cdn.chit.sh/537AYgyfHpvYQkkUErZmtRsv.jpg',
             title: 'What\'s this about?',
-            description: 'CshTools embed sender is a tool that allows you to send beautiful embeds to any webhook you have access to. It\'s a great way to send messages to your discord server or any other webhook supported service.',
+            description: `${this.$appName} embed sender is a tool that allows you to send beautiful embeds to any webhook you have access to. It\'s a great way to send messages to your discord server or any other webhook supported service.`,
             url: '',
             color: '#58B9FF',
             thumbnail: '',
             image: '',
-            footer: 'Sent by CshTools Embed Sender',
+            footer: `Sent by ${this.$appName} Embed Sender`,
             footerIcon: 'https://cdn.chit.sh/537AYgyfHpvYQkkUErZmtRsv.jpg',
             timestamp: '',
             fields: [],
@@ -198,7 +192,7 @@ export default {
         includeFooterDivider() {
             return !!this.footer && !!this.timestampComp;
         },
-        
+
         showMessage() { return this.successMessage || this.errorMessage; }
     },
 

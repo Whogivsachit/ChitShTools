@@ -3,7 +3,7 @@
         <!-- Main Navbar -->
         <div class="bg-foreground">
             <div class="container mx-auto px-4 md:px-0 flex items-center justify-between h-16">
-                <a href="/" class="text-3xl text-white">cshTools</a>
+                <a href="/" class="text-3xl text-white">{{ $appName }}</a>
                 <button id="dropdown" type="button" class="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" @click="toggleDropdown">
                     <span class="sr-only">Open main menu</span>
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
@@ -24,8 +24,8 @@
                     <h1 class="px-4 py-2 font-bold text-xl">Utilities</h1>
                     <hr class="border-t border-borders">
                     <router-link to="/mdownloader" class="block px-4 py-2 text-muted hover:text-white">[YT/SC] Media Downloader</router-link>
-                    <router-link to="/" class="block px-4 py-2 text-muted hover:text-white line-through">Url Shortener</router-link>
-                    <router-link to="/" class="block px-4 py-2 text-muted hover:text-white line-through">QR Code Generator</router-link>
+                    <router-link to="/shorten" class="block px-4 py-2 text-muted hover:text-white">Url Shortener</router-link>
+                    <router-link to="/qrcode" class="block px-4 py-2 text-muted hover:text-white">QR Code Generator</router-link>
                 </div>
                 <div class="w-full md:w-2/3">
                     <h1 class="px-4 py-2 font-bold text-xl">Senders</h1>
@@ -34,7 +34,7 @@
                     <router-link to="/smtp" class="block px-4 py-2 text-muted hover:text-white">SMTP Sender</router-link>
                 </div>
                 <div class="w-full md:w-2/3">
-                    <h1 class="px-4 py-2 font-bold text-xl">Game Servers</h1>
+                    <h1 class="px-4 py-2 font-bold text-xl">Game Services</h1>
                     <hr class="border-t border-borders">
                     <router-link to="/gameinfo" class="block px-4 py-2 text-muted hover:text-white">Game Server Information</router-link>
                     <router-link to="/workshop" class="block px-4 py-2 text-muted hover:text-white">Gmod Workshop Generator</router-link>

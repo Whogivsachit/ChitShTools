@@ -37,6 +37,16 @@ const router = createRouter({
       component: () => import('../views/workshopPage.vue')
     },
     {
+      path: '/shorten',
+      name: 'shorten',
+      component: () => import('../views/shortenPage.vue')
+    },
+    {
+      path: '/qrcode',
+      name: 'qrCode',
+      component: () => import('../views/qrCodePage.vue')
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: '404',
       component: () => import('../views/404Page.vue'),

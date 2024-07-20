@@ -29,10 +29,10 @@ exports.sendEmail = async (req, res) => {
         } else {
             // Finally send the email
             await transporter.sendMail({
-                from: `[CshTools] <${from}>`,
+                from: `[${this.$appName}] <${from}>`,
                 to: to,
-                subject: `[CshTools] Test Email ✔`,
-                text: `Hello, this is a test email from CshTools! Everything is working properly`, 
+                subject: `[${this.$appName}] Test Email ✔`,
+                text: `Hello, this is a test email from ${this.$appName}! Everything is working properly`, 
             });
             res.send({status: 200, message: 'Email sent successfully!'});
         }

@@ -10,12 +10,7 @@
 
 
 <script>
-import appLayout from '@/layouts/appLayout.vue';
-
 export default {
     name: '404Page',
-    components: {
-        appLayout,
-    }
 }
 </script>

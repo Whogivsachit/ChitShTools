@@ -6,6 +6,6 @@
 
 <script>
 export default {
-  name: 'mevnTemplate',
+  name: `ChitShTools`,
 }
 </script>

@@ -96,17 +96,10 @@
 
 
 <script>
-import appLayout from '@/layouts/appLayout.vue';
-import loadingBar from '@/components/loadingBar.vue';
 import coreService from '@/services/coreService.js';
 
 export default {
     name: 'smtpPage',
-    components: {
-        appLayout,
-        loadingBar
-    },
-
     data() {
         return {
             smtpServer: '',

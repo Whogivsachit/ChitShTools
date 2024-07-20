@@ -27,7 +27,9 @@
     "mysql2": "^3.9.7",
     "nodemailer": "^6.9.14",
     "path": "^0.12.7",
+    "qrcode": "^1.5.3",
     "sequelize": "^6.37.3",
+    "shortid": "^2.2.16",
     "youtube-dl-exec": "^3.0.2"
   }
 }

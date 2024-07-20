@@ -66,16 +66,10 @@
 
 
 <script>
-import appLayout from '@/layouts/appLayout.vue';
 import coreService from '@/services/coreService.js';
-import loadingBar from '@/components/loadingBar.vue';
 
 export default {
-    name: 'mediaDownloader',
-    components: {
-        appLayout,
-        loadingBar,
-    },
+    name: 'GameInformation',
     data() {
         return {
             ip: '',

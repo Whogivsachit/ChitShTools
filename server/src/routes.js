@@ -19,10 +19,16 @@ module.exports = (app) => {
     // Workshop Routes
     app.post('/generateWorkshop', controllers.workshopController.generateWorkshop);
 
-    // Error Handling
+    // Url Shortener Routes
+    app.post('/shorten', controllers.urlController.shortenUrl);
+    app.get('/shorten/:shortUrl', controllers.urlController.redirectUrl);
+
+    // QR Code Routes
+    app.post('/generateQRCode', controllers.qrController.generateQrCode);
+    
+    // Default Route
     app.use((req, res) => {
         res.status(404).send({ url: req.originalUrl + ' not found' });
     });
-    
 
 }

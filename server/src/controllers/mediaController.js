@@ -16,8 +16,8 @@ exports.downloadMedia = async (req, res) => {
             continue: true,
             sleepInterval: 10,
             noSimulate: true,
-            print: '[cshTools] | %(title)s.%(ext)s',
-            output: `./src/downloads/[cshTools] | %(title)s.%(ext)s`,
+            print: `[${this.$appName}] | %(title)s.%(ext)s`,
+            output: `./src/downloads/[${this.$appName}] | %(title)s.%(ext)s`,
         })
 
         const inputFile = `./src/downloads/${response}`;
