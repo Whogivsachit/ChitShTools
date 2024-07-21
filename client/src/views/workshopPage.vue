@@ -4,14 +4,11 @@
             <loadingBar :isLoading="isLoading" />
 
             <!-- Header -->
-            <div class="flex flex-col py-16 text-center text-white">
-                <h1 class="text-5xl font-bold">Gmod Workshop Generator</h1>
-                <p class="text-xl pt-2">Quickly generate gmod workshop.dl files.</p>
-            </div>
+            <headerComponent title="Gmod Workshop Generator" description="Quickly generate gmod workshop.dl files." />
 
-            <!-- Main Content -->
             <div class="flex gap-5">
-                <div class="p-5 bg-foreground rounded-md w-1/2">
+                <!-- Form -->
+                <cardComponent :divider="false" class="w-1/2">
                     <form @submit.prevent="generateWorkshop">
                         <div class="flex flex-col md:flex-row gap-4">
                             <!-- Workshop Name -->
@@ -22,29 +19,27 @@
                             </div>
                         </div>
                     </form>
-                </div>
-                <div class="p-5 bg-foreground rounded-md w-1/2 text-white">
-                    <h1 class="text-2xl">Instructions</h1>
-                    <hr class="border-borders my-2">
+                </cardComponent>
+
+                <!-- Instructions -->
+                <cardComponent title="Insructions" class="w-1/2">
                     <p>This file will force players to automatically download your workshop collection addons when connecting. Create a file inside of garrysmod/lua/autorun/server called resource.lua and place the generated code there.</p>
-                </div>
+                </cardComponent>
             </div>
 
             <!-- Result -->
-            <div class="p-5 bg-foreground text-white rounded-md w-full mt-5">
-                <div class="flex place-content-between items-center">
-                    <h1 class="text-2xl flex gap-6">Generated Code</h1>
+            <cardComponent title="Generated Code" class="w-full mt-5">
+                <template #response>
                     <div class="text-2xl font-bold" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
-                    <div v-if="highlightedCode" class="space-x-3 pb-2">
-                        <button @click="copyToClipboard" class="bg-green-600 text-white rounded-md px-4 py-1 mt-3">Copy</button>
-                        <button @click="downloadFile" class="bg-blue-500 text-white rounded-md px-4 py-1 mt-3">Download</button>
-                    </div>
-                </div>
-                <hr class="border-borders my-2 mb-3">
+                </template>
+                <template #buttons>
+                    <button @click="copyToClipboard" class="bg-green-600 text-white rounded-md px-4 py-1 mt-3">Copy</button>
+                    <button @click="downloadFile" class="bg-blue-500 text-white rounded-md px-4 py-1 mt-3">Download</button>
+                </template>
                 <pre class="bg-background p-5 rounded-md">
                     <code class="text-muted block" v-html="highlightedCode"></code>
                 </pre>
-            </div>
+            </cardComponent>
 
         </div>
     </appLayout>

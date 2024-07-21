@@ -23,3 +23,8 @@
 .blinking {
     animation: blink 2s infinite;
 }
+
+/* Add mobile padding to container */
+.container  { 
+    @apply px-4 md:px-0;
+}

@@ -4,35 +4,28 @@
             <loadingBar :isLoading="isLoading" />
 
             <!-- Header -->
-            <div class="flex flex-col py-16 text-center text-white">
-                <h1 class="text-5xl font-bold">Json Beautify</h1>
-                <p class="text-xl pt-2">Convert your ugly bland json to beautiful formatted and easy to read json</p>
-            </div>
+            <headerComponent title="Json Beautify" description="Convert your ugly bland json to beautiful formatted and easy to read json" />
 
             <div class="flex flex-row gap-6">
                 <!-- RawJson -->
-                <div class="flex flex-col p-5 bg-foreground text-white rounded-md w-1/2">
-                    <div class="flex place-content-between items-center">
-                        <h1 class="text-2xl">RawJson</h1>
-                        <div class="space-x-3">
-                            <button @click="beautify" :disabled="isJsonInvalid" :class="isJsonInvalid ? 'bg-muted' : 'bg-green-600'" class="text-white rounded-md px-4 py-1 mt-3">Beautify</button>
-                            <button @click="clear" class="bg-red-600 text-white rounded-md px-4 py-1 mt-3">Clear</button>
-                        </div>
-                    </div>
-                    <hr class="border-borders my-2">
-                    <textarea v-model="rawJson" class="bg-background/75 text-white p-2 rounded-md mb-5 h-64 mt-2" placeholder="Enter Raw Json"></textarea>
-                </div>
+                <cardComponent title="RawJson" :divider="true" class="w-1/2">
+                    <template #buttons>
+                        <button @click="beautify" :disabled="isJsonInvalid" :class="isJsonInvalid ? 'bg-muted' : 'bg-green-600'" class="bg-green-600 text-white rounded-md px-4 py-1 mt-3">Beautify</button>
+                        <button @click="clear" class="bg-red-600 text-white rounded-md px-4 py-1 mt-3">Clear</button>
+                    </template>
+
+                    <textarea v-model="rawJson" class="bg-background/75 text-white p-2 rounded-md mb-5 h-64 mt-2 w-full" placeholder="Enter Raw Json"></textarea>
+                </cardComponent>
+
                 <!-- PrettyJson -->
-                <div class="flex flex-col p-5 bg-foreground text-white rounded-md w-1/2">
-                    <div class="flex place-content-between items-center">
-                        <h1 class="text-2xl py-1">Pretty Json</h1>
+                <cardComponent title="Pretty Json" :divider="true" class="w-1/2">
+                    <template #response>
                         <div class="text-2xl font-bold" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ message }}</div>
-                    </div>
-                    <hr class="border-borders my-2">
-                    <pre class="bg-background p-5 rounded-md pt-0 h-full overflow-y-scroll">
+                    </template>
+                    <pre class="bg-background p-5 rounded-md pt-0 h-fit">
                         <code class="text-muted block" v-html="fancyJson"></code>
-                    </pre>
-                </div>
+                    </pre>   
+                </cardComponent>
             </div>
         </div>
     </appLayout>

@@ -4,14 +4,12 @@
             <loadingBar :isLoading="isLoading" />
 
             <!-- Header -->
-            <div class="flex flex-col py-16 text-center text-white">
-                <h1 class="text-5xl font-bold">Url Shortener</h1>
-                <p class="text-xl pt-2">Quickly and efficiently genereate masked/shortened urls</p>
-            </div>
+            <headerComponent title="Url Shortener" description="Quickly and efficiently genereate masked/shortened urls" />
 
             <!-- Main Content -->
             <div class="flex gap-5">
-                <div class="p-5 bg-foreground rounded-md w-1/2">
+                <!-- Form -->
+                <cardComponent title="Url" :divider="false" class="w-1/2">
                     <form @submit.prevent="generateUrl">
                         <div class="flex flex-col md:flex-row gap-4">
                             <!-- Workshop Name -->
@@ -22,27 +20,25 @@
                             </div>
                         </div>
                     </form>
-                </div>
-                <div class="p-5 bg-foreground rounded-md w-1/2 text-white">
-                    <h1 class="text-2xl">Instructions</h1>
-                    <hr class="border-borders my-2">
+                </cardComponent>
+
+                <!-- Instructions -->
+                <cardComponent title="Instructions" class="w-1/2">
                     <p>Enter the URL you wish to create a shortened link for and click generate. <br/>Impressions will update every 5 seconds.</p>
-                </div>
+                </cardComponent>
             </div>
 
             <!-- Result -->
-            <div class="p-5 bg-foreground text-white rounded-md w-full mt-5">
-                <div class="flex place-content-between items-center">
-                    <h1 class="text-2xl flex gap-6">Link Information</h1>
+            <cardComponent title="Link Information" class="w-full mt-5">
+                <template #response>
                     <div class="text-2xl font-bold" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
-                </div>
-                <hr class="border-borders my-2 mb-3">
+                </template>
                 <div class="flex flex-col gap-2 text-white">
                     <div>Original Url: <span class="text-muted">{{ originalUrl }}</span></div>
                     <div>Shortened Url: <span class="text-muted underline cursor-pointer" @click="copyShortUrl">{{ shortUrl }}</span></div>
                     <div>Impressions: <span class="text-muted">{{ impressions }}</span></div>
                 </div>
-            </div>
+            </cardComponent>
 
         </div>
     </appLayout>

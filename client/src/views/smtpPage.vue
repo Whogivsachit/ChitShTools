@@ -4,14 +4,10 @@
             <loadingBar :isLoading="isLoading" />
 
             <!-- Header -->
-            <div class="flex flex-col py-16 text-center text-white">
-                <h1 class="text-5xl font-bold">SMTP Test Tool</h1>
-                <p class="text-xl pt-2">Quickly and easily test your connection to Sendgrid, Mailgun, Amazon SES, or any smtp server.</p>
-            </div>
+            <headerComponent title="SMTP Test Tool" description="Quickly and easily test your connection to Sendgrid, Mailgun, Amazon SES, or any smtp server." />
 
             <!-- Form -->
-            <div class="p-5 bg-foreground rounded-md mx-auto text-white">
-                
+            <cardComponent :divider="false">
                 <form @submit.prevent="sendEmail">
                     <div class="flex flex-col md:flex-row gap-4">
                         <!-- SMTP URL -->
@@ -66,14 +62,12 @@
 
                     <button type="submit" class="bg-accent hover:bg-blue-800 text-white rounded-md mt-5 px-5 py-2">Send Email</button>
                     <div class="text-2xl font-bold mt-4" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
-
                 </form>
-            </div>
+            </cardComponent>
+
 
             <!-- SMTP Information -->
-            <div class="bg-foreground p-5 rounded-md text-white mt-5">
-                <h1 class="text-2xl">Confused on how this works?</h1>
-                <hr class="border-borders my-2">
+            <cardComponent title="Confused on how this works?" class="mt-5">
                 <ul class="text-muted">
                     <li>Fill out the form with your SMTP server information.</li>
                     <li>Click the "Send Email" button.</li>
@@ -87,8 +81,7 @@
                     <li><span class="text-white">To:</span> email address to send the test email to</li>
                     <li><span class="text-white">From:</span> email address to send the test email from</li>
                 </ul>
-            </div>
-            
+            </cardComponent>
         </div>
     </appLayout>
 </template>

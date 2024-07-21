@@ -25,9 +25,9 @@
                     <hr class="border-t border-borders">
                     <router-link to="/mdownloader" class="block px-4 py-2 text-muted hover:text-white">[YT/SC] Media Downloader</router-link>
                     <router-link to="/shorten" class="block px-4 py-2 text-muted hover:text-white">Url Shortener</router-link>
-                    <router-link to="/qrcode" class="block px-4 py-2 text-muted hover:text-white">QR Code Generator</router-link>
                     <router-link to="/json" class="block px-4 py-2 text-muted hover:text-white">Json Beautify</router-link>
                     <router-link to="/password" class="block px-4 py-2 text-muted hover:text-white">Password Generator</router-link>
+                    <router-link to="/qrcode" class="block px-4 py-2 text-muted hover:text-white">QR Code Generator</router-link>
                 </div>
                 <div class="w-full md:w-2/3">
                     <h1 class="px-4 py-2 font-bold text-xl">Senders</h1>
@@ -40,6 +40,7 @@
                     <hr class="border-t border-borders">
                     <router-link to="/gameinfo" class="block px-4 py-2 text-muted hover:text-white">Game Server Information</router-link>
                     <router-link to="/workshop" class="block px-4 py-2 text-muted hover:text-white">Gmod Workshop Generator</router-link>
+
                 </div>
                 <div class="w-full md:w-2/3">
                     <h1 class="px-4 py-2 font-bold text-xl">Converters</h1>

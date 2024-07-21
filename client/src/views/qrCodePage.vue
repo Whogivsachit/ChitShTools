@@ -4,15 +4,12 @@
             <loadingBar :isLoading="isLoading" />
 
             <!-- Header -->
-            <div class="flex flex-col py-16 text-center text-white">
-                <h1 class="text-5xl font-bold">Qr-Code Generator</h1>
-                <p class="text-xl pt-2">Quickly and efficiently generate QrCodes</p>
-            </div>
+            <headerComponent title="Qr Code Generator" description="Generate personalized Qr Codes in seconds." />
 
             <!-- Main Content -->
             <div class="flex gap-5">
                 <!-- Form -->
-                <div class="p-5 bg-foreground rounded-md w-1/2">
+                <cardComponent :divider="false" class="w-1/2">
                     <form @submit.prevent="generateCode">
                         <div class="flex flex-col md:flex-row gap-4">
                             <!-- Workshop Name -->
@@ -23,32 +20,27 @@
                             </div>
                         </div>
                     </form>
-                </div>
+                </cardComponent>
+
                 <!-- Instructions -->
-                <div class="p-5 bg-foreground rounded-md w-1/2 text-white">
-                    <h1 class="text-2xl">Instructions</h1>
-                    <hr class="border-borders my-2">
+                <cardComponent title="Instructions" class="w-1/2">
                     <p>Step 1. Enter the URL or Text you wish to create a QR Code for.<br/>Step 2. Select a theme below<br/>Step 3. Click Generate</p>
-                </div>
+                </cardComponent>
             </div>
 
             <div class="flex gap-5 pt-5">
                 <!-- Result -->
-                <div class="p-5 bg-foreground text-white rounded-md w-1/2">
-                    <div class="flex place-content-between items-center">
-                        <h1 class="text-2xl flex gap-6">Qr Code</h1>
+                <cardComponent title="Qr Code" class="w-1/2">
+                    <template #response>
                         <div class="text-2xl font-bold" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
-                    </div>
-                    <hr class="border-borders my-2 mb-3">
+                    </template>
                     <div class="flex justify-center">
                         <img v-if="qrCode" :src="qrCode" alt="QR Code" class="w-1/2 p-5">
                     </div>
-                </div>
+                </cardComponent>
 
                 <!-- Themes -->
-                <div class="p-5 bg-foreground rounded-md w-1/2 text-white">
-                    <h1 class="text-2xl">Themes</h1>
-                    <hr class="border-borders my-2">
+                <cardComponent title="Themes" class="w-1/2">
                     <div class="flex place-content-between">
                         <div class="flex gap-3 pt-2 w-full">
                             <div @click="setTheme('#000000', '#ffffff')" class="flex flex-col align-middle">
@@ -70,6 +62,7 @@
                         </div>
                     </div>
                     <hr class="border-borders my-2">
+                    <!-- Color Picker -->
                     <div class="flex gap-6 py-5 place-content-between">
                         <div>
                             <span class="text-white">Foreground Color</span>
@@ -86,13 +79,14 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </cardComponent>
             </div>
         </div>
     </appLayout>
 </template>
 
 <script>
+import CardComponent from '@/components/cardComponent.vue';
 import coreService from '@/services/coreService';
 
 export default {

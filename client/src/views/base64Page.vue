@@ -4,42 +4,33 @@
             <loadingBar :isLoading="isLoading" />
 
             <!-- Header -->
-            <div class="flex flex-col py-16 text-center text-white">
-                <h1 class="text-5xl font-bold">Base64 Encode/Decode</h1>
-                <p class="text-xl pt-2">Easily Encode or Decode base64</p>
-            </div>
+            <headerComponent title="Base64 Encode/Decode" description="Encode or Decode base64 easily" />
 
-            <div class="flex flex-row gap-6">
-                <!-- Encode -->
-                <div class="flex flex-col p-5 bg-foreground text-white rounded-md w-1/2">
-                    <div class="flex place-content-between items-center">
-                        <h1 class="text-2xl">Encode</h1>
-                        <div class="text-2xl font-bold text-green-600">{{ encodeSuccessMessage }}</div>
-                        <div class="space-x-3 pb-2">
-                            <button @click="modify('encode')" class="bg-green-600 text-white rounded-md px-4 py-1 mt-3">Encode</button>
-                            <button @click="clear('encode')" class="bg-red-600 text-white rounded-md px-4 py-1 mt-3">Clear</button>
-                        </div>
-                    </div>
-                    <hr class="border-borders my-2">
-                    <textarea v-model="encodeText" class="bg-background/75 text-white p-2 rounded-md mb-5 h-64 mt-2" placeholder="Enter text to encode"></textarea>
+            <div class="text-2xl font-bold pt-2 text-center pb-2" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
+
+            <div class="flex flex-col md:flex-row gap-6">
+                <!-- Encode Card -->
+                <cardComponent title="Encode" :divider="true" class="w-full md:w-1/2">
+                    <template #buttons>
+                        <button @click="modify('encode')" class="bg-green-600 text-white rounded-md px-4 py-1 mt-3">Encode</button>
+                        <button @click="clear('encode')" class="bg-red-600 text-white rounded-md px-4 py-1 mt-3">Clear</button>
+                    </template>
+
+                    <textarea v-model="encodeText" class="bg-background/75 text-white p-2 rounded-md mb-5 h-64 mt-2 w-full" placeholder="Enter text to encode"></textarea>
                     <h1 class="text-2xl pt-5">Result</h1>
-                    <textarea v-model="encodedText" class="bg-background/75 text-white p-2 rounded-md mt-2 h-64" placeholder="Result goes here" readonly></textarea>
-                </div>
-                <!-- Decode -->
-                <div class="flex flex-col p-5 bg-foreground text-white rounded-md w-1/2">
-                    <div class="flex place-content-between items-center">
-                        <h1 class="text-2xl">Decode</h1>
-                        <div class="text-2xl font-bold text-green-600">{{ decodeSuccessMessage }}</div>
-                        <div class="space-x-3 pb-2">
-                            <button @click="modify('decode')" class="bg-green-600 text-white rounded-md px-4 py-1 mt-3">Decode</button>
-                            <button @click="clear('decode')" class="bg-red-600 text-white rounded-md px-4 py-1 mt-3">Clear</button>
-                        </div>
-                    </div>
-                    <hr class="border-borders my-2">
-                    <textarea v-model="decodeText" id="textarea1" class="bg-background/75 text-white p-2 rounded-md mb-5 h-64 mt-2" placeholder="Enter text to decode"></textarea>
+                    <textarea v-model="encodedText" class="bg-background/75 text-white p-2 rounded-md mt-2 h-64 w-full" placeholder="Result goes here" readonly></textarea>
+                </cardComponent>
+                <!-- Decode Card -->
+                <cardComponent title="Decode" :divider="true" class="w-full md:w-1/2">
+                    <template #buttons>
+                        <button @click="modify('decode')" class="bg-green-600 text-white rounded-md px-4 py-1 mt-3">Decode</button>
+                        <button @click="clear('decode')" class="bg-red-600 text-white rounded-md px-4 py-1 mt-3">Clear</button>
+                    </template>
+                    
+                    <textarea v-model="decodeText" class="bg-background/75 text-white p-2 rounded-md mb-5 h-64 mt-2 w-full" placeholder="Enter text to encode"></textarea>
                     <h1 class="text-2xl pt-5">Result</h1>
-                    <textarea v-model="decodedText" id="textarea2" class="bg-background/75 text-white p-2 rounded-md h-64 mt-2" placeholder="Result goes here" readonly></textarea>
-                </div>
+                    <textarea v-model="decodedText" class="bg-background/75 text-white p-2 rounded-md mt-2 h-64 w-full" placeholder="Result goes here" readonly></textarea>
+                </cardComponent>
             </div>
         </div>
     </appLayout>
@@ -55,32 +46,42 @@ export default {
             encodedText: '',
             decodeText: '',
             decodedText: '',
-            encodeSuccessMessage: '',
-            decodeSuccessMessage: '',
+            successMessage: '',
             errorMessage: '',
             isLoading: false,
         };
     },
 
+    computed: {
+        showMessage() { return this.successMessage || this.errorMessage; }
+    },
+
     methods: {
         modify(type) {
+            this.successMessage = '';
+            this.errorMessage = '';
+            
             if(type === 'encode') {
+                if(!this.encodeText) return this.errorMessage = 'No text to encode';
                 this.encodedText = btoa(this.encodeText);
-                this.encodeSuccessMessage = 'Encoded Successfuly';
+                this.successMessage = 'Encoded Successfuly';
             } else {
+                if(!this.decodeText) return this.errorMessage = 'No text to decode';
                 this.decodedText = atob(this.decodeText);
-                this.decodeSuccessMessage = 'Decoded Successfuly';
+                this.successMessage = 'Decoded Successfuly';
             }
         },
         clear(type) {
             if(type === 'encode') {
                 this.encodeText = '';
                 this.encodedText = '';
-                this.encodeSuccessMessage = '';
+                this.successMessage = '';
+                this.errorMessage = '';
             } else {
                 this.decodeText = '';
                 this.decodedText = '';
-                this.decodeSuccessMessage = '';
+                this.successMessage = '';
+                this.errorMessage = '';
             }
         },
     },

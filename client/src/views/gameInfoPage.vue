@@ -4,13 +4,10 @@
             <loadingBar :isLoading="isLoading" />
 
             <!-- Header -->
-            <div class="flex flex-col py-16 text-center text-white">
-                <h1 class="text-5xl font-bold">GameServer Information</h1>
-                <p class="text-xl pt-2">View, Monitor, Check Your gameserver information.</p>
-            </div>
+            <headerComponent title="GameServer Information" description="View, Monitor, Check Your gameserver information." />
 
             <!-- Form -->
-            <div class="p-5 w-full bg-foreground rounded-md">
+            <cardComponent :divider="false" class="w-full">
                 <form @submit.prevent="fetchServer">
                     <div class="flex">
                         <input type="text" v-model="ip" placeholder="ip:port / mc.hypixel.net:25565 / 192.168.1.1:25565" class="text-white border border-borders rounded-l-md bg-background/75 w-5/6">
@@ -24,12 +21,10 @@
                         <div class="text-2xl font-bold  pt-2" :class="success ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
                     </div>
                 </form>
-            </div>
+            </cardComponent>
 
             <!-- Server Data -->
-            <div v-if="serverHasData" class="p-5 w-full bg-foreground rounded-md mt-5 text-white">
-                <h1 class="text-2xl">Server Information</h1>
-                <hr class="border-borders my-2">
+            <cardComponent v-if="serverHasData" title="Server Information" :divider="true" class="w-full mt-5">
                 <div class="flex flex-col space-y-1 text-muted">
                     <span class="text-xl">Hostname: <span class="text-white">{{ data.name }}</span></span>
                     <span class="text-xl">IP: <span class="text-white">{{ parsedIp[0] }}</span>:<span class="text-white">{{ parsedIp[1] }}</span></span>
@@ -40,32 +35,29 @@
                     <span class="text-xl">Players: <span class="text-white">{{ data.players }}</span></span>
                     <span class="text-xl">Max Players: <span class="text-white">{{ data.maxplayers }}</span></span>
                 </div>
-            </div>
+            </cardComponent>
 
             <!-- Server Players -->
-            <div v-if="serverHasPlayers" class="p-5 w-full bg-foreground rounded-md mt-5 text-white">
-                <h1 class="text-2xl">Player List</h1>
-                <hr class="border-borders my-2">
+            <cardComponent v-if="serverHasPlayers" title="Player List" :divider="true" class="w-full mt-5">
                 <div class="flex flex-row gap-2">
                     <div v-for="player in data.playerArray" class="bg-background/75 p-2 rounded-md">
                         <span class="text-white">{{ player.name }}</span>
                     </div>
                 </div>
-            </div>
+            </cardComponent>
 
             <!-- API Information -->
-            <div class="bg-foreground p-5 rounded-md text-white mt-5">
-                <h1 class="text-2xl">Did you know we have a public api!</h1>
-                <hr class="border-borders my-2">
+            <cardComponent title="Did you know we have a public Api!" :divider="true" class="w-full mt-5">
                 <p class="text-lg">You can use our public api to get the server information of any minecraft server. <a href="https://api.chit.sh/#/ServerInfo/get_serverinfo__game___ip___port_" target="_blank" class="underline">Click here</a> to view the documentation.</p>
-            </div>
-            
+            </cardComponent>
+
         </div>
     </appLayout>
 </template>
 
 
 <script>
+import CardComponent from '@/components/cardComponent.vue';
 import coreService from '@/services/coreService.js';
 
 export default {

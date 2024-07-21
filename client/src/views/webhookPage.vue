@@ -4,99 +4,86 @@
             <loadingBar :isLoading="isLoading" />
 
             <!-- Header -->
-            <div class="flex flex-col py-16 text-center text-white">
-                <h1 class="text-5xl font-bold">Webhook Sender</h1>
-                <p class="text-xl pt-2">Quickly send indepth and beautiful embeds to any webhook</p>
-            </div>
+            <headerComponent title="Webhook Sender" description="Quickly send indepth and beautiful embeds to any webhook" />
 
             <div class="text-2xl font-bold" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
 
             <div class="flex flex-col md:flex-row gap-0 md:gap-6">
-                <!-- Left -->
-                <div class="p-5 bg-foreground rounded-md w-full md:w-1/2">
-                    
-                    <!-- Header -->
-                    <div class="flex place-content-between align-middle">
-                        <h1 class="text-2xl text-white">Webhook Sender</h1>
-                        <div class="flex flex-row space-x-3">
-                            <button @click.prevent="clearAll" class="bg-background/75 hover:bg-background text-white rounded-md px-2 py-1 text-lg">Clear All</button>
-                            <button @click.prevent="sendContent" class="bg-background/75 hover:bg-background text-white rounded-md px-2 py-1 text-lg">Send Only Content</button>
-                            <button @click.prevent="sendEmbed" class="bg-background/75 hover:bg-background text-white rounded-md px-2 py-1 text-lg">Send Embed</button>
-                        </div>
-                    </div>
-                    <hr class="border-borders my-2">
 
+                <!-- Left -->
+                <cardComponent title="Webhook Sender" class="w-full md:w-1/2">
+                    <template #buttons>
+                        <button @click.prevent="clearAll" class="bg-background/75 hover:bg-background text-white rounded-md px-2 py-1 text-lg">Clear All</button>
+                        <button @click.prevent="sendContent" class="bg-background/75 hover:bg-background text-white rounded-md px-2 py-1 text-lg">Send Only Content</button>
+                        <button @click.prevent="sendEmbed" class="bg-background/75 hover:bg-background text-white rounded-md px-2 py-1 text-lg">Send Embed</button>
+                    </template>
                     <form class="space-y-3 pt-2">
                        
-                        <!-- Webhook URL -->
-                        <input type="text" v-model="webhookUrl" placeholder="webhookURL" class="text-white border border-borders rounded-l-md bg-background/75 w-full">
+                       <!-- Webhook URL -->
+                       <input type="text" v-model="webhookUrl" placeholder="webhookURL" class="text-white border border-borders rounded-l-md bg-background/75 w-full">
 
-                        <!-- Content -->
-                        <h2 class="text-white font-semibold text-lg">Content</h2>
-                        <textarea v-model="content" placeholder="content" class="text-white border border-borders rounded-md bg-background/75 w-full h-64"></textarea>
+                       <!-- Content -->
+                       <h2 class="text-white font-semibold text-lg">Content</h2>
+                       <textarea v-model="content" placeholder="content" class="text-white border border-borders rounded-md bg-background/75 w-full h-64"></textarea>
 
-                        <!-- Profile -->
-                        <h2 class="text-white font-semibold text-lg">Profile</h2>
-                        <input type="text" v-model="profile" placeholder="Profile" class="text-white border border-borders rounded-md bg-background/75 w-full">
-                        <div class="flex gap-2">
-                            <input type="text" v-model="profileIcon" placeholder="Profile Icon URL" class="text-white border border-borders rounded-md bg-background/75 w-1/2">
-                            <input type="text" v-model="profileUrl" placeholder="Profile URL" class="text-white border border-borders rounded-md bg-background/75 w-1/2">
-                        </div>
+                       <!-- Profile -->
+                       <h2 class="text-white font-semibold text-lg">Profile</h2>
+                       <input type="text" v-model="profile" placeholder="Profile" class="text-white border border-borders rounded-md bg-background/75 w-full">
+                       <div class="flex gap-2">
+                           <input type="text" v-model="profileIcon" placeholder="Profile Icon URL" class="text-white border border-borders rounded-md bg-background/75 w-1/2">
+                           <input type="text" v-model="profileUrl" placeholder="Profile URL" class="text-white border border-borders rounded-md bg-background/75 w-1/2">
+                       </div>
 
-                        <!-- Author -->
-                        <h2 class="text-white font-semibold text-lg">Author</h2>
-                        <div class="flex gap-2">
-                            <input type="text" v-model="author" placeholder="Author" class="text-white border border-borders rounded-md bg-background/75 w-1/2">
-                            <input type="text" v-model="authorIcon" placeholder="Author Icon URL" class="text-white border border-borders rounded-md bg-background/75 w-1/2">
-                        </div>
+                       <!-- Author -->
+                       <h2 class="text-white font-semibold text-lg">Author</h2>
+                       <div class="flex gap-2">
+                           <input type="text" v-model="author" placeholder="Author" class="text-white border border-borders rounded-md bg-background/75 w-1/2">
+                           <input type="text" v-model="authorIcon" placeholder="Author Icon URL" class="text-white border border-borders rounded-md bg-background/75 w-1/2">
+                       </div>
 
-                        <!-- Body -->
-                        <h2 class="text-white font-semibold text-lg">Body</h2>
-                        <input type="text" v-model="title" placeholder="Title" class="text-white border border-borders rounded-md bg-background/75 w-full">
-                        <input type="text" v-model="description" placeholder="Description" class="text-white border border-borders rounded-md bg-background/75 w-full">
-                        <div class="flex gap-2">
-                            <input type="text" v-model="url" placeholder="URL" class="text-white border border-borders rounded-md bg-background/75 w-full">
-                            <input type="text" v-model="color" placeholder="Color" class="text-white border border-borders rounded-md bg-background/75 w-full">  
-                        </div>
+                       <!-- Body -->
+                       <h2 class="text-white font-semibold text-lg">Body</h2>
+                       <input type="text" v-model="title" placeholder="Title" class="text-white border border-borders rounded-md bg-background/75 w-full">
+                       <input type="text" v-model="description" placeholder="Description" class="text-white border border-borders rounded-md bg-background/75 w-full">
+                       <div class="flex gap-2">
+                           <input type="text" v-model="url" placeholder="URL" class="text-white border border-borders rounded-md bg-background/75 w-full">
+                           <input type="text" v-model="color" placeholder="Color" class="text-white border border-borders rounded-md bg-background/75 w-full">  
+                       </div>
 
-                        <!-- Images -->
-                        <h2 class="text-white font-semibold text-lg">Images</h2>
-                        <div class="flex gap-2">
-                            <input type="text" v-model="thumbnail" placeholder="Thumbnail URL" class="text-white border border-borders rounded-md bg-background/75 w-1/2">
-                            <input type="text" v-model="image" placeholder="Image URL" class="text-white border border-borders rounded-md bg-background/75 w-1/2">
-                        </div>
+                       <!-- Images -->
+                       <h2 class="text-white font-semibold text-lg">Images</h2>
+                       <div class="flex gap-2">
+                           <input type="text" v-model="thumbnail" placeholder="Thumbnail URL" class="text-white border border-borders rounded-md bg-background/75 w-1/2">
+                           <input type="text" v-model="image" placeholder="Image URL" class="text-white border border-borders rounded-md bg-background/75 w-1/2">
+                       </div>
 
-                        <!-- Footer -->
-                        <h2 class="text-white font-semibold text-lg">Footer</h2>
-                        <input type="text" v-model="footer" placeholder="Footer" class="text-white border border-borders rounded-md bg-background/75 w-full">
-                        <div class="flex gap-2">
-                            <input type="text" v-model="footerIcon" placeholder="Footer Icon URL" class="text-white border border-borders rounded-md bg-background/75 w-1/2">
-                            <input type="text" v-model="timestamp" placeholder="Timestamp" class="text-white border border-borders rounded-md bg-background/75 w-1/2">
-                        </div>
+                       <!-- Footer -->
+                       <h2 class="text-white font-semibold text-lg">Footer</h2>
+                       <input type="text" v-model="footer" placeholder="Footer" class="text-white border border-borders rounded-md bg-background/75 w-full">
+                       <div class="flex gap-2">
+                           <input type="text" v-model="footerIcon" placeholder="Footer Icon URL" class="text-white border border-borders rounded-md bg-background/75 w-1/2">
+                           <input type="text" v-model="timestamp" placeholder="Timestamp" class="text-white border border-borders rounded-md bg-background/75 w-1/2">
+                       </div>
 
-                        <!-- Fields -->
-                        <div class="flex place-content-between items-center">
-                            <h2 class="text-white font-semibold text-lg">Fields</h2>
-                            <button @click.prevent="addField" class="bg-background/75 hover:bg-background text-white rounded-md px-2 py-1 text-lg">Add Field</button>
-                        </div>
+                       <!-- Fields -->
+                       <div class="flex place-content-between items-center">
+                           <h2 class="text-white font-semibold text-lg">Fields</h2>
+                           <button @click.prevent="addField" class="bg-background/75 hover:bg-background text-white rounded-md px-2 py-1 text-lg">Add Field</button>
+                       </div>
 
-                        <div v-for="(field, index) in fields" :key="index" class="flex flex-col gap-2 text-white">
-                            <div class="flex place-content-between items-center">
-                                <h3 class="text-white font-semibold text-lg">Field {{ index }}</h3>
-                                <button @click.prevent="deleteField(index)" class="bg-background/75 text-white rounded-md w-max p-2 hover:bg-background">Delete</button>
-                            </div>
-                            <input type="text" v-model="field.name" placeholder="Name" class="text-white border border-borders rounded-md bg-background/75 w-full">
-                            <input type="text" v-model="field.value" placeholder="Value" class="text-white border border-borders rounded-md bg-background/75 w-full">
-                        </div>
-
-                    </form>
-                </div>
+                       <div v-for="(field, index) in fields" :key="index" class="flex flex-col gap-2 text-white">
+                           <div class="flex place-content-between items-center">
+                               <h3 class="text-white font-semibold text-lg">Field {{ index }}</h3>
+                               <button @click.prevent="deleteField(index)" class="bg-background/75 text-white rounded-md w-max p-2 hover:bg-background">Delete</button>
+                           </div>
+                           <input type="text" v-model="field.name" placeholder="Name" class="text-white border border-borders rounded-md bg-background/75 w-full">
+                           <input type="text" v-model="field.value" placeholder="Value" class="text-white border border-borders rounded-md bg-background/75 w-full">
+                       </div>
+                   </form>
+                </cardComponent>
+                
                 <!-- Right -->
-                <div class="p-5 bg-foreground rounded-md w-full md:w-1/2">
-                    <h1 class="text-2xl text-white">Preview </h1>
-                    <p class="text-white"><a class="underline" href="https://support.discord.com/hc/en-us/articles/210298617-Markdown-Text-101-Chat-Formatting-Bold-Italic-Underline">Discord Markdown</a> does work but will not be displayed on this page.</p>
-                    <hr class="border-borders my-2">
-
+                <cardComponent title="Preview" description="Discord Markdown does work but will not be displayed on this page." class="w-full md:w-1/2">
                     <div class="flex flex-col pt-2">
                         <div class="flex gap-2">
                             <img v-if="authorIcon" :src="authorIcon" class="w-10 h-10 rounded-full">
@@ -138,7 +125,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </cardComponent>
             </div>
         </div>
     </appLayout>

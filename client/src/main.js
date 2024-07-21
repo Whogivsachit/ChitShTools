@@ -8,6 +8,8 @@ import store from './store/store';
 import clickOutside from './directives/clickOutside'; // Click Outside directive
 import loadingBarComponent from './components/loadingBarComponent.vue';
 import appLayout from './layouts/appLayout.vue';
+import cardComponent from './components/cardComponent.vue';
+import headerComponent from './components/headerComponent.vue';
 
 // Font Awesome
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -24,6 +26,9 @@ library.add(fas, fab)
 app.component('faIcon', FontAwesomeIcon)
 app.component('loadingBar', loadingBarComponent)
 app.component('appLayout', appLayout)
+app.component('cardComponent', cardComponent)
+app.component('headerComponent', headerComponent)
+
 
 // Define global directives
 app.directive('click-outside', clickOutside)

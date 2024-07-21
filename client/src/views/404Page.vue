@@ -1,9 +1,7 @@
 <template>
     <appLayout title="indexPage">
         <div class="container mx-auto">
-            <div class="flex flex-col py-16 text-center text-white">
-                <h1>404 page not found!</h1>
-            </div>
+            <headerComponent title="404 Page" description="This is the 404 page." />
         </div>
     </appLayout>
 </template>
