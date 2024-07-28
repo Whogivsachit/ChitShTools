@@ -9,7 +9,7 @@
             <div class="text-2xl font-bold text-center pb-2" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
             
             <!-- Password Result -->
-            <cardComponent :divider="false" class="w-2/3 mb-5">
+            <cardComponent :divider="false" class="w-full md:w-2/3 mb-5">
                 <div class="flex gap-3 place-content-between w-full items-center">
                     <div class="text-xl" v-html="password"></div>
                     <div class="space-x-3">
@@ -20,7 +20,7 @@
             </cardComponent>
 
             <!-- Password Options -->
-            <cardComponent :divider="false" class="w-2/3">
+            <cardComponent :divider="false" class="w-full md:w-2/3">
                 <div class="flex place-content-evenly">
                     <div class="pt-4">
                         <span class="text-white">Password Length</span>
@@ -64,7 +64,6 @@ export default {
             password: '',
             successMessage: '',
             errorMessage: '',
-            isLoading: false,
         };
     },
 
@@ -90,10 +89,7 @@ export default {
 
     methods: {
         generatePassword() {
-            this.isLoading = true;
             this.password = '';
-            this.successMessage = '';
-            this.errorMessage = '';
 
             const lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';
             const uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -106,7 +102,6 @@ export default {
             if (this.includeSymbols) characters += symbolChars;
 
             this.password = Array.from({ length: this.length }, () => characters[Math.floor(Math.random() * characters.length)]).join('');
-            this.isLoading = false;
         },
         copyPassword() {
             const el = document.createElement('textarea');

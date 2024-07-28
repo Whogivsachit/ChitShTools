@@ -6,9 +6,9 @@
             <!-- Header -->
             <headerComponent title="Json Beautify" description="Convert your ugly bland json to beautiful formatted and easy to read json" />
 
-            <div class="flex flex-row gap-6">
+            <div class="flex flex-col md:flex-row gap-6">
                 <!-- RawJson -->
-                <cardComponent title="RawJson" :divider="true" class="w-1/2">
+                <cardComponent title="RawJson" :divider="true" class="w-full md:w-1/2">
                     <template #buttons>
                         <button @click="beautify" :disabled="isJsonInvalid" :class="isJsonInvalid ? 'bg-muted' : 'bg-green-600'" class="bg-green-600 text-white rounded-md px-4 py-1 mt-3">Beautify</button>
                         <button @click="clear" class="bg-red-600 text-white rounded-md px-4 py-1 mt-3">Clear</button>
@@ -18,7 +18,7 @@
                 </cardComponent>
 
                 <!-- PrettyJson -->
-                <cardComponent title="Pretty Json" :divider="true" class="w-1/2">
+                <cardComponent title="Pretty Json" :divider="true" class="w-full md:w-1/2">
                     <template #response>
                         <div class="text-2xl font-bold" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ message }}</div>
                     </template>
@@ -33,7 +33,6 @@
 
 
 <script>
-import coreService from '@/services/coreService';
 
 export default {
     name: 'base64Page',
@@ -70,13 +69,11 @@ export default {
             this.fancyJson = '';
             this.isLoading = true;
 
-            const response = await coreService.beautifyJson({ rawJson: this.rawJson});
-            if(response.status === 200) {
-                this.successMessage = response.message;
-                this.fancyJson = response.code;
-            } else {
-                return this.errorMessage = response.message;
-            }
+            if(!this.rawJson) return this.errorMessage = 'Invalid Json';
+
+            this.fancyJson = JSON.stringify(JSON.parse(this.rawJson), null, 2);
+            this.successMessage = 'Successfuly Beautified Json'
+
             this.isLoading = false;
         },
 

@@ -57,9 +57,24 @@ const router = createRouter({
       component: () => import('../views/jsonPage.vue')
     },
     {
+      path: '/diff',
+      name: 'diff',
+      component: () => import('../views/diffPage.vue')
+    },
+    {
+      path: '/uuid',
+      name: 'uuid',
+      component: () => import('../views/uuidPage.vue')
+    },
+    {
       path: '/password',
       name: 'password',
       component: () => import('../views/passwordPage.vue')
+    },
+    {
+      path: '/pdf',
+      name: 'pdfConverter',
+      component: () => import('../views/pdfPage.vue')
     },
     {
       path: '/:pathMatch(.*)*',

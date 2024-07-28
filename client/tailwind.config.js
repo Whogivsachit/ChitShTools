@@ -5,6 +5,17 @@ export default {
   presets: [],
   darkMode: 'class', // or 'class'
   theme: {
+    extend: {
+      backgroundImage: {
+        'radial-grid': 'radial-gradient(#1D1F23 2px, transparent 0)',
+      },
+      backgroundSize: {
+        '40': '40px 40px',
+      },
+      backgroundPosition: {
+        '-20': '-20px -20px',
+      },
+    },
     screens: {
       sm: '640px',
       md: '768px',

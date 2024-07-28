@@ -1,5 +1,8 @@
 const controllers = require('./controllers'); 
 
+const multer = require('multer'); // Used for file uploads
+const upload = multer({ dest: 'uploads/' });
+
 module.exports = (app) => {
     // Development Debugging Routes
     app.get('/heartbeat', controllers.devController.heartbeat);
@@ -26,9 +29,9 @@ module.exports = (app) => {
     // QR Code Routes
     app.post('/generateQRCode', controllers.qrController.generateQrCode);
 
-    // JSON Routes
-    app.post('/beautifyJson', controllers.jsonController.beautifyJson);
-    
+    // PDF Routes
+    app.post('/convertToPdf', upload.single('file'), controllers.pdfController.convertToPdf);
+
     // Default Route
     app.use((req, res) => {
         res.status(404).send({ url: req.originalUrl + ' not found' });

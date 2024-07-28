@@ -50,10 +50,17 @@ export default {
         .then(response => response.data)
     },
 
-    // Beautify JSON
-    async beautifyJson(body) {
-        return Api().post(`beautifyJson`, body)
+    // Convert PDF
+    async convertToPdf(body) {
+        const headers = {
+            'Content-Type': 'multipart/form-data',
+        }
+
+        return Api().post(`convertToPdf`, body, { 
+            headers,
+            responseType: 'blob' 
+        })
         .then(response => response.data)
-    },
+    }
 
 }

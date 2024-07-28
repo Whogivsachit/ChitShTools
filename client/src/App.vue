@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-background min-h-screen">
+  <div class="core min-h-screen">
     <RouterView />
   </div>
 </template>

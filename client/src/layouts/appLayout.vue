@@ -2,7 +2,7 @@
     <div>
      <navbarComponent />
    
-     <main class="min-h-screen">
+     <main class="appLayout min-h-screen">
        <slot />
      </main>
    

@@ -6,9 +6,9 @@
             <!-- Header -->
             <headerComponent title="Gmod Workshop Generator" description="Quickly generate gmod workshop.dl files." />
 
-            <div class="flex gap-5">
+            <div class="flex flex-col md:flex-row gap-5">
                 <!-- Form -->
-                <cardComponent :divider="false" class="w-1/2">
+                <cardComponent :divider="false" class="w-full md:w-1/2">
                     <form @submit.prevent="generateWorkshop">
                         <div class="flex flex-col md:flex-row gap-4">
                             <!-- Workshop Name -->
@@ -22,7 +22,7 @@
                 </cardComponent>
 
                 <!-- Instructions -->
-                <cardComponent title="Insructions" class="w-1/2">
+                <cardComponent title="Insructions" class="w-full md:w-1/2">
                     <p>This file will force players to automatically download your workshop collection addons when connecting. Create a file inside of garrysmod/lua/autorun/server called resource.lua and place the generated code there.</p>
                 </cardComponent>
             </div>

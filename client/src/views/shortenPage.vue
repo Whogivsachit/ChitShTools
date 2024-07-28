@@ -7,9 +7,9 @@
             <headerComponent title="Url Shortener" description="Quickly and efficiently genereate masked/shortened urls" />
 
             <!-- Main Content -->
-            <div class="flex gap-5">
+            <div class="flex flex-col md:flex-row gap-5">
                 <!-- Form -->
-                <cardComponent title="Url" :divider="false" class="w-1/2">
+                <cardComponent title="Url" :divider="false" class="w-full md:w-1/2">
                     <form @submit.prevent="generateUrl">
                         <div class="flex flex-col md:flex-row gap-4">
                             <!-- Workshop Name -->
@@ -23,7 +23,7 @@
                 </cardComponent>
 
                 <!-- Instructions -->
-                <cardComponent title="Instructions" class="w-1/2">
+                <cardComponent title="Instructions" class="w-full md:w-1/2">
                     <p>Enter the URL you wish to create a shortened link for and click generate. <br/>Impressions will update every 5 seconds.</p>
                 </cardComponent>
             </div>

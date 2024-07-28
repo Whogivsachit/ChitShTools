@@ -7,9 +7,9 @@
             <headerComponent title="Qr Code Generator" description="Generate personalized Qr Codes in seconds." />
 
             <!-- Main Content -->
-            <div class="flex gap-5">
+            <div class="flex flex-col md:flex-row gap-5">
                 <!-- Form -->
-                <cardComponent :divider="false" class="w-1/2">
+                <cardComponent :divider="false" class="w-full md:w-1/2">
                     <form @submit.prevent="generateCode">
                         <div class="flex flex-col md:flex-row gap-4">
                             <!-- Workshop Name -->
@@ -23,14 +23,14 @@
                 </cardComponent>
 
                 <!-- Instructions -->
-                <cardComponent title="Instructions" class="w-1/2">
+                <cardComponent title="Instructions" class="w-full md:w-1/2">
                     <p>Step 1. Enter the URL or Text you wish to create a QR Code for.<br/>Step 2. Select a theme below<br/>Step 3. Click Generate</p>
                 </cardComponent>
             </div>
 
-            <div class="flex gap-5 pt-5">
+            <div class="flex flex-col md:flex-row gap-5 pt-5">
                 <!-- Result -->
-                <cardComponent title="Qr Code" class="w-1/2">
+                <cardComponent title="Qr Code" class="w-full md:w-1/2">
                     <template #response>
                         <div class="text-2xl font-bold" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
                     </template>
@@ -40,7 +40,7 @@
                 </cardComponent>
 
                 <!-- Themes -->
-                <cardComponent title="Themes" class="w-1/2">
+                <cardComponent title="Themes" class="w-full md:w-1/2">
                     <div class="flex place-content-between">
                         <div class="flex gap-3 pt-2 w-full">
                             <div @click="setTheme('#000000', '#ffffff')" class="flex flex-col align-middle">
@@ -68,14 +68,14 @@
                             <span class="text-white">Foreground Color</span>
                             <div class="flex">
                                 <input type="color" class="h-[2rem] bg-background border border-borders" v-model="foregroundColor">
-                                <input type="text" class="h-[2rem] bg-background border border-borders" v-model="foregroundColor">
+                                <input type="text" class="h-[2rem] bg-background border border-borders w-full" v-model="foregroundColor">
                             </div>
                         </div>
                         <div>
                             <span class="text-white">Background Color</span>
                             <div class="flex">
                                 <input type="color" class="h-[2rem] bg-background border border-borders" v-model="backgroundColor">
-                                <input type="text" class="h-[2rem] bg-background border border-borders" v-model="backgroundColor">
+                                <input type="text" class="h-[2rem] bg-background border border-borders w-full" v-model="backgroundColor">
                             </div>
                         </div>
                     </div>

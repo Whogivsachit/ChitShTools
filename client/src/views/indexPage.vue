@@ -16,7 +16,7 @@
             </div>
 
             <!-- Tool List -->
-            <div class="flex gap-6">
+            <div class="flex flex-col md:flex-row gap-6">
                 <!-- Tools -->
                 <cardComponent title="Tools" description="Collection of useful tools and scripts making everyday life easier." :divider="true" class="w-full md:w-1/4">
                     <div class="flex flex-col place-content-between gap-2 pt-2 text-xl">

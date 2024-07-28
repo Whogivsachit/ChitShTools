@@ -11,6 +11,26 @@
     scrollbar-width: thin;
 }
 
+/* Add mobile padding to container */
+.container  { 
+    @apply px-4 md:px-0;
+}
+
+.appLayout {
+    @apply pt-[2rem] md:pt-[4rem];
+}
+
+.core {
+    @apply bg-background bg-radial-grid bg-40 bg--20;
+}
+
+
+
+
+
+
+/* Animations */
+
 @keyframes blink {
     0%, 100% {
         opacity: 1;
@@ -20,11 +40,36 @@
     }
 }
 
+@keyframes glowFadeIn {
+    0% {
+      box-shadow: 0 4px 8px rgba(60, 62, 69, 0);
+    }
+    100% { 
+      box-shadow: 0 8px 12px rgba(60, 62, 69, 0.6);
+    }
+  }
+  
+@keyframes glowFadeOut {
+    0% {
+        box-shadow: 0 8px 12px rgba(60, 62, 69, 0.6);
+    }
+    100% {
+        box-shadow: 0 4px 8px rgba(60, 62, 69, 0);
+    }
+}
+
 .blinking {
     animation: blink 2s infinite;
 }
 
-/* Add mobile padding to container */
-.container  { 
-    @apply px-4 md:px-0;
+.border-glowing {
+    border-bottom: 2px solid rgba(60, 62, 69, 0.6);
+}
+
+.glow-in {
+    animation: glowFadeIn 1s forwards;
+}
+
+.glow-out {
+    animation: glowFadeOut 1s forwards;
 }
