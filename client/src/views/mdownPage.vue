@@ -9,7 +9,7 @@
             </headerComponent>
 
             <!-- Status -->
-            <div v-if="loading" class="text-3xl font-bold blinking text-center text-green-600 pt-2">Downloading...</div>
+            <div v-if="isLoading" class="text-3xl font-bold blinking text-center text-green-600 pt-2">Downloading...</div>
             <div class="text-2xl font-bold text-center pt-2" :class="success ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
 
             <div class="flex flex-col md:flex-row gap-6 mx-auto">
@@ -78,7 +78,6 @@
 
 <script>
 import coreService from '@/services/coreService.js';
-import axios from 'axios';
 
 export default {
     name: 'mediaDownloader',
@@ -94,7 +93,6 @@ export default {
             },
             error: '',
             success: '',
-            loading: false,
             isLoading: false,
         }
     },
@@ -115,38 +113,40 @@ export default {
             this.success = '';
 
             // Check if links contains youtube.com, spotify.com or soundcloud.com
-            const regex = /youtube\.com|spotify\.com|soundcloud\.com/;
+            const regex = /youtube\.com|spotify\.com|soundcloud\.com|youtu\.be/;
             if(!regex.test(this.link) || !this.link) return this.error = 'Please enter a valid Youtube, Spotify or SoundCloud link'; 
             this.isLoading = true;           
             
             try {
-                this.loading = true;
                 const response = await coreService.downloadMedia({ 
                     link: this.link, 
                     format: this.format, 
                     fileType: this.fileType, 
                     quality: this.quality
                 });
+                console.log(`[Media Downloader]: ${response.message}`);
 
-                if(response.status !== 200) return this.error = response.message;
 
-                this.loading = false;
-                this.success = 'Media downloaded successfully';
-                console.log(response.file) // Echos for debug
+                // Decode the base64 response and download the blob
+                const byteCharacters = atob(response.file);
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+                const blob = new Blob([byteArray], { type: response.type });
 
-                const file = await axios.get(response.file, { responseType: 'blob', });
-                const url = window.URL.createObjectURL(new Blob([file.data]));
+
+                const url = window.URL.createObjectURL(blob);
                 const link = document.createElement('a');
-
                 link.href = url;
-                link.setAttribute('download', `${response.name}`);
+                link.setAttribute('download', `${response.message}.${this.fileType}`);
                 document.body.appendChild(link);
                 link.click();
-                this.isLoading = false;  
 
+                this.isLoading = false;  
             } catch (error) {
                 this.error = error.message;
-                this.loading = false;
                 this.isLoading = false;  
             }
         }

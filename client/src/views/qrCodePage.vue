@@ -120,6 +120,7 @@ export default {
             }
 
             const response = await coreService.generateQrCode({ text: this.text, colors: { foreground: this.foregroundColor, background: this.backgroundColor} });
+            console.log(`[QrCodeGenerator]: ${response.message}`);
 
             if(response.status === 200) {
                 this.qrCode = response.data;

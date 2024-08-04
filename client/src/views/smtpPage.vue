@@ -134,6 +134,7 @@ export default {
             response.status !== 200 ? 
             this.errorMessage = `${response.status} - ${response.message}` : 
             this.successMessage = `${response.status} - ${response.message}`;
+            console.log(`[SMTP Sender]: ${response.message}`);
             this.isLoading = false;
         }
     }

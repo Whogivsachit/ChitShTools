@@ -4,7 +4,7 @@
             <headerComponent title="UUID Generator" description="Generate a unique UUID identifier" />
 
             <!-- Error Messages -->
-            <div class="text-2xl font-bold text-center pb-2" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
+            <div class="text-2xl font-bold text-center pb-2 text-red-600">{{ showMessage }}</div>
 
             <!-- Version Selector -->
             <div class="flex place-content-center text-white">
@@ -50,7 +50,7 @@
                 </div>
             </div>
 
-            <cardComponent title="UUID Information" description="A UUID (Universally Unique Identifier) is a 128-bit number used to uniquely identify information in computer systems, ensuring that identifiers are globally unique." class="mt-5 w-2/3">
+            <cardComponent title="UUID Information" description="A UUID (Universally Unique Identifier) is a 128-bit number used to uniquely identify information in computer systems, ensuring that identifiers are globally unique." class="mt-5 w-full md:w-2/3">
                 <div class="text-muted space-y-3">
                     <p><span class="font-bold text-white">Version 1</span> is useful when you need a timestamp in the UUID and have a network card (for a MAC address).</p>
                     <p><span class="font-bold text-white">Version 3</span> is useful when creating consistent UUIDs for the same input name and namespace.</p>
@@ -81,7 +81,7 @@ export default {
 
     computed: {
         advanced() { return this.version === 3 || this.version === 5;},
-        showMessage() { return this.successMessage || this.errorMessage; }
+        showMessage() { return this.errorMessage; }
     },
 
     mounted() {

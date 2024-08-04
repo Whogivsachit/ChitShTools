@@ -34,6 +34,7 @@
                             <router-link to="/password" class="block px-4 py-2 text-muted hover:text-white">Password Generator</router-link>
                             <router-link to="/qrcode" class="block px-4 py-2 text-muted hover:text-white">QR Code Generator</router-link>
                             <router-link to="/uuid" class="block px-4 py-2 text-muted hover:text-white">UUID Generator</router-link>
+                            <router-link to="/speedtest" class="block px-4 py-2 text-muted hover:text-white">SoeedTest</router-link>
                         </div>
                     </div>
                 </div>
@@ -54,8 +55,9 @@
                     <h1 class="px-4 py-2 font-bold text-xl">Converters</h1>
                     <hr class="border-t border-borders">
                     <router-link to="/pdf" class="block px-4 py-2 text-muted hover:text-white">PDF Converter</router-link>
-                    <router-link to="/" class="block px-4 py-2 text-muted hover:text-white line-through">FileType Converter</router-link>
                     <router-link to="/b64" class="block px-4 py-2 text-muted hover:text-white">Base64 Encode/Decode</router-link>
+                    <router-link to="/iconvert" class="block px-4 py-2 text-muted hover:text-white">Image Converter</router-link>
+                    <router-link to="/vconvert" class="block px-4 py-2 text-muted hover:text-white">Video Transcoder</router-link>
                 </div>
             </div>
         </div>
@@ -70,6 +72,7 @@ export default {
         return {
             dropdown: false,
             isScrolled: false,
+            scrollDirection: '',
         };
     },
 

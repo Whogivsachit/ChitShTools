@@ -8,11 +8,14 @@ exports.convertToPdf = async (req, res) => {
     if(!req.file) return res.status(400).send('No file uploaded');
 
     // Constants
-    const uploadFolder = 'uploads';
-    const filePath = path.join(uploadFolder, req.file.filename);
+    const downloadDir = path.resolve(__dirname, '../downloads');
+    const filePath = path.join(downloadDir, req.file.filename);
     const fileExtension = path.extname(req.file.originalname);
     const fontSize = 12;
     let sanitizedText = ''; // This will hold the text extracted from the file
+
+    console.log(filePath);
+
 
     try {
 
@@ -33,7 +36,7 @@ exports.convertToPdf = async (req, res) => {
         pdfDoc.registerFontkit(fontkit);
 
         // Embed a font in the PDF document
-        const fontPath = path.join(uploadFolder, 'NotoSans-Regular.ttf');
+        const fontPath = path.join(downloadDir, 'NotoSans-Regular.ttf');
         if (!fs.existsSync(fontPath)) throw new Error('Font file not found');
         const fontBytes = fs.readFileSync(fontPath);
         const customFont = await pdfDoc.embedFont(fontBytes);
@@ -54,9 +57,6 @@ exports.convertToPdf = async (req, res) => {
         // Save the PDF
         const pdfBytes = await pdfDoc.save();
 
-        // Save to disk
-        fs.writeFileSync('output.pdf', pdfBytes);
-
         // Send the pdf as a response
         res.setHeader('Content-Type', 'application/pdf');
         res.setHeader('Content-Disposition', 'attachment; filename=output.pdf');
@@ -67,6 +67,6 @@ exports.convertToPdf = async (req, res) => {
         res.send({status: 500, message: 'Couldnt convert file to PDF'});
     } finally {
         if(fs.existsSync(filePath)) return fs.unlinkSync(filePath);
-        pdfDoc.reset();
+        // pdfDoc.reset();
     }
 }

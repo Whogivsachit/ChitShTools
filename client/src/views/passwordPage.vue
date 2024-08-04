@@ -21,7 +21,7 @@
 
             <!-- Password Options -->
             <cardComponent :divider="false" class="w-full md:w-2/3">
-                <div class="flex place-content-evenly">
+                <div class="flex flex-col md:flex-row place-content-evenly">
                     <div class="pt-4">
                         <span class="text-white">Password Length</span>
                         <div class="flex gap-2 pt-2">
@@ -29,7 +29,7 @@
                             <input type="range" id="length" v-model="length" min="1" max="64" class="bg-background text-white rounded-md w-full" />
                         </div>
                     </div>
-                    <div class="flex flex-col gap-2">
+                    <div class="flex flex-col gap-2 pt-5 md:pt-0">
                         <div class="flex gap-2 items-center">
                             <input type="checkbox" id="uppercase" v-model="includeUppercase" class="bg-background text-green-600 rounded-md p-4" />
                             <label for="uppercase" class="text-lg">Include Uppercase</label>
@@ -64,6 +64,7 @@ export default {
             password: '',
             successMessage: '',
             errorMessage: '',
+            isLoading: false
         };
     },
 

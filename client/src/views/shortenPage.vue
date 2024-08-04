@@ -88,6 +88,7 @@ export default {
             this.shortUrl = '';
 
             const response = await coreService.generateShortUrl({ originalUrl: this.originalUrl});
+            console.log(`[UrlShortener]: ${response.message}`);
 
             if(response.status === 200) {
                 this.shortUrl = `${this.$appUrl}/api/shorten/${response.shortUrl}`;

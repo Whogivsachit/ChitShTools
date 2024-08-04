@@ -5,12 +5,12 @@
 
             <headerComponent title="PDF Converter" description="Quickly and easily convert any file to a pdf." />
 
-            <cardComponent title="Upload File" class="w-2/3">
+            <cardComponent title="Upload File" class="w-full md:w-2/3">
                 <template #response>
                     <div class="text-2xl font-bold" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
                 </template>
                 <div class="space-y-3 pt-5">
-                    <div @click="fileUpload" class="flex text-2xl bg-background rounded-full p-5 mx-auto w-2/6 hover:cursor-pointer">
+                    <div @click="fileUpload" class="flex text-2xl bg-background rounded-full p-5 mx-auto w-full md:w-2/6 hover:cursor-pointer">
                         <faIcon :icon="['fas', 'plus']" class="self-center"/>
                         <a class="w-full text-center">Choose File</a>
                         <input type="file" ref="fileInput" class="hidden" @change="handleFileChange" accept=".doc,.docx,.txt,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"/>
@@ -18,7 +18,7 @@
                 </div>
             </cardComponent>
 
-            <cardComponent title="Information" class="w-2/3 mt-5">
+            <cardComponent title="Information" class="w-full md:w-2/3 mt-5">
                 <div class="space-y-3 pt-5">
                     <p>Click Choose file above to upload your file. It will automatically be converted to a .pdf and downloaded to your system.</p>
                     <p class="text-lg pt-5">Supported File Types:</p>
@@ -77,6 +77,7 @@ export default {
             try {
                 const response = await coreService.convertToPdf(formData);
                 if(!response) return this.errorMessage = 'Error converting file.';
+                console.log(`[PDF Converter]: PDF file created successfully.`);
 
                 // Create a Blob from the PDF Stream
                 const url = window.URL.createObjectURL(response);

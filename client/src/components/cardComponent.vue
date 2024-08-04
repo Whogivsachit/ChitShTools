@@ -19,15 +19,16 @@ export default {
   props: {
     title: {
       type: String,
-      required: true
+      required: false
     },
     description: {
         type: String,
-        default: ''
+        default: '',
+        required: false
     },
     divider: {
       type: Boolean,
-      default: true
+      default: false
     }
   }
 }

@@ -24,13 +24,7 @@
     @apply bg-background bg-radial-grid bg-40 bg--20;
 }
 
-
-
-
-
-
 /* Animations */
-
 @keyframes blink {
     0%, 100% {
         opacity: 1;

@@ -83,7 +83,7 @@
                 </cardComponent>
                 
                 <!-- Right -->
-                <cardComponent title="Preview" description="Discord Markdown does work but will not be displayed on this page." class="w-full md:w-1/2">
+                <cardComponent title="Preview" description="Discord Markdown does work but will not be displayed on this page." class="w-full md:w-1/2 mt-5 md:mt-0">
                     <div class="flex flex-col pt-2">
                         <div class="flex gap-2">
                             <img v-if="authorIcon" :src="authorIcon" class="w-10 h-10 rounded-full">
@@ -208,6 +208,8 @@ export default {
             };
 
             const response = await coreService.sendWebhook({webhookUrl: this.webhookUrl, webhook});
+            console.log(`[Webhook Sender]: ${response.response}`);
+
             response.stauts === 200 ? this.successMessage = response.response : this.errorMessage = response.response; // Set response based on status
             this.isLoading = false;
         },
@@ -223,6 +225,7 @@ export default {
             };
 
             const response = await coreService.sendWebhook({webhookUrl: this.webhookUrl, webhook, contentOnly: true});
+            console.log(`[Webhook Sender]: ${response.response}`);
             if(response.status === 200) {
                 this.successMessage = response.response;
             } else {

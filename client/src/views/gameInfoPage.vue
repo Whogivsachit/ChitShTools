@@ -15,7 +15,7 @@
                     </div>
                     <div class="flex flex-col mt-2">
                         <select v-model="game" class="text-white border border-borders rounded-md p-2 my-2 bg-background/75 w-1/2">
-                            <option v-for="gameOption in gameOptions" :key="gameOption" :value="gameOption.split(':')[0]">{{ gameOption.split(':')[1] }}</option>
+                            <option v-for="gameOption in gameOptions" :key="gameOption" :value="gameOption" class="capitalize">{{ gameOption}}</option>
                         </select>
                         <span class="text-white">Don't see your game? Either use the <a href="https://api.chit.sh/#/ServerInfo/get_serverinfo__game___ip___port_" target="_blank" class="underline">API</a> Directly or request a game to be added in my discord.</span>
                         <div class="text-2xl font-bold  pt-2" :class="success ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
@@ -70,12 +70,12 @@ export default {
             success: '',
             data: {},
             gameOptions: [
-                'minecraft:Minecraft', 'garrysmod:Garrys Mod', 'csgo:Counter Strike Global Offensive', 'counterstrike2:Counter Strike 2', 'counterstrike16:Counter Strike 1.6', 'counterstrike15:Counter Strike 1.5', 
-                'barotrauma:Barotrauma', 'baldursgate:Baldurs Gate', 'asa:Arc Survival Ascended', 'ase:Ark Survival Evolved', 'arma3:Arma3', 'abioticfactor:Abiotic Factor', 'dayz:Dayz', 'discord:Discord', 
-                'dst: Dont Starve Together', 'eco:Eco', 'enshrouded:Enshrouded', 'factorio:Factorio', 'groundbreach:GroundBreach', 'gta5f:Gta5 Fivem', 'gta5r: Gta5 Rage', 'halo: Halo', 'halo2: Halo2', 
-                'hll:Hell Let Loose', 'insurgency:Insurgency', 'insurgencysandstorm:InsurgencySandstorm', 'l4d:Left4Dead', 'l4d2:Left4Dead2', 'mgm:Mumble', 'mordhau:Mordhau', 'palworld:Palworld', 
-                'rainbowsix:Rainbow Six', 'ror2:Risk of rain 2', 'rust:Rust', 'spaceengineers:Space Engineers', 'squad:Squad', 'swat4:Swat4', 'teamfortress2:TeamFortress 2', 'teamspeak2:TeamSpeak 2', 
-                'teamspeak3:TeamSpeak 3', 'theforest:The Forest', 'valheim:Valheim', 'vrising:V Rising'
+                'minecraft', 'garrysmod', 'csgo', 'counterstrike2', 'counterstrike16', 'counterstrike15', 
+                'barotrauma', 'baldursgate', 'asa', 'ase', 'arma3', 'abioticfactor', 'dayz', 'discord', 
+                'dst', 'eco', 'enshrouded', 'factorio', 'groundbreach', 'gta5f', 'gta5r', 'halo', 'halo2', 
+                'hll', 'insurgency', 'insurgencysandstorm', 'l4d', 'l4d2', 'mgm', 'mordhau', 'palworld', 
+                'rainbowsix', 'ror2', 'rust', 'spaceengineers', 'squad', 'swat4', 'teamfortress2', 
+                'teamspeak2', 'teamspeak3', 'theforest', 'valheim', 'vrising'
             ],
             isLoading: false,
         }
@@ -99,6 +99,8 @@ export default {
 
             try {
                 const response = await coreService.fetchServerInfo({ game: this.game, ip: this.ip });
+                console.log(`[GameServerInfo]: ${response.data.name}`);
+
                 if (response.status === 500) return this.error = 'Server is offline or not reachable'; // Api returns 500 on unreachable servers
                 this.data = response.data;
                 this.success = 'Server information retrieved successfully';

@@ -77,6 +77,21 @@ const router = createRouter({
       component: () => import('../views/pdfPage.vue')
     },
     {
+      path: '/iconvert',
+      name: 'iconvert',
+      component: () => import('../views/imagePage.vue')
+    },
+    {
+      path: '/vconvert',
+      name: 'vconvert',
+      component: () => import('../views/videoPage.vue')
+    },
+    {
+      path: '/speedtest',
+      name: 'speedtest',
+      component: () => import('../views/speedTestPage.vue')
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: '404',
       component: () => import('../views/404Page.vue'),

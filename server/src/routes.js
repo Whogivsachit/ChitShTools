@@ -1,7 +1,7 @@
 const controllers = require('./controllers'); 
 
 const multer = require('multer'); // Used for file uploads
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ dest: './src/downloads/' });
 
 module.exports = (app) => {
     // Development Debugging Routes
@@ -9,6 +9,8 @@ module.exports = (app) => {
 
     // Media Routes
     app.post('/downloadMedia', controllers.mediaController.downloadMedia);
+    app.post('/convertImage', upload.single('file'), controllers.mediaController.convertImage);
+    app.post('/convertVideo', upload.single('file'), controllers.mediaController.convertVideo);
 
     // Game Routes
     app.post('/fetchServerInfo', controllers.gameController.fetchServerInfo);
@@ -31,6 +33,12 @@ module.exports = (app) => {
 
     // PDF Routes
     app.post('/convertToPdf', upload.single('file'), controllers.pdfController.convertToPdf);
+
+    // Speedtest Routes
+    app.post('/upload', upload.single('file'), controllers.speedTestController.upload);
+    app.post('/testUpload', upload.single('file'), controllers.speedTestController.testUp);
+    app.get('/testDownload', controllers.speedTestController.testDown);
+
 
     // Default Route
     app.use((req, res) => {

@@ -23,8 +23,10 @@
                         <router-link to="/mdownloader" class="hover:text-muted">[YT/SC] Media Downloader</router-link>
                         <router-link to="/shorten" class="hover:text-muted">Url Shortener</router-link>
                         <router-link to="/json" class="hover:text-muted">Json Beautify</router-link>
+                        <router-link to="/diff" class="hover:text-muted">Text Diff Checker</router-link>
                         <router-link to="/password" class="hover:text-muted">Password Generator</router-link>
                         <router-link to="/qrcode" class="hover:text-muted">QR Code Generator</router-link>
+                        <router-link to="/uuid" class="hover:text-muted">Json Beautify</router-link>
                     </div>
                 </cardComponent>
                 <!-- Senders -->
@@ -44,9 +46,10 @@
                 <!-- Converters -->
                 <cardComponent title="Converters" description="Convertibles roll out! Convert one File type to another quickly." :divider="true" class="w-full md:w-1/4">
                     <div class="flex flex-col place-content-between gap-2 pt-2 text-xl">
-                        <router-link to="/" class="hover:text-muted line-through">PDF Converter</router-link>
-                        <router-link to="/" class="hover:text-muted line-through">FileType Converter</router-link>
+                        <router-link to="/pdf" class="hover:text-muted">PDF Converter</router-link>
                         <router-link to="/b64" class="hover:text-muted">Base64 Encode/Decode</router-link>
+                        <router-link to="/iconvert" class="hover:text-muted">Image Converter</router-link>
+                        <router-link to="/vconvert" class="hover:text-muted">Video Converter</router-link>
                     </div>
                 </cardComponent>
             </div>

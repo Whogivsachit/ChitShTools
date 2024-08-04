@@ -20,12 +20,6 @@ export default {
         .then(response => response.data)
     },
 
-    // Download Media
-    async downloadMedia (body) {
-        return Api().post(`downloadMedia`, body)
-        .then(response => response.data)
-    },
-
     // SMTP Email
     async sendEmail (body) {
         return Api().post(`sendEmail`, body)
@@ -50,17 +44,47 @@ export default {
         .then(response => response.data)
     },
 
+    // Download Media
+    async downloadMedia(body) {
+        return Api().post(`downloadMedia`, body)
+        .then(response => response.data)
+    },
+
+    async testUpload(body) {
+        return Api().post(`testUpload`, body, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        })
+        .then(response => response.data)
+    },
+
+    async testDownload() { 
+        return Api().get(`testDownload`)
+        .then(response => response.data)
+    },
+
+
     // Convert PDF
     async convertToPdf(body) {
-        const headers = {
-            'Content-Type': 'multipart/form-data',
-        }
-
         return Api().post(`convertToPdf`, body, { 
-            headers,
+            headers: { 'Content-Type': 'multipart/form-data' },
             responseType: 'blob' 
         })
         .then(response => response.data)
-    }
+    },
 
+    // Convert Image
+    async convertImage(body) {
+        return Api().post(`convertImage`, body, { 
+            headers: { 'Content-Type': 'multipart/form-data' },
+        })
+        .then(response => response.data)
+    },
+
+    // Convert Video
+    async convertVideo(body) {
+        return Api().post(`convertVideo`, body, { 
+            headers: { 'Content-Type': 'multipart/form-data' },
+        })
+        .then(response => response.data)
+    }
 }
