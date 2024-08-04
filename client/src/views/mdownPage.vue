@@ -125,24 +125,36 @@ export default {
                     quality: this.quality
                 });
                 console.log(`[Media Downloader]: ${response.message}`);
+                console.log(response);
 
 
                 // Decode the base64 response and download the blob
                 const byteCharacters = atob(response.file);
-                const byteNumbers = new Array(byteCharacters.length);
-                for (let i = 0; i < byteCharacters.length; i++) {
-                    byteNumbers[i] = byteCharacters.charCodeAt(i);
-                }
+                    const byteNumbers = new Array(byteCharacters.length);
+                    for (let i = 0; i < byteCharacters.length; i++) {
+                        byteNumbers[i] = byteCharacters.charCodeAt(i);
+                    }
                 const byteArray = new Uint8Array(byteNumbers);
-                const blob = new Blob([byteArray], { type: response.type });
+                
+                if(response.playlist) {
+                    const blob = new Blob([byteArray], { type: 'application/zip' });
 
+                    const url = window.URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', `[ChitShTools] playlist.zip`);
+                    document.body.appendChild(link);
+                    link.click();
+                } else {
+                    const blob = new Blob([byteArray], { type: response.type });
 
-                const url = window.URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.setAttribute('download', `${response.message}.${this.fileType}`);
-                document.body.appendChild(link);
-                link.click();
+                    const url = window.URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', `${response.message}`);
+                    document.body.appendChild(link);
+                    link.click();
+                }
 
                 this.isLoading = false;  
             } catch (error) {

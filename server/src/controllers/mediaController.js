@@ -3,63 +3,128 @@ const ffmpeg = require('fluent-ffmpeg');
 const path = require('path');
 const fs = require('fs');
 const sharp = require('sharp');
+const archiver = require('archiver');
+
+const outputDirectory = path.resolve(__dirname, '../downloads');
+const downloadTemplate = `[ChitShTools] | %(title)s.%(ext)s`;
+
+// Create archive file for playlist downloading
+const createArchive = async (files, archivePath, fileType) => {
+    const output = fs.createWriteStream(archivePath);
+    const archive = archiver('zip', { zlib: { level: 9 } });
+
+    return new Promise((resolve, reject) => {
+        output.on('close', () => {
+            fs.readFile(archivePath, (err, data) => {
+                if (err) return reject(err);
+                const base64Data = data.toString('base64');
+                resolve(base64Data);
+            });
+        });
+
+        archive.on('error', reject);
+        archive.pipe(output);
+
+        (async () => {
+            for (const file of files) {
+                const filePath = path.join(outputDirectory, file);
+                const transcodedFilePath = path.join(outputDirectory, `${path.parse(file).name}.${fileType}`);
+                
+                try {
+                    await new Promise((resolve, reject) => {
+                        ffmpeg(filePath)
+                            .toFormat(fileType)
+                            .audioBitrate(128)
+                            .videoBitrate(1024)
+                            .on('end', () => {
+                                fs.unlinkSync(filePath);
+                                archive.file(transcodedFilePath, { name: `${path.parse(file).name}.${fileType}` });
+                                resolve();
+                            })
+                            .on('error', reject)
+                            .save(transcodedFilePath);
+                    });
+                } catch (err) {
+                    return reject(err);
+                }
+            }
+            await archive.finalize();
+        })();
+    });
+};
+
+// Download a single file for media downloading
+const handleSingleFile = async (link, downloadOptions, fileType, res) => {
+    const response = await youtubedl(link, downloadOptions);
+    const inputFile = path.join(outputDirectory, response);
+    const outputFile = path.join(outputDirectory, `${path.parse(response).name}.${fileType}`);
+    const outputName = `${path.parse(response).name}.${fileType}`;
+
+    ffmpeg(inputFile)
+        .toFormat(fileType)
+        .audioBitrate(128)
+        .videoBitrate(1024)
+        .on('end', () => {
+            fs.unlinkSync(inputFile);
+            fs.readFile(outputFile, (err, data) => {
+                if (err) return res.status(500).json({ message: 'Error reading the converted file.' });
+
+                res.setHeader('Content-Disposition', `attachment; filename="${outputName}"`);
+                res.setHeader('Content-Type', `audio/${fileType}`);
+                res.json({ message: outputName, file: data.toString('base64'), playlist: false });
+
+                fs.unlinkSync(outputFile);
+            });
+        })
+        .on('error', (err) => {
+            console.log('An error occurred during transcoding: ' + err.message);
+            res.status(500).json({ message: 'An error occurred during transcoding.' });
+        })
+        .save(outputFile);
+};
+
+
 
 exports.downloadMedia = async (req, res) => {
-    console.log(`Request received to download media. Link: ${req.body.link}`) // echos for debug
-    
-    const { link, fileType, format, quality } = req.body
-    const outputDirectory = path.resolve(__dirname, '../downloads');
-    const downloadTemplate = `[ChitShTools] | %(title)s.%(ext)s`;
+    console.log(`Request received to download media. Link: ${req.body.link}`); // echos for debug
+
+    const { link, fileType, format, quality } = req.body;
+    const downloadOptions = {
+        format: format === 'audio' ? 'bestaudio' : 'bestvideo+bestaudio/best',
+        audioQuality: quality === 'best' ? 0 : 9,
+        addMetadata: format !== 'audio',
+        continue: true,
+        sleepInterval: 10,
+        noSimulate: true,
+        print: downloadTemplate,
+        output: path.join(outputDirectory, downloadTemplate),
+    };
 
     try {
-        const downloadOptions = {
-            format: format === 'audio' ? 'bestaudio' : 'bestvideo+bestaudio/best',
-            audioQuality: quality === 'best' ? 0 : 9,
-            addMetadata: format === 'audio' ? false : true,
-            continue: true,
-            sleepInterval: 10,
-            noSimulate: true,
-            print: downloadTemplate,
-            output: path.join(outputDirectory, downloadTemplate),
-        };
+        const isPlaylist = (await youtubedl(link, { dumpSingleJson: true }))._type === 'playlist';
 
-        // Download media
-        const response = await youtubedl(link, downloadOptions);
-        const inputFile = path.join(outputDirectory, response);
-        const outputFile = path.join(outputDirectory, `${path.parse(response).name}.${fileType}`);
-        const outputName = `${path.parse(response).name}.${fileType}`;
+        if (isPlaylist) {
+            await youtubedl(link, downloadOptions);
+            const files = fs.readdirSync(outputDirectory).filter(file => file.startsWith('[ChitShTools]'));
+            const archivePath = path.join(outputDirectory, '[ChitShTools] playlist.zip');
+            const base64Data = await createArchive(files, archivePath, fileType);
 
-        // Transcode media
-        ffmpeg(inputFile)
-            .toFormat(fileType)
-            .audioBitrate(128)
-            .videoBitrate(1024)
-            .on('end', () => {
-                fs.unlinkSync(inputFile);
-                fs.readFile(outputFile, (err, data) => {
-                    if (err) return res.status(500).json({ message: 'Error reading the converted file.' });
+            res.setHeader('Content-Disposition', 'attachment; filename="[ChitShTools] playlist.zip"');
+            res.setHeader('Content-Type', 'application/zip');
+            res.json({ message: '[ChitShTools] playlist.zip', file: base64Data, playlist: true });
 
-                    // Set appropriate headers and send the file buffer
-                    res.setHeader('Content-Disposition', `attachment; filename="${outputName}"`);
-                    res.setHeader('Content-Type', `audio/${fileType}`);
-                    res.json({ message: outputName, file: data.toString('base64')})
+            // Delete files
+            const convertedFiles = files.map(file => path.join(outputDirectory, `${path.parse(file).name}.${fileType}`));
+            convertedFiles.forEach(file => fs.unlinkSync(file));
+            fs.unlinkSync(archivePath);
 
-                    fs.unlinkSync(outputFile);
-                });
-            })
-
-            .on('error', (err) => {
-                console.log('An error occurred during transcoding: ' + err.message);
-                res.status(500).json({ message: 'An error occurred during transcoding.' });
-            })
-
-            .save(outputFile);
-
+        } else {
+            await handleSingleFile(link, downloadOptions, fileType, res);
+        }
     } catch (error) {
         console.error('An error occurred while downloading the media:', error);
         res.status(500).json({ message: 'An error occurred while downloading the media.' });
     }
-
 }
 
 exports.convertImage = async (req, res) => {

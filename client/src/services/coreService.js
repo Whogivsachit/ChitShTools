@@ -50,6 +50,7 @@ export default {
         .then(response => response.data)
     },
 
+    // Test Upload Speed
     async testUpload(body) {
         return Api().post(`testUpload`, body, {
             headers: { 'Content-Type': 'multipart/form-data' },
@@ -57,6 +58,7 @@ export default {
         .then(response => response.data)
     },
 
+    // Test Download Speed
     async testDownload() { 
         return Api().get(`testDownload`)
         .then(response => response.data)
