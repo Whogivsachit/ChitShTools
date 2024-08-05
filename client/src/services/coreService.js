@@ -64,7 +64,6 @@ export default {
         .then(response => response.data)
     },
 
-
     // Convert PDF
     async convertToPdf(body) {
         return Api().post(`convertToPdf`, body, { 

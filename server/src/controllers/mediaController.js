@@ -32,6 +32,14 @@ const createArchive = async (files, archivePath, fileType) => {
                 
                 try {
                     await new Promise((resolve, reject) => {
+                        // If the file is already in the desired format, just copy it
+                        if (path.parse(file).ext === `.${fileType}`) {
+                            fs.copyFile(filePath, transcodedFilePath, (err) => {
+                                if (err) return reject(err);
+                                archive.file(transcodedFilePath, { name: `${path.parse(file).name}.${fileType}` });
+                                resolve();
+                            });
+                        }
                         ffmpeg(filePath)
                             .toFormat(fileType)
                             .audioBitrate(128)
@@ -94,16 +102,31 @@ exports.downloadMedia = async (req, res) => {
         audioQuality: quality === 'best' ? 0 : 9,
         addMetadata: format !== 'audio',
         continue: true,
-        sleepInterval: 10,
+        sleepInterval: 5,
         noSimulate: true,
         print: downloadTemplate,
         output: path.join(outputDirectory, downloadTemplate),
+        externalDownloader: 'aria2c', // Use aria2c for faster downloads
+        externalDownloaderArgs: [
+            '-x', '16', // Number of connections per download
+            '-s', '16', // Number of segments per download
+            '-j', '6',  // Number of parallel downloads
+            '--file-allocation=none', // Skip file allocation to speed up the process
+            '--min-split-size=1M', // Minimum size of each segment
+            '--max-connection-per-server=16', // Max connections per server
+            '--split=16' // Split each file into 16 segments
+        ],
+
     };
 
     try {
-        const isPlaylist = (await youtubedl(link, { dumpSingleJson: true }))._type === 'playlist';
+
+        const mediaJson = await youtubedl(link, { dumpSingleJson: true });
+        const isPlaylist = mediaJson._type === 'playlist' || '';
 
         if (isPlaylist) {
+            if(mediaJson.entries.length > 16) return res.send({ status: 413, message: 'Playlist is too large. Please download individual files or use a smaller playlist. [Max: 16]' });
+
             await youtubedl(link, downloadOptions);
             const files = fs.readdirSync(outputDirectory).filter(file => file.startsWith('[ChitShTools]'));
             const archivePath = path.join(outputDirectory, '[ChitShTools] playlist.zip');
@@ -144,7 +167,7 @@ exports.convertImage = async (req, res) => {
 
                 res.setHeader('Content-Disposition', `attachment; filename="${outputName}"`);
                 res.setHeader('Content-Type', `image/${outputFormat}`);
-                res.json({ message: outputName, file: data.toString('base64')})
+                res.json({ status: 200, message: outputName, file: data.toString('base64')})
 
                 fs.unlinkSync(outputFile);
             });
@@ -178,7 +201,7 @@ exports.convertVideo = async (req, res) => {
 
                 res.setHeader('Content-Disposition', `attachment; filename="${outputName}"`);
                 res.setHeader('Content-Type', `video/${outputFormat}`);
-                res.json({ message: outputName, file: data.toString('base64')})
+                res.json({ status: 200, message: outputName, file: data.toString('base64')})
 
                 fs.unlinkSync(outputFile);
             })

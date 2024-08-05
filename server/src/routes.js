@@ -39,10 +39,4 @@ module.exports = (app) => {
     app.post('/testUpload', upload.single('file'), controllers.speedTestController.testUp);
     app.get('/testDownload', controllers.speedTestController.testDown);
 
-
-    // Default Route
-    app.use((req, res) => {
-        res.status(404).send({ url: req.originalUrl + ' not found' });
-    });
-
 }

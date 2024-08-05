@@ -1,0 +1,766 @@
+swagger: '2.0'
+info:
+  title: ChitShTools Api Documentation
+  version: 1.0.0
+  description: This is the documentation for the ChitShTools API
+  host: localhost:5173
+  basePath: /api
+tags:
+  - name: Media
+    description: Media related services
+  - name: Game
+    description: Game related services
+  - name: Senders
+    description: Senders related services
+  - name: Urls
+    description: Urls related services
+  - name: Utilities
+    description: Utility services
+  - name: Development
+    description: Development and Debugging
+paths: 
+  /api/heartbeat:
+    get:
+      tags: [Development]
+      summary: Check if the server is alive
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: "Server is running!"
+        '404, 500':
+          description: Server is offline
+  /api/downloadMedia:
+    post:
+      tags: [Media]
+      summary: Download media from a URL
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Body of the request
+          required: true
+          schema:
+            type: object
+            properties:
+              link:
+                type: string
+                example: "https://www.example.com/media.mp4"
+              format:
+                type: string
+                example: "audio"
+              fileType:
+                type: string
+                example: "mp4"
+              quality:
+                type: string
+                example: "best / worse"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: "videoname.mp4"
+              file:
+                type: string
+                example: "base64 encoded file"
+              playlist:
+                type: boolean
+                example: false
+        500:
+          description: Error downloading media
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              message:
+                type: string
+                example: "Catch Response"
+  /api/convertImage:
+    post:
+      tags: [Media]
+      summary: Convert an image to a different format
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Body of the request
+          required: true
+          schema:
+            type: formdata
+            properties:
+              file:
+                type: file
+                example: "image.png"
+              format:
+                type: string
+                example: "png"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: "imagename.png"
+              file:
+                type: string
+                example: "base64 encoded file"
+        500:
+          description: Error converting image
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              message:
+                type: string
+                example: "Error converting image"
+  /api/convertVideo:
+    post:
+      tags: [Media]
+      summary: Convert a Video to a different format
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Body of the request
+          required: true
+          schema:
+            type: formdata
+            properties:
+              file:
+                type: file
+                example: "myMovie.mp4"
+              format:
+                type: string
+                example: "mkv"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: "videoname.mkv"
+              file:
+                type: string
+                example: "base64 encoded file"
+        500:
+          description: Error converting video
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              message:
+                type: string
+                example: "Error converting video"
+  /api/fetchServerInfo:
+    get:
+      tags: [Game]
+      summary: Fetch Game server information
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Body of the request
+          required: true
+          schema:
+            type: object
+            properties:
+              game:
+                type: string
+                example: "minecraft"
+              ip:
+                type: string
+                example: "192.168.1.1"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              data:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: "My Minecraft Server"
+                  ip: 
+                    type: string
+                    example: "192.168.1.1"
+                  ping:
+                    type: integer
+                    example: 20
+                  version: 
+                    type: string
+                    example: "1.16.5"
+                  map:
+                    type: string
+                    example: "world"
+                  player: 
+                    type: integer
+                    example: 5
+                  maxplayers:
+                    type: integer
+                    example: 20
+                  playerArray:
+                    type: array
+                    items:
+                      type: string
+                      example: "player1"
+        500:
+          description: Error sending webhook
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              message:
+                type: string
+                example: "Catch response"
+  /api/sendWebhook:
+    post:
+      tags: [Senders]
+      summary: Send a webhook to a Discord channel
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Body of the request
+          required: true
+          schema:
+            type: object
+            properties:
+              webhookUrl:
+                type: string
+                example: "https://discord.com/api/webhooks/1234567890/abcdefg"
+              webhook:
+                type: object
+                properties:
+                  content:
+                    type: string
+                    example: "Hello World!"
+                  profile:
+                    type: string
+                    example: "ChitShTools"
+                  profileIcon:
+                    type: string
+                    example: "https://www.example.com/icon.png"
+                  profileUrl:
+                    type: string
+                    example: "https://www.example.com"
+                  author:
+                    type: string
+                    example: "ChitShTools"
+                  authorIcon:
+                    type: string
+                    example: "https://www.example.com/icon.png"
+                  title: 
+                    type: string
+                    example: "Hello World!"
+                  description:
+                    type: string
+                    example: "Hello World!"
+                  url:
+                    type: string
+                    example: "https://www.example.com"
+                  color:
+                    type: string
+                    example: "#FF0000"
+                  thumbnail:
+                    type: string
+                    example: "https://www.example.com/thumbnail.png"
+                  image:
+                    type: string
+                    example: "https://www.example.com/image.png"
+                  footer:
+                    type: string
+                    example: "ChitShTools"
+                  footerIcon:
+                    type: string
+                    example: "https://www.example.com/icon.png"
+                  timestamp:
+                    type: string
+                    example: "2021-06-01T00:00:00.000Z"
+                  fields:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: "Field Name"
+                        value:
+                          type: string
+                          example: "Field Value"
+                        inline:
+                          type: boolean
+                          example: false
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: "Successfuly sent webhook!"
+        500:
+          description: Error sending webhook
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              message:
+                type: string
+                example: "An error occured while sending webhook!"
+  /api/sendEmail:
+    post:
+      tags: [Senders]
+      summary: Send an email
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Body of the request
+          required: true
+          schema:
+            type: object
+            properties:
+              stmpServer:
+                type: string
+                example: "mail.google.com"
+              smtpPort:
+                type: integer
+                example: 587
+              smtpSecurity:
+                type: string
+                example: "TLS"
+              username:
+                type: string
+                example: "username"
+              password:
+                type: string
+                example: "password"
+              to:
+                type: string
+                example: "email.com"
+              from:
+                type: string
+                example: "email.com"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: "Email Sent Successfully"
+        500:
+          description: Error sending email
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              message:
+                type: string
+                example: "An error occured while sending email"
+        400:
+          description: Invalid SMTP Credentials
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              message:
+                type: string
+                example: "Invalid SMTP Credentials"
+  /api/generateWorkshop:
+    post:
+      tags: [Game]
+      summary: Generate a workshop collection
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Body of the request can be sent as workshopID or steamcommunity URL
+          required: true
+          schema:
+            type: object
+            properties:
+              workshopID:
+                type: string
+                example: "1234567890"              
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: "Generated Successfuly"
+              code:
+                type: string
+                example: "CodeText"
+        500:
+          description: Error generating workshop collection
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              message:
+                type: string
+                example: "An error occured while generating workshop collection"
+        400:
+          description: Invalid Workshop ID Or Missing required Field
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              message:
+                type: string
+                example: "Missing required Field"
+  /api/shorten:
+    post:
+      tags: [Urls]
+      summary: Shorten a URL
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Body of the request
+          required: true
+          schema:
+            type: object
+            properties:
+              originalUrl:
+                type: string
+                example: "https://www.example.com"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: "URL Shortened!"
+              shortUrl:
+                type: string
+                example: "https://chitsh.com/abc123"
+              creator:
+                type: string
+                example: "192.168.1.1"
+        500:
+          description: Error shortening URL
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              message:
+                type: string
+                example: "An error occured while shortening URL"
+  /api/shorten/:shortUrl:
+    get:
+      tags: [Urls]
+      summary: Redirect to the original URL
+      parameters:
+        - in: path
+          name: shortUrl
+          description: Shortened URL
+          required: true
+          type: string
+      responses:
+        302:
+          description: Redirect
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 302
+              message:
+                type: string
+                example: "Redirecting to original URL"
+        404:
+          description: URL not found
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 404
+              message:
+                type: string
+                example: "URL not found"
+  /api/generateQRCode:
+    post:
+      tags: [Urls]
+      summary: Generate a QR Code
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Body of the request
+          required: true
+          schema:
+            type: object
+            properties:
+              text:
+                type: string
+                example: "https://www.example.com"
+              colors:
+                type: object
+                properties:
+                  foreground:
+                    type: string
+                    example: "#000000"
+                  background:
+                    type: string
+                    example: "#FFFFFF"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: "QR Code Generated!"
+              file:
+                type: string
+                example: "qrcode"
+        500:
+          description: Error generating QR Code
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              message:
+                type: string
+                example: "An error occured while generating QR Code"
+        400:
+          description: Malformed Body
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              message:
+                type: string
+                example: "Malformed Body"
+  /api/convertToPdf:
+    post:
+      tags: [Media]
+      summary: Convert a File to a PDF
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Body of the request
+          required: true
+          schema:
+            type: object
+            properties:
+              file:
+                type: file
+                example: "document.docu"
+      responses:
+        200:
+          description: OK
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        500:
+          description: Error converting to PDF
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              message:
+                type: string
+                example: "Couldnt convert file to PDF"
+  /api/testUpload:
+    post:
+      tags: [Utilities]
+      summary: Test file upload
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Body of the request
+          required: true
+          schema:
+            type: formdata
+            properties:
+              file:
+                type: file
+                example: "speedtext.txt"
+              startTime:
+                type: string
+                example: "2021-06-01T00:00:00.000Z"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: "Uploaded 100MB in xTime seconds at xSpeed Mbps"
+              duration:
+                type: string
+                example: "xTime"
+              speed:
+                type: string
+                example: "xSpeed"
+        500:
+          description: Error uploading file
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              message:
+                type: string
+                example: "An error occured while uploading file"
+  /api/testDownload:
+    get:
+      tags: [Utilities]
+      summary: Test file download
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: "Downloaded 100MB in xTime seconds at xSpeed Mbps"
+              duration:
+                type: string
+                example: "xTime"
+              speed:
+                type: string
+                example: "xSpeed"
+        500:
+          description: Error downloading file
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              message:
+                type: string
+                example: "An error occured while downloading file"
+
+

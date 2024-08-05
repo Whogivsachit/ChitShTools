@@ -26,7 +26,8 @@
                         <router-link to="/diff" class="hover:text-muted">Text Diff Checker</router-link>
                         <router-link to="/password" class="hover:text-muted">Password Generator</router-link>
                         <router-link to="/qrcode" class="hover:text-muted">QR Code Generator</router-link>
-                        <router-link to="/uuid" class="hover:text-muted">Json Beautify</router-link>
+                        <router-link to="/uuid" class="hover:text-muted">UUID Generator</router-link>
+                        <router-link to="/speedtest" class="hover:text-muted">Speedtest</router-link>
                     </div>
                 </cardComponent>
                 <!-- Senders -->

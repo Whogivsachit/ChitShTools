@@ -11,8 +11,7 @@
                 <div class="hidden md:block space-x-0 md:space-x-8 text-xl text-muted">
                     <router-link to="/" active-class="active" class="hover:text-white" >Home</router-link>
                     <a href="#" @click="toggleDropdown($event)" class="hover:text-white" >Tools</a>
-                    <a href="https://api.chit.sh" class="hover:text-white" >Api</a>
-
+                    <a href="http://localhost:5173/api/docs/" class="hover:text-white" >Api</a>
                 </div>
             </div>
         </div>
@@ -34,7 +33,7 @@
                             <router-link to="/password" class="block px-4 py-2 text-muted hover:text-white">Password Generator</router-link>
                             <router-link to="/qrcode" class="block px-4 py-2 text-muted hover:text-white">QR Code Generator</router-link>
                             <router-link to="/uuid" class="block px-4 py-2 text-muted hover:text-white">UUID Generator</router-link>
-                            <router-link to="/speedtest" class="block px-4 py-2 text-muted hover:text-white">SoeedTest</router-link>
+                            <router-link to="/speedtest" class="block px-4 py-2 text-muted hover:text-white">Speedtest</router-link>
                         </div>
                     </div>
                 </div>

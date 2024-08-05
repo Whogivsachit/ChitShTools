@@ -6,7 +6,6 @@
     </appLayout>
 </template>
 
-
 <script>
 export default {
     name: '404Page',

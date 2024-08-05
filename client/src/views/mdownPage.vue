@@ -10,11 +10,11 @@
 
             <!-- Status -->
             <div v-if="isLoading" class="text-3xl font-bold blinking text-center text-green-600 pt-2">Downloading...</div>
-            <div class="text-2xl font-bold text-center pt-2" :class="success ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
+            <div class="text-2xl font-bold text-center pt-2" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
 
             <div class="flex flex-col md:flex-row gap-6 mx-auto">
                 <!-- Left Side -->
-                <div class="flex flex-col gap-6 w-full md:w-2/3">
+                <div class="flex flex-col gap-6 w-full md:w-full">
                     <!-- Download Form -->
                     <cardComponent :divider="false" class="w-full">
                         <form @submit.prevent="downloadMedia" class="flex flex-col w-full">
@@ -26,7 +26,7 @@
                                             <span class="text-white text-left">Download:</span>
                                             <select v-model="format" class="text-white border border-borders rounded-md p-2 my-2 bg-background/75">
                                                 <option value="audio">Audio</option>
-                                                <option value="video">Video</option>
+                                                <!-- <option value="video">Video</option> -->
                                             </select>
                                         </div>
                                         <div class="flex flex-col pt-2 w-1/3">
@@ -55,19 +55,11 @@
                         <div class="text-white pt-5 space-y-1">
                             <p class="font-bold text-lg">Q: Why are the downloads on this site slower than other downloaders?</p>
                             <p class="text-md">A: We download and transcode only the highest quality available due to this it might take a little longer to download your media.</p>
+                            <p class="font-bold text-lg pt-5">Q: Can I download Videos?</p>
+                            <p class="text-md">A: No as of right now downloading as video is disabled due to high BW Costs</p>                            
                             <p class="font-bold text-lg pt-5">Q: Can I download playlists?</p>
-                            <p class="text-md">A: Currently we do not support downloading playlists.</p>
+                            <p class="text-md">A: Of course! We currently limit downloading to only 16 item playlists though. If you need a better solution for long playlists we recommend using the yt-dlp on cli</p>
                         </div>
-                    </cardComponent>
-                </div>
-
-                <!-- Right Side -->
-                <div class="flex flex-col gap-6 w-full md:w-1/3">
-                    <!-- Download History -->
-                    <cardComponent title="Download History" :divider="true" class="w-full">
-                        <ul>
-                            <li class="text-md">Not Implemented Yet</li>
-                        </ul>
                     </cardComponent>
                 </div>
             </div>
@@ -89,10 +81,10 @@ export default {
             fileType: 'wav',
             fileTypes: {
                 audio: ['wav', '3gp', 'aac', 'flv', 'm4a', 'mp3', 'ogg', 'webm'],
-                video: ['mp4', 'webm'],
+                // video: ['mp4', 'webm'],
             },
-            error: '',
-            success: '',
+            successMessage: '',
+            errorMessage: '',
             isLoading: false,
         }
     },
@@ -104,17 +96,18 @@ export default {
     },
 
     computed: {
-        showMessage() { return this.success || this.error; }
+        showMessage() { return this.successMessage || this.errorMessage; }
     },
 
     methods: {
         async downloadMedia() {
-            this.error = '';
-            this.success = '';
+            this.errorMessage = '';
+            this.successMessage = '';
 
             // Check if links contains youtube.com, spotify.com or soundcloud.com
             const regex = /youtube\.com|spotify\.com|soundcloud\.com|youtu\.be/;
             if(!regex.test(this.link) || !this.link) return this.error = 'Please enter a valid Youtube, Spotify or SoundCloud link'; 
+            if(!this.link) return this.errorMessage = 'Please enter a valid link';
             this.isLoading = true;           
             
             try {
@@ -125,20 +118,22 @@ export default {
                     quality: this.quality
                 });
                 console.log(`[Media Downloader]: ${response.message}`);
-                console.log(response);
 
+                if(response.status === 413 ) {
+                    this.errorMessage = response.message;
+                    return this.isLoading = false;
+                }
 
                 // Decode the base64 response and download the blob
                 const byteCharacters = atob(response.file);
-                    const byteNumbers = new Array(byteCharacters.length);
-                    for (let i = 0; i < byteCharacters.length; i++) {
-                        byteNumbers[i] = byteCharacters.charCodeAt(i);
-                    }
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
                 const byteArray = new Uint8Array(byteNumbers);
-                
+            
                 if(response.playlist) {
                     const blob = new Blob([byteArray], { type: 'application/zip' });
-
                     const url = window.URL.createObjectURL(blob);
                     const link = document.createElement('a');
                     link.href = url;
@@ -147,7 +142,6 @@ export default {
                     link.click();
                 } else {
                     const blob = new Blob([byteArray], { type: response.type });
-
                     const url = window.URL.createObjectURL(blob);
                     const link = document.createElement('a');
                     link.href = url;
@@ -155,10 +149,11 @@ export default {
                     document.body.appendChild(link);
                     link.click();
                 }
+                
 
                 this.isLoading = false;  
             } catch (error) {
-                this.error = error.message;
+                this.errorMessage = error.message;
                 this.isLoading = false;  
             }
         }
