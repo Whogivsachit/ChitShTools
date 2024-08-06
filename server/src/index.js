@@ -6,12 +6,26 @@ const {sequelize} = require('./models');
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yaml');
 const fs = require('fs');
+const http = require('http');
+const socketIo = require('socket.io');
 require('dotenv').config()
 
 const app = express();
+const server = http.createServer(app);
 app.use(morgan(':method :url :status :response-time ms - :res[content-length] \n'));
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors);
+
+// Setup Socket.io
+const io = socketIo(server, {
+    cors: {
+        origin: "http://localhost:5173",
+        methods: ["GET", "POST"]
+    }
+});
+
+const { handleSocketConnection } = require('./socket');
+io.on('connection', handleSocketConnection);
 
 require('./routes')(app);
 
@@ -19,8 +33,9 @@ require('./routes')(app);
 const swaggerDoc = YAML.parse(fs.readFileSync('./swagger.yaml', 'utf8'));
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc, { customCss: '.swagger-ui .topbar { display: none }' }));
 
+// Sync Databases and Serve project
 sequelize.sync().then(() => {
-    app.listen(process.env.PORT, process.env.HOST, () => {
+    server.listen(process.env.PORT, process.env.HOST, () => {
         console.log(`Server started on http://${process.env.HOST}:${process.env.PORT}`);
     });
 });

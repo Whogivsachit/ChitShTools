@@ -92,6 +92,11 @@ const router = createRouter({
       component: () => import('../views/speedTestPage.vue')
     },
     {
+      path: '/sshc',
+      name: 'sshc',
+      component: () => import('../views/sshcPage.vue')
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: '404',
       component: () => import('../views/404Page.vue'),
