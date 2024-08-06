@@ -91,8 +91,8 @@ export default {
             this.errorMessage = '';
             this.successMessage = '';
 
-            const localPatterns = ['localhost', '', '192.168', '127.0', '172.16', '10.10'];
-            if(localPatterns.some(pattern => this.sshDetails.host.includes(pattern))) {
+            const localPatterns = ['localhost', '192.168', '127.0', '172.16', '10.10'];
+            if (localPatterns.some(pattern => this.sshDetails.host.startsWith(pattern))) {
                 this.isLoading = false;
                 return this.errorMessage = 'Please enter a valid host';
             }

@@ -14,7 +14,7 @@ const app = express();
 const server = http.createServer(app);
 app.use(morgan(':method :url :status :response-time ms - :res[content-length] \n'));
 app.use(bodyParser.json());
-app.use(cors);
+app.use(cors({ origin: 'http://localhost:5173' }));
 
 // Setup Socket.io
 const io = socketIo(server, {
