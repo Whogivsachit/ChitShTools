@@ -11,7 +11,7 @@
                     <p class="text-xl text-muted">Welcome to ChitShTools, your go-to hub for a diverse collection of practical tools and scripts designed to simplify everyday tasks. Frustrated by the need to search for and utilize multiple websites for various utilities, I created ChitShTools to provide a comprehensive solution. This platform is free for everyone, forever. Enjoy seamless access to all the tools you need, all in one place.</p>
                 </cardComponent>
                 <cardComponent title="Are we missing a tool?" :divider="true" class="w-full md:w-1/2">
-                    <p class="text-xl text-muted">Join our community on Discord to request new tools and features! We are committed to continuously improving ChitShTools based on user feedback. By joining our Discord, you can directly share your suggestions and ideas, helping us to develop the tools you need. Be a part of our growing community and contribute to making ChitShTools even better.</p>
+                    <p class="text-xl text-muted">Join our community on <a href="https://discord.gg/eMa7YDzJUT" class="underline">Discord</a> to request new tools and features! We are committed to continuously improving ChitShTools based on user feedback. By joining our Discord, you can directly share your suggestions and ideas, helping us to develop the tools you need. Be a part of our growing community and contribute to making ChitShTools even better.</p>
                 </cardComponent>
             </div>
 

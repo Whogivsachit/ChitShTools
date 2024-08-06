@@ -60,6 +60,10 @@
     border-bottom: 2px solid rgba(60, 62, 69, 0.6);
 }
 
+.border-glowing-top {
+    border-top: 2px solid rgba(60, 62, 69, 0.6);
+}
+
 .glow-in {
     animation: glowFadeIn 1s forwards;
 }
