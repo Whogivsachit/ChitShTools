@@ -33,3 +33,5 @@ coverage
 .env
 .vscode
 client/public/downloads
+server/src/helpers/expressLogger.js
+server/src/helpers/socketLogger.js

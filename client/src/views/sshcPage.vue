@@ -51,7 +51,6 @@
                     </pre>
                     <input type="text" v-model="command" @keyup.enter="inputCommand" placeholder="Enter Command..." class="bg-foreground/75 w-full mt-3 rounded-md"/>
                 </cardComponent>
-
             </div>
         </div>
     </appLayout>
@@ -91,7 +90,7 @@ export default {
             this.errorMessage = '';
             this.successMessage = '';
 
-            const localPatterns = ['localhost', '192.168', '127.0', '172.16', '10.10'];
+            const localPatterns = ['localhost', '192.168', '127.0', '172.16', '10.10', '0.0'];
             if (localPatterns.some(pattern => this.sshDetails.host.startsWith(pattern))) {
                 this.isLoading = false;
                 return this.errorMessage = 'Please enter a valid host';

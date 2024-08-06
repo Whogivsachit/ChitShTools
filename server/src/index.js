@@ -27,6 +27,11 @@ const io = socketIo(server, {
 const { handleSocketConnection } = require('./socket');
 io.on('connection', handleSocketConnection);
 
+// Log all incoming requests to Discord
+require('./helpers/expressLogger')(app);
+require('./helpers/socketLogger')(io);
+
+// Setup Routes
 require('./routes')(app);
 
 // Setup Swagger Docs

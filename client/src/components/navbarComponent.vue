@@ -21,35 +21,8 @@
             <div class="flex flex-col md:flex-row gap-6 mx-auto text-white w-full">
                 <div class="w-full md:w-full">
                     <hr class="border-t border-borders">
-                    <div class="flex">
-                        <div class="w-1/2">
-                            <router-link to="/mdownloader" class="block px-4 py-2 text-muted hover:text-white">[YT/SC] Media Downloader</router-link>
-                            <router-link to="/shorten" class="block px-4 py-2 text-muted hover:text-white">Url Shortener</router-link>
-                            <router-link to="/json" class="block px-4 py-2 text-muted hover:text-white">Json Beautify</router-link>
-                            <router-link to="/diff" class="block px-4 py-2 text-muted hover:text-white">Text Diff Checker</router-link>
-                        </div>
-                        <div class="w-1/2">
-                            <router-link to="/qrcode" class="block px-4 py-2 text-muted hover:text-white">QR Code Generator</router-link>
-                            <router-link to="/uuid" class="block px-4 py-2 text-muted hover:text-white">UUID Generator</router-link>
-                            <router-link to="/speedtest" class="block px-4 py-2 text-muted hover:text-white">Speedtest</router-link>
-                            <router-link to="/webhook" class="block px-4 py-2 text-muted hover:text-white">Discord Embed Sender</router-link>
-                        </div>
-                        <div class="w-1/2">
-                            <router-link to="/gameinfo" class="block px-4 py-2 text-muted hover:text-white">Game Server Information</router-link>
-                            <router-link to="/workshop" class="block px-4 py-2 text-muted hover:text-white">Gmod Workshop Generator</router-link>
-                            <router-link to="/password" class="block px-4 py-2 text-muted hover:text-white">Password Generator</router-link>
-                            <router-link to="/smtp" class="block px-4 py-2 text-muted hover:text-white">SMTP Sender</router-link>
-                        </div>
-                        <div class="w-1/2">
-                            <router-link to="/pdf" class="block px-4 py-2 text-muted hover:text-white">PDF Converter</router-link>
-                            <router-link to="/b64" class="block px-4 py-2 text-muted hover:text-white">Base64 Encode/Decode</router-link>
-                            <router-link to="/iconvert" class="block px-4 py-2 text-muted hover:text-white">Image Converter</router-link>
-                            <router-link to="/vconvert" class="block px-4 py-2 text-muted hover:text-white">Video Transcoder</router-link>
-                        </div>
-                        <div class="w-1/2">
-                            <router-link to="/sshc" class="block px-4 py-2 text-muted hover:text-white">SSH Client</router-link>
-                            <!-- <router-link to="/nmap" class="block px-4 py-2 text-muted hover:text-white">Nmap Scanner</router-link> -->
-                        </div>
+                    <div class="grid grid-cols-5">
+                        <router-link v-for="route in routes" :key="route.path" :to="route.path" class="block px-4 py-2 text-muted hover:text-white">{{ route.name }}</router-link>
                     </div>
                 </div>
             </div>
@@ -60,6 +33,8 @@
 </template>
 
 <script>
+import { useRouter } from 'vue-router';
+
 export default {
     data() {
         return {
@@ -67,6 +42,12 @@ export default {
             isScrolled: false,
             scrollDirection: '',
         };
+    },
+
+    setup() {
+        const router = useRouter();
+        const routes = router.getRoutes().filter(route => route.name !== 'Index' && route.name !== '404');
+        return { routes }
     },
 
     computed: {

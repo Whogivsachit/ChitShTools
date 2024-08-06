@@ -50,6 +50,12 @@ export default {
         .then(response => response.data)
     },
 
+    // Nmap Scan
+    async nmap(body) {
+        return Api().post(`nmap`, body)
+        .then(response => response.data)
+    },
+
     // Test Upload Speed
     async testUpload(body) {
         return Api().post(`testUpload`, body, {
@@ -61,6 +67,12 @@ export default {
     // Test Download Speed
     async testDownload() { 
         return Api().get(`testDownload`)
+        .then(response => response.data)
+    },
+
+    // Css Beautify/Minify
+    async css(body) {
+        return Api().post(`css`, body)
         .then(response => response.data)
     },
 

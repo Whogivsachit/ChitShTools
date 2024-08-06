@@ -8,93 +8,103 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'index',
+      name: 'Index',
       component: () => import('../views/indexPage.vue')
     },
     {
       path: '/mdownloader',
-      name: 'mediaDownloader',
+      name: '[YT/SC] Media Downloader',
       component: () => import('../views/mdownPage.vue')
     },
     {
       path: '/gameinfo',
-      name: 'gameInfo',
+      name: 'Game Server Information',
       component: () => import('../views/gameInfoPage.vue')
     },
     {
       path: '/webhook',
-      name: 'webhook',
+      name: 'Discord Embed Sender',
       component: () => import('../views/webhookPage.vue')
     },
     {
       path: '/smtp',
-      name: 'smtp',
+      name: 'SMTP Sender',
       component: () => import('../views/smtpPage.vue')
     },
     {
       path: '/workshop',
-      name: 'workshop',
+      name: 'Gmod Workshop Generator',
       component: () => import('../views/workshopPage.vue')
     },
     {
       path: '/shorten',
-      name: 'shorten',
+      name: 'Url Shortener',
       component: () => import('../views/shortenPage.vue')
     },
     {
       path: '/qrcode',
-      name: 'qrCode',
+      name: 'QR Code Generator',
       component: () => import('../views/qrCodePage.vue')
     },
     {
       path: '/b64',
-      name: 'base64',
+      name: 'Base64 Encode/Decode',
       component: () => import('../views/base64Page.vue')
     },
     {
       path: '/json',
-      name: 'json',
+      name: 'Json Beautify',
       component: () => import('../views/jsonPage.vue')
     },
     {
       path: '/diff',
-      name: 'diff',
+      name: 'Text Diff Checker',
       component: () => import('../views/diffPage.vue')
     },
     {
       path: '/uuid',
-      name: 'uuid',
+      name: 'UUID Generator',
       component: () => import('../views/uuidPage.vue')
     },
     {
       path: '/password',
-      name: 'password',
+      name: 'Password Generator',
       component: () => import('../views/passwordPage.vue')
     },
     {
       path: '/pdf',
-      name: 'pdfConverter',
+      name: 'PDF Converter',
       component: () => import('../views/pdfPage.vue')
     },
     {
       path: '/iconvert',
-      name: 'iconvert',
+      name: 'Image Converter',
       component: () => import('../views/imagePage.vue')
     },
     {
       path: '/vconvert',
-      name: 'vconvert',
+      name: 'Video Transcoder',
       component: () => import('../views/videoPage.vue')
     },
     {
       path: '/speedtest',
-      name: 'speedtest',
+      name: 'Speedtest',
       component: () => import('../views/speedTestPage.vue')
     },
     {
       path: '/sshc',
-      name: 'sshc',
+      name: 'SSH Client',
       component: () => import('../views/sshcPage.vue')
+    },
+    {
+      path: '/nmap',
+      name: 'Nmap Scanner',
+      component: () => import('../views/nmapPage.vue')
+    },
+    {
+      path: '/css',
+      name: "CSS Minify/Beautify",
+      component: () => import('../views/cssPage.vue')
     },
     {
       path: '/:pathMatch(.*)*',

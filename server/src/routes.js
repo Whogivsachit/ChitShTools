@@ -39,4 +39,10 @@ module.exports = (app) => {
     app.post('/testUpload', upload.single('file'), controllers.speedTestController.testUp);
     app.get('/testDownload', controllers.speedTestController.testDown);
 
+    // Nmap Routes
+    app.post('/nmap', controllers.nmapController.nmap);
+
+    // Css Routes
+    app.post('/css', controllers.cssController.css);
+
 }
