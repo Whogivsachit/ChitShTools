@@ -9,9 +9,10 @@ module.exports = (server) => {
     // Create a new socket server
     const io = socketIo(server, {
         cors: {
-            origin: process.env.ORGIN,
+            origin: '*',
             methods: ["GET", "POST"]
-        }
+        },
+        path: '/socket.io',
     });
 
     // Listen for new connections

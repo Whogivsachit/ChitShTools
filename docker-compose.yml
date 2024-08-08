@@ -6,7 +6,10 @@ services:
       context: ./client
     ports:
       - "3001:80"
+    container_name: chitShTools-frontend
     depends_on:
+      - backend
+    links:
       - backend
 
   backend:
@@ -14,3 +17,4 @@ services:
       context: ./server
     ports:
       - "3000:3000"
+    container_name: chitShTools-backend

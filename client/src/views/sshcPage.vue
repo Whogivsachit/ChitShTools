@@ -90,7 +90,11 @@ export default {
                 return this.errorMessage = 'Please enter a valid host';
             }
 
-            this.socket = io(this.$socketUrl);            
+            this.socket = io(this.$appUrl, {
+                path: '/socket.io',
+                transports: ['polling', 'websocket'], // Allows both polling and websocket
+            });         
+
             this.socket.on('connect', () => {
                 console.log(`[WebSocket] connected: (${this.sshDetails.host}:${this.sshDetails.port})`);
                 this.socket.emit('connectSSH', this.sshDetails);
