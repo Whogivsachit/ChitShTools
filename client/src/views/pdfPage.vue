@@ -64,6 +64,16 @@ export default {
             this.convertToPdf();
         },
 
+        downloadBlob(blob, filename) {
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `${filename}`);
+            document.body.appendChild(link);
+            link.click();
+            window.URL.revokeObjectURL(url);
+        },
+
         async convertToPdf() {
             if (!this.file) return this.errorMessage = 'Please select a file first.';
             this.successMessage = '';
@@ -79,17 +89,7 @@ export default {
                 if(!response) return this.errorMessage = 'Error converting file.';
                 console.log(`[PDF Converter]: PDF file created successfully.`);
 
-                // Create a Blob from the PDF Stream
-                const url = window.URL.createObjectURL(response);
-                const link = document.createElement('a');
-                link.href = url;
-                link.setAttribute('download', `[ChitShTools] ${this.file.name.split('.')[0]}.pdf`);
-                document.body.appendChild(link);
-                link.click();
-
-                // Clean up and remove the Blob URL
-                window.URL.revokeObjectURL(url);
-
+                this.downloadBlob(response, `[${this.$appName}] ${this.file.name.split('.')[0]}.pdf`);
                 this.successMessage = 'Successfully converted file to PDF.';
             } catch (error) {
                 this.errorMessage = 'Error converting file.';

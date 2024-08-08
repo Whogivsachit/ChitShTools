@@ -10,35 +10,29 @@
                     <template #response>
                         <div class="text-2xl font-bold pb-2" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
                     </template>
-                    <form @submit.prevent="connectToSSH">
-                        <div class="flex flex-col md:flex-row gap-4">
-                            <!-- Server Host -->
-                            <div class="flex flex-col w-full text-white">
-                                <span class="text-sm pl-1 pb-1">Server Host</span>
-                                <input type="text" v-model="sshDetails.host" placeholder="192.168.1.1" class="border border-borders rounded-l-md bg-background/75">
-                            </div>
-
-                            <!-- Server Port -->
-                            <div class="flex flex-col w-full text-white">
-                                <span class="text-sm pl-1 pb-1">Server Port <span class="text-muted">[21, 22]</span></span>
-                                <input type="number" v-model="sshDetails.port" placeholder="22" class="border border-borders rounded-r-md bg-background/75">
-                            </div>
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <div class="flex flex-col w-full text-white">
+                            <span class="text-sm pl-1 pb-1">Server Host</span>
+                            <input type="text" v-model="sshDetails.host" placeholder="192.168.1.1" class="border border-borders rounded-l-md bg-background/75">
                         </div>
-                        <div class="flex gap-4 pt-2">
-                            <!-- Username -->
-                            <div class="flex flex-col w-full text-white">
-                                <span class="text-sm pl-1 pb-1">Username</span>
-                                <input type="text" v-model="sshDetails.username" placeholder="Username" class="border border-borders rounded-l-md bg-background/75">
-                            </div>
 
-                            <!-- Password -->
-                            <div class="flex flex-col w-full text-white">
-                                <span class="text-sm pl-1 pb-1">Password</span>
-                                <input type="password" v-model="sshDetails.password" placeholder="Password" class="border border-borders rounded-r-md bg-background/75">
-                            </div>
+                        <div class="flex flex-col w-full text-white">
+                            <span class="text-sm pl-1 pb-1">Server Port <span class="text-muted">[21, 22]</span></span>
+                            <input type="number" v-model="sshDetails.port" placeholder="22" class="border border-borders rounded-r-md bg-background/75">
                         </div>
-                        <button type="submit" class="bg-accent hover:bg-blue-800 text-white rounded-md mt-5 px-5 py-2">Connect</button>
-                    </form>
+                    </div>
+                    <div class="flex gap-4 pt-2">
+                        <div class="flex flex-col w-full text-white">
+                            <span class="text-sm pl-1 pb-1">Username</span>
+                            <input type="text" v-model="sshDetails.username" placeholder="Username" class="border border-borders rounded-l-md bg-background/75">
+                        </div>
+
+                        <div class="flex flex-col w-full text-white">
+                            <span class="text-sm pl-1 pb-1">Password</span>
+                            <input type="password" v-model="sshDetails.password" placeholder="Password" class="border border-borders rounded-r-md bg-background/75">
+                        </div>
+                    </div>
+                    <button @click="connectToSSH" class="bg-accent hover:bg-blue-800 text-white rounded-md mt-5 px-5 py-2">Connect</button>
                 </cardComponent>
 
                 <cardComponent v-if="isConnected" title="Shell" :divider="true" class="w-full h-[77vh]">
@@ -65,7 +59,7 @@ export default {
     data() {
         return {
             sshDetails: {
-                host: '',
+                host: '45.8.22.164',
                 port: 22,
                 username: 'root',
                 password: ''
@@ -96,8 +90,7 @@ export default {
                 return this.errorMessage = 'Please enter a valid host';
             }
 
-            this.socket = io('http://localhost:3000');
-            
+            this.socket = io(this.$socketUrl);            
             this.socket.on('connect', () => {
                 console.log(`[WebSocket] connected: (${this.sshDetails.host}:${this.sshDetails.port})`);
                 this.socket.emit('connectSSH', this.sshDetails);
@@ -124,6 +117,7 @@ export default {
             this.command = '';
         }, 
 
+        // Cant use inputCommand since its bound to this.command we will use this to send commands only the fly like ^c
         async sendCommand(data) {
             this.socket.emit('command', data);
         },

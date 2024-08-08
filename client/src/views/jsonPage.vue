@@ -3,11 +3,9 @@
         <div class="container mx-auto px-2 md:px-0">
             <loadingBar :isLoading="isLoading" />
 
-            <!-- Header -->
             <headerComponent title="Json Beautify" description="Convert your ugly bland json to beautiful formatted and easy to read json" />
 
             <div class="flex flex-col md:flex-row gap-6">
-                <!-- RawJson -->
                 <cardComponent title="RawJson" :divider="true" class="w-full md:w-1/2">
                     <template #buttons>
                         <button @click="beautify" :disabled="isJsonInvalid" :class="isJsonInvalid ? 'bg-muted' : 'bg-green-600'" class="bg-green-600 text-white rounded-md px-4 py-1 mt-3">Beautify</button>
@@ -17,13 +15,12 @@
                     <textarea v-model="rawJson" class="bg-background/75 text-white p-2 rounded-md mb-5 h-64 mt-2 w-full" placeholder="Enter Raw Json"></textarea>
                 </cardComponent>
 
-                <!-- PrettyJson -->
                 <cardComponent title="Pretty Json" :divider="true" class="w-full md:w-1/2">
                     <template #response>
                         <div class="text-2xl font-bold" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ message }}</div>
                     </template>
                     <pre class="bg-background p-5 rounded-md pt-0 h-fit">
-                        <code class="text-muted block" v-html="fancyJson"></code>
+                        <code class="text-muted block">{{ fancyJson }}</code>
                     </pre>   
                 </cardComponent>
             </div>

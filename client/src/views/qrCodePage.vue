@@ -3,33 +3,25 @@
         <div class="container mx-auto">
             <loadingBar :isLoading="isLoading" />
 
-            <!-- Header -->
             <headerComponent title="Qr Code Generator" description="Generate personalized Qr Codes in seconds." />
 
-            <!-- Main Content -->
             <div class="flex flex-col md:flex-row gap-5">
-                <!-- Form -->
                 <cardComponent :divider="false" class="w-full md:w-1/2">
-                    <form @submit.prevent="generateCode">
                         <div class="flex flex-col md:flex-row gap-4">
-                            <!-- Workshop Name -->
                             <div class="flex flex-col w-full text-white">
                                 <span class="text-sm pl-1 pb-1">Url/Text</span>
                                 <input type="text" v-model="text" placeholder="https://chit.sh | my text" class="border border-borders rounded-md bg-background/75">
-                                <button type="submit" class="bg-accent text-white rounded-r-md px-4 py-1 mt-3">Generate</button>
+                                <button @click="generateCode" class="bg-accent text-white rounded-r-md px-4 py-1 mt-3">Generate</button>
                             </div>
                         </div>
-                    </form>
                 </cardComponent>
 
-                <!-- Instructions -->
                 <cardComponent title="Instructions" class="w-full md:w-1/2">
                     <p>Step 1. Enter the URL or Text you wish to create a QR Code for.<br/>Step 2. Select a theme below<br/>Step 3. Click Generate</p>
                 </cardComponent>
             </div>
 
             <div class="flex flex-col md:flex-row gap-5 pt-5">
-                <!-- Result -->
                 <cardComponent title="Qr Code" class="w-full md:w-1/2">
                     <template #response>
                         <div class="text-2xl font-bold" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
@@ -39,7 +31,6 @@
                     </div>
                 </cardComponent>
 
-                <!-- Themes -->
                 <cardComponent title="Themes" class="w-full md:w-1/2">
                     <div class="flex place-content-between">
                         <div class="flex gap-3 pt-2 w-full">
@@ -62,7 +53,6 @@
                         </div>
                     </div>
                     <hr class="border-borders my-2">
-                    <!-- Color Picker -->
                     <div class="flex gap-6 py-5 place-content-between">
                         <div>
                             <span class="text-white">Foreground Color</span>
@@ -120,16 +110,13 @@ export default {
             }
 
             const response = await coreService.generateQrCode({ text: this.text, colors: { foreground: this.foregroundColor, background: this.backgroundColor} });
+            if(response.status !== 200 ) {
+                this.errorMessage = response.message;
+                return this.isLoading = false;
+            }
             console.log(`[QrCodeGenerator]: ${response.message}`);
 
-            if(response.status === 200) {
-                this.qrCode = response.data;
-                this.successMessage = response.message
-            } else {
-                console.log(response);
-                this.errorMessage = response.message
-            }
-
+            this.qrCode = response.data;
             this.isLoading = false;
         },
 

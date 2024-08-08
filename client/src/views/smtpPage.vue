@@ -3,70 +3,57 @@
         <div class="container mx-auto px-2 md:px-0">
             <loadingBar :isLoading="isLoading" />
 
-            <!-- Header -->
             <headerComponent title="SMTP Test Tool" description="Quickly and easily test your connection to Sendgrid, Mailgun, Amazon SES, or any smtp server." />
 
-            <!-- Form -->
             <cardComponent :divider="false">
-                <form @submit.prevent="sendEmail">
-                    <div class="flex flex-col md:flex-row gap-4">
-                        <!-- SMTP URL -->
-                        <div class="flex flex-col w-full text-white">
-                            <span class="text-sm pl-1 pb-1">SMTP Server IP/URL</span>
-                            <input type="text" v-model="smtpServer" placeholder="your.site.com" class="border border-borders rounded-l-md bg-background/75">
-                        </div>
-
-                        <!-- SMTP port -->
-                        <div class="flex flex-col w-full text-white">
-                            <span class="text-sm pl-1 pb-1">SMTP Port <span class="text-muted">[25, 2525, 465, 587]</span></span>
-                            <input type="number" v-model="smtpPort" placeholder="587" class="border border-borders rounded-r-md bg-background/75">
-                        </div>
-
-                        <!-- Security Type -->
-                        <div class="flex flex-col w-full text-white">
-                            <span class="text-sm pl-1 pb-1">Security Type</span>
-                            <select v-model="smtpSecurity" class="text-white border border-borders rounded-md bg-background/75 w-full">
-                                <option value="auto">Auto</option>
-                                <option value="none">None</option>
-                                <option value="ssl">SSL</option>
-                                <option value="tls">TLS</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="flex gap-4 pt-2">
-                        <!-- Username -->
-                        <div class="flex flex-col w-full text-white">
-                            <span class="text-sm pl-1 pb-1">Username</span>
-                            <input type="text" v-model="username" placeholder="Username" class="border border-borders rounded-l-md bg-background/75">
-                        </div>
-
-                        <!-- Password -->
-                        <div class="flex flex-col w-full text-white">
-                            <span class="text-sm pl-1 pb-1">Password</span>
-                            <input type="password" v-model="password" placeholder="Password" class="border border-borders rounded-r-md bg-background/75">
-                        </div>
-                    </div>
-                    <div class="flex gap-4 pt-2">
-                        <!-- To -->
-                        <div class="flex flex-col w-full text-white">
-                            <span class="text-sm pl-1 pb-1">To Email Address</span>
-                            <input type="text" v-model="to" placeholder="To" class="border border-borders rounded-l-md bg-background/75">
-                        </div>
-
-                        <!-- From -->
-                        <div class="flex flex-col w-full text-white">
-                            <span class="text-sm pl-1 pb-1">From Email Address</span>
-                            <input type="text" v-model="from" placeholder="From" class="border border-borders rounded-r-md bg-background/75">
-                        </div>
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="flex flex-col w-full text-white">
+                        <span class="text-sm pl-1 pb-1">SMTP Server IP/URL</span>
+                        <input type="text" v-model="smtpServer" placeholder="your.site.com" class="border border-borders rounded-l-md bg-background/75">
                     </div>
 
-                    <button type="submit" class="bg-accent hover:bg-blue-800 text-white rounded-md mt-5 px-5 py-2">Send Email</button>
-                    <div class="text-2xl font-bold mt-4" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
-                </form>
+                    <div class="flex flex-col w-full text-white">
+                        <span class="text-sm pl-1 pb-1">SMTP Port <span class="text-muted">[25, 2525, 465, 587]</span></span>
+                        <input type="number" v-model="smtpPort" placeholder="587" class="border border-borders rounded-r-md bg-background/75">
+                    </div>
+
+                    <div class="flex flex-col w-full text-white">
+                        <span class="text-sm pl-1 pb-1">Security Type</span>
+                        <select v-model="smtpSecurity" class="text-white border border-borders rounded-md bg-background/75 w-full">
+                            <option value="auto">Auto</option>
+                            <option value="none">None</option>
+                            <option value="ssl">SSL</option>
+                            <option value="tls">TLS</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex gap-4 pt-2">
+                    <div class="flex flex-col w-full text-white">
+                        <span class="text-sm pl-1 pb-1">Username</span>
+                        <input type="text" v-model="username" placeholder="Username" class="border border-borders rounded-l-md bg-background/75">
+                    </div>
+
+                    <div class="flex flex-col w-full text-white">
+                        <span class="text-sm pl-1 pb-1">Password</span>
+                        <input type="password" v-model="password" placeholder="Password" class="border border-borders rounded-r-md bg-background/75">
+                    </div>
+                </div>
+                <div class="flex gap-4 pt-2">
+                    <div class="flex flex-col w-full text-white">
+                        <span class="text-sm pl-1 pb-1">To Email Address</span>
+                        <input type="text" v-model="to" placeholder="To" class="border border-borders rounded-l-md bg-background/75">
+                    </div>
+
+                    <div class="flex flex-col w-full text-white">
+                        <span class="text-sm pl-1 pb-1">From Email Address</span>
+                        <input type="text" v-model="from" placeholder="From" class="border border-borders rounded-r-md bg-background/75">
+                    </div>
+                </div>
+
+                <button @click="sendEmail" class="bg-accent hover:bg-blue-800 text-white rounded-md mt-5 px-5 py-2">Send Email</button>
+                <div class="text-2xl font-bold mt-4" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
             </cardComponent>
 
-
-            <!-- SMTP Information -->
             <cardComponent title="Confused on how this works?" class="mt-5">
                 <ul class="text-muted">
                     <li>Fill out the form with your SMTP server information.</li>

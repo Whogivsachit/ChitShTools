@@ -57,7 +57,7 @@ export default {
 
             const response = await coreService.css({ css: this.css, type });
             if(response.status !== 200) {
-                this.errorMessage = response.message;
+                this.errorMessage = response.message;  
                 return this.isLoading = false;
             }
 

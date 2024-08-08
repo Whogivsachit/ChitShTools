@@ -45,4 +45,8 @@ module.exports = (app) => {
     // Css Routes
     app.post('/css', controllers.cssController.css);
 
+    // Whois/Dns Routes
+    app.post('/whois', controllers.domainController.whois);
+    app.post('/dns', controllers.domainController.dns);
+
 }

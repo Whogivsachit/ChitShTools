@@ -7,31 +7,17 @@ const swaggerUi = require('swagger-ui-express');
 const YAML = require('yaml');
 const fs = require('fs');
 const http = require('http');
-const socketIo = require('socket.io');
 require('dotenv').config()
 
+// Setup Our App
 const app = express();
 const server = http.createServer(app);
 app.use(morgan(':method :url :status :response-time ms - :res[content-length] \n'));
 app.use(bodyParser.json());
-app.use(cors({ origin: 'http://localhost:5173' }));
+app.use(cors({ origin: process.env.ORGIN }));
 
-// Setup Socket.io
-const io = socketIo(server, {
-    cors: {
-        origin: "http://localhost:5173",
-        methods: ["GET", "POST"]
-    }
-});
-
-const { handleSocketConnection } = require('./socket');
-io.on('connection', handleSocketConnection);
-
-// Log all incoming requests to Discord
-require('./helpers/expressLogger')(app);
-require('./helpers/socketLogger')(io);
-
-// Setup Routes
+// Setup Sockets and Routes
+require('./sockets')(server);
 require('./routes')(app);
 
 // Setup Swagger Docs

@@ -19,6 +19,7 @@
     "cors": "^2.8.5",
     "cssnano": "^7.0.4",
     "discord-webhook-node": "^1.1.8",
+    "dns2": "^2.1.0",
     "docx-pdf": "^0.0.1",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
@@ -47,6 +48,7 @@
     "socket.io": "^4.7.5",
     "ssh2": "^1.15.0",
     "swagger-ui-express": "^5.0.1",
+    "whois": "^2.14.2",
     "ws": "^8.18.0",
     "yaml": "^2.5.0",
     "youtube-dl-exec": "^3.0.2"

@@ -16,6 +16,8 @@ tags:
     description: Urls related services
   - name: Utilities
     description: Utility services
+  - name: Domains
+    description: Domain related services
   - name: Development
     description: Development and Debugging
 paths: 
@@ -762,5 +764,222 @@ paths:
               message:
                 type: string
                 example: "An error occured while downloading file"
-
-
+  /api/nmap:
+    post:
+      tags: [Utilities]
+      summary: Scan a network
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Body of the request
+          required: true
+          schema:
+            type: object
+            properties:
+              host:
+                type: string
+                example: "1.1.1.1"
+              flags:
+                type: string
+                example: "-sS -sV"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: "Scan Complete"
+              data:
+                type: string
+                example: "Scan Results"
+        500:
+          description: Error Scanning Network
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              message:
+                type: string
+                example: "An error occured while scanning network"
+  /api/css:
+    post:
+      tags: [Utilities]
+      summary: Minify or Unminify CSS
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Body of the request
+          required: true
+          schema:
+            type: object
+            properties:
+              css:
+                type: string
+                example: "body { color: red; }"
+              type:
+                type: string
+                example: "minify"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: "Success"
+              result:
+                type: string
+                example: "minified css"
+        500:
+          description: Error processing CSS
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              message:
+                type: string
+                example: "Invalid Css"
+        400:
+          description: Malformed Body
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              message:
+                type: string
+                example: "Malformed Body"
+  /api/whois:
+    post:
+      tags: [Domains]
+      summary: Get Whois Information
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Body of the request
+          required: true
+          schema:
+            type: object
+            properties:
+              domain:
+                type: string
+                example: "example.com"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: "Successfuly pulled whois Information"
+              data:
+                type: string
+                example: "Whois Data"
+        500:
+          description: Error getting Whois Information
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              message:
+                type: string
+                example: "An error occured while getting whois information"
+        401:
+          description: Malformed Body
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              message:
+                type: string
+                example: "Malformed Body"
+  /api/dns:
+    post:
+      tags: [Domains]
+      summary: Get DNS Information
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Body of the request
+          required: true
+          schema:
+            type: object
+            properties:
+              domain:
+                type: string
+                example: "example.com"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: "Successfuly pulled DNS Information"
+              data:
+                type: string
+                example: "DNS Data"
+        500:
+          description: Error getting DNS Information
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              message:
+                type: string
+                example: "An error occured while getting DNS information"
+        401:
+          description: Malformed Body
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              message:
+                type: string
+                example: "Malformed Body"

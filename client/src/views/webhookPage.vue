@@ -3,30 +3,25 @@
         <div class="container mx-auto px-2 md:px-0">
             <loadingBar :isLoading="isLoading" />
 
-            <!-- Header -->
             <headerComponent title="Webhook Sender" description="Quickly send indepth and beautiful embeds to any webhook" />
 
             <div class="text-2xl font-bold" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
 
             <div class="flex flex-col md:flex-row gap-0 md:gap-6">
 
-                <!-- Left -->
                 <cardComponent title="Webhook Sender" class="w-full md:w-1/2">
                     <template #buttons>
                         <button @click.prevent="clearAll" class="bg-background/75 hover:bg-background text-white rounded-md px-2 py-1 text-lg">Clear All</button>
                         <button @click.prevent="sendContent" class="bg-background/75 hover:bg-background text-white rounded-md px-2 py-1 text-lg">Send Only Content</button>
                         <button @click.prevent="sendEmbed" class="bg-background/75 hover:bg-background text-white rounded-md px-2 py-1 text-lg">Send Embed</button>
                     </template>
-                    <form class="space-y-3 pt-2">
+                    <div class="space-y-3 pt-2">
                        
-                       <!-- Webhook URL -->
                        <input type="text" v-model="webhookUrl" placeholder="webhookURL" class="text-white border border-borders rounded-l-md bg-background/75 w-full">
 
-                       <!-- Content -->
                        <h2 class="text-white font-semibold text-lg">Content</h2>
                        <textarea v-model="content" placeholder="content" class="text-white border border-borders rounded-md bg-background/75 w-full h-64"></textarea>
 
-                       <!-- Profile -->
                        <h2 class="text-white font-semibold text-lg">Profile</h2>
                        <input type="text" v-model="profile" placeholder="Profile" class="text-white border border-borders rounded-md bg-background/75 w-full">
                        <div class="flex gap-2">
@@ -34,14 +29,12 @@
                            <input type="text" v-model="profileUrl" placeholder="Profile URL" class="text-white border border-borders rounded-md bg-background/75 w-1/2">
                        </div>
 
-                       <!-- Author -->
                        <h2 class="text-white font-semibold text-lg">Author</h2>
                        <div class="flex gap-2">
                            <input type="text" v-model="author" placeholder="Author" class="text-white border border-borders rounded-md bg-background/75 w-1/2">
                            <input type="text" v-model="authorIcon" placeholder="Author Icon URL" class="text-white border border-borders rounded-md bg-background/75 w-1/2">
                        </div>
 
-                       <!-- Body -->
                        <h2 class="text-white font-semibold text-lg">Body</h2>
                        <input type="text" v-model="title" placeholder="Title" class="text-white border border-borders rounded-md bg-background/75 w-full">
                        <input type="text" v-model="description" placeholder="Description" class="text-white border border-borders rounded-md bg-background/75 w-full">
@@ -50,14 +43,12 @@
                            <input type="text" v-model="color" placeholder="Color" class="text-white border border-borders rounded-md bg-background/75 w-full">  
                        </div>
 
-                       <!-- Images -->
                        <h2 class="text-white font-semibold text-lg">Images</h2>
                        <div class="flex gap-2">
                            <input type="text" v-model="thumbnail" placeholder="Thumbnail URL" class="text-white border border-borders rounded-md bg-background/75 w-1/2">
                            <input type="text" v-model="image" placeholder="Image URL" class="text-white border border-borders rounded-md bg-background/75 w-1/2">
                        </div>
 
-                       <!-- Footer -->
                        <h2 class="text-white font-semibold text-lg">Footer</h2>
                        <input type="text" v-model="footer" placeholder="Footer" class="text-white border border-borders rounded-md bg-background/75 w-full">
                        <div class="flex gap-2">
@@ -65,7 +56,6 @@
                            <input type="text" v-model="timestamp" placeholder="Timestamp" class="text-white border border-borders rounded-md bg-background/75 w-1/2">
                        </div>
 
-                       <!-- Fields -->
                        <div class="flex place-content-between items-center">
                            <h2 class="text-white font-semibold text-lg">Fields</h2>
                            <button @click.prevent="addField" class="bg-background/75 hover:bg-background text-white rounded-md px-2 py-1 text-lg">Add Field</button>
@@ -79,10 +69,9 @@
                            <input type="text" v-model="field.name" placeholder="Name" class="text-white border border-borders rounded-md bg-background/75 w-full">
                            <input type="text" v-model="field.value" placeholder="Value" class="text-white border border-borders rounded-md bg-background/75 w-full">
                        </div>
-                   </form>
+                    </div>
                 </cardComponent>
                 
-                <!-- Right -->
                 <cardComponent title="Preview" description="Discord Markdown does work but will not be displayed on this page." class="w-full md:w-1/2 mt-5 md:mt-0">
                     <div class="flex flex-col pt-2">
                         <div class="flex gap-2">
@@ -226,11 +215,8 @@ export default {
 
             const response = await coreService.sendWebhook({webhookUrl: this.webhookUrl, webhook, contentOnly: true});
             console.log(`[Webhook Sender]: ${response.response}`);
-            if(response.status === 200) {
-                this.successMessage = response.response;
-            } else {
-                this.errorMessage = response.response;
-            }
+            
+            response.status === 200 ? this.successMessage = response.response : this.errorMessage = response.response; // Set response based on status
             this.isLoading = false;
         },
 

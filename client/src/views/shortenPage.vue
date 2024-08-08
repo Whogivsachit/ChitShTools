@@ -3,32 +3,21 @@
         <div class="container mx-auto">
             <loadingBar :isLoading="isLoading" />
 
-            <!-- Header -->
             <headerComponent title="Url Shortener" description="Quickly and efficiently genereate masked/shortened urls" />
 
-            <!-- Main Content -->
             <div class="flex flex-col md:flex-row gap-5">
-                <!-- Form -->
                 <cardComponent title="Url" :divider="false" class="w-full md:w-1/2">
-                    <form @submit.prevent="generateUrl">
-                        <div class="flex flex-col md:flex-row gap-4">
-                            <!-- Workshop Name -->
-                            <div class="flex flex-col w-full text-white">
-                                <span class="text-sm pl-1 pb-1">Url</span>
-                                <input type="text" v-model="originalUrl" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="border border-borders rounded-md bg-background/75">
-                                <button type="submit" class="bg-accent text-white rounded-r-md px-4 py-1 mt-3">Generate</button>
-                            </div>
-                        </div>
-                    </form>
+                    <div class="flex flex-col pt-2 w-full text-white">
+                        <input type="text" v-model="originalUrl" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="border border-borders rounded-md bg-background/75">
+                        <button @click="generateUrl" class="bg-accent text-white rounded-r-md px-4 py-1 mt-3">Generate</button>
+                    </div>
                 </cardComponent>
 
-                <!-- Instructions -->
                 <cardComponent title="Instructions" class="w-full md:w-1/2">
                     <p>Enter the URL you wish to create a shortened link for and click generate. <br/>Impressions will update every 5 seconds.</p>
                 </cardComponent>
             </div>
 
-            <!-- Result -->
             <cardComponent title="Link Information" class="w-full mt-5">
                 <template #response>
                     <div class="text-2xl font-bold" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
@@ -88,17 +77,15 @@ export default {
             this.shortUrl = '';
 
             const response = await coreService.generateShortUrl({ originalUrl: this.originalUrl});
+            if(response.status !== 200 ) {
+                this.errorMessage = response.message;
+                return this.isLoading = false;
+            }
             console.log(`[UrlShortener]: ${response.message}`);
 
-            if(response.status === 200) {
-                this.shortUrl = `${this.$appUrl}/api/shorten/${response.shortUrl}`;
-                this.impressions = response.impressions;
-                this.successMessage = 'Shortened URL generated successfully!';
-            } else {
-                console.log(response);
-                this.errorMessage = 'An error occurred while generating the shortened URL';
-            }
-
+            this.shortUrl = `${this.$appUrl}/api/shorten/${response.shortUrl}`;
+            this.impressions = response.impressions;
+            this.successMessage = 'Shortened URL generated successfully!';
             this.isLoading = false;
         },
 
@@ -108,6 +95,7 @@ export default {
         },
 
         async updateImpressions() {
+            if(!this.shortUrl) return;
             const response = await coreService.generateShortUrl({ originalUrl: this.originalUrl});
             if(response.status === 200) {
                 this.impressions = response.impressions;

@@ -11,7 +11,7 @@
                 <div class="hidden md:block space-x-0 md:space-x-8 text-xl text-muted">
                     <router-link to="/" active-class="active" class="hover:text-white" >Home</router-link>
                     <a href="#" @click="toggleDropdown($event)" class="hover:text-white" >Tools</a>
-                    <a href="http://localhost:5173/api/docs/" class="hover:text-white" >Api</a>
+                    <a class="hover:text-white" :href="$appUrl + `/api/docs/`" >Api</a>
                 </div>
             </div>
         </div>

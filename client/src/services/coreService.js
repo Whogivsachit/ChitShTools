@@ -76,6 +76,18 @@ export default {
         .then(response => response.data)
     },
 
+    // Whois
+    async whois(body) {
+        return Api().post(`whois`, body)
+        .then(response => response.data)
+    },
+
+    // DNS
+    async dns(body) {
+        return Api().post(`dns`, body)
+        .then(response => response.data)
+    },
+
     // Convert PDF
     async convertToPdf(body) {
         return Api().post(`convertToPdf`, body, { 

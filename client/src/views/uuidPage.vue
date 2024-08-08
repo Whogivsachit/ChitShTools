@@ -3,10 +3,8 @@
         <div class="container mx-auto">
             <headerComponent title="UUID Generator" description="Generate a unique UUID identifier" />
 
-            <!-- Error Messages -->
             <div class="text-2xl font-bold text-center pb-2 text-red-600">{{ showMessage }}</div>
 
-            <!-- Version Selector -->
             <div class="flex place-content-center text-white">
                 <div class="text-2xl self-center pr-3">Version: </div>
                 <div class="flex border border-borders rounded-full p-2 space-x-2">
@@ -17,12 +15,10 @@
                 </div>
             </div>
 
-            <!-- UUID Generator -->
             <div class="flex place-content-center pt-5 mx-auto">
                 <div class="flex flex-col space-y-3 w-full md:w-2/3">
                     
                     <div v-if="advanced" class="flex flex-col space-y-3">
-                        <!-- NameSpace -->
                         <div class="flex place-content-between text-white">
                             <span class="text-muted">NameSpace</span> 
                             <span @click="generateNameSpace" class="text-right text-accent">Generate Random NameSpace</span> 
@@ -32,14 +28,12 @@
                             <input type="text" v-model="nameSpace" class="text-white text-xl rounded-md w-full border-none bg-background" placeholder="(XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX)"/>
                         </div>
 
-                        <!-- Name -->
                         <span class="text-muted">Name</span>
                         <div class="border border-borders p-3 rounded-md">
                             <input type="text" v-model="name" class="text-white text-xl rounded-md w-full border-none bg-background" placeholder="Any Name Here"/>
                         </div>
                     </div>
 
-                    <!-- UUID -->
                     <span class="text-muted">UUID</span>
                     <div class="flex flex-col md:flex-row">
                         <span class="border border-borders p-3 rounded-md w-full">

@@ -70,6 +70,23 @@ export default {
             this.convertImage();
         },
 
+        createBlobFromBase64(base64, type) {
+            const byteCharacters = atob(base64);
+            const byteNumbers = Array.from(byteCharacters).map(char => char.charCodeAt(0));
+            const byteArray = new Uint8Array(byteNumbers);
+            return new Blob([byteArray], { type });
+        },
+
+        downloadBlob(blob, filename) {
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `[${this.$appName}] ${filename}`);
+            document.body.appendChild(link);
+            link.click();
+            window.URL.revokeObjectURL(url);
+        },
+
         async convertImage() {
             if (!this.file) return this.errorMessage = 'Please select a file first.';
             this.successMessage = '';
@@ -86,25 +103,9 @@ export default {
                 if(!response) throw new Error('Error converting image.');
                 console.log(`[Image Converter]: Success: ${response.message}`);
 
-                // Decode the base64 response and download the blob
-                const byteCharacters = atob(response.file);
-                const byteNumbers = new Array(byteCharacters.length);
-                for (let i = 0; i < byteCharacters.length; i++) {
-                    byteNumbers[i] = byteCharacters.charCodeAt(i);
-                }
-                const byteArray = new Uint8Array(byteNumbers);
-                const blob = new Blob([byteArray], { type: response.message.split('.')[1] });
+                const blob = this.createBlobFromBase64(response.file, response.message.split('.')[1]);
+                this.downloadBlob(blob, `${this.file.name.split('.')[0]}.${this.fileType}`);
 
-                // Download video
-                const url = window.URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.setAttribute('download', `[${this.$appName}] ${this.file.name.split('.')[0]}.${this.fileType}`);
-                document.body.appendChild(link);
-                link.click();
-
-                // Clean up and remove the Blob URL
-                window.URL.revokeObjectURL(url);
                 this.successMessage = 'Successfully converted image.';
             } catch (error) {
                 this.errorMessage = 'Error converting image.';
@@ -113,8 +114,7 @@ export default {
                 this.$refs.fileInput.value = null;
                 this.file = null;
             }
-        }
-
+        },
     }
 }
 </script>

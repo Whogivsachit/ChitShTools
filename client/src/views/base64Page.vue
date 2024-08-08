@@ -3,13 +3,11 @@
         <div class="container mx-auto px-2 md:px-0">
             <loadingBar :isLoading="isLoading" />
 
-            <!-- Header -->
             <headerComponent title="Base64 Encode/Decode" description="Encode or Decode base64 easily" />
 
             <div class="text-2xl font-bold pt-2 text-center pb-2" :class="messageClass">{{ showMessage }}</div>
 
             <div class="flex flex-col md:flex-row gap-6">
-                <!-- Encode Card -->
                 <cardComponent title="Encode" :divider="true" class="w-full md:w-1/2">
                     <template #buttons>
                         <button @click="modify('encode')" class="bg-green-600 text-white rounded-md px-4 py-1 mt-3">Encode</button>
@@ -20,7 +18,6 @@
                     <textarea v-model="encodedText" class="bg-background/75 text-white p-2 rounded-md mt-2 h-64 w-full" placeholder="Result goes here" readonly></textarea>
                 </cardComponent>
 
-                <!-- Decode Card -->
                 <cardComponent title="Decode" :divider="true" class="w-full md:w-1/2">
                     <template #buttons>
                         <button @click="modify('decode')" class="bg-green-600 text-white rounded-md px-4 py-1 mt-3">Decode</button>

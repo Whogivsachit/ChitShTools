@@ -3,12 +3,10 @@
         <div class="container mx-auto px-2 md:px-0">
             <loadingBar :isLoading="isLoading" />
 
-            <!-- Header -->
             <headerComponent title="Password Generator" description="Generate personalized hyper-secure passwords in seconds." />
 
             <div class="text-2xl font-bold text-center pb-2" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
             
-            <!-- Password Result -->
             <cardComponent :divider="false" class="w-full md:w-2/3 mb-5">
                 <div class="flex gap-3 place-content-between w-full items-center">
                     <div class="text-xl" v-html="password"></div>
@@ -19,7 +17,6 @@
                 </div>
             </cardComponent>
 
-            <!-- Password Options -->
             <cardComponent :divider="false" class="w-full md:w-2/3">
                 <div class="flex flex-col md:flex-row place-content-evenly">
                     <div class="pt-4">

@@ -107,6 +107,16 @@ const router = createRouter({
       component: () => import('../views/cssPage.vue')
     },
     {
+      path: '/whois',
+      name: 'Whois Lookup',
+      component: () => import('../views/whoisPage.vue')
+    },
+    {
+      path: '/dns',
+      name: 'DNS Lookup',
+      component: () => import('../views/dnsPage.vue')
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: '404',
       component: () => import('../views/404Page.vue'),
