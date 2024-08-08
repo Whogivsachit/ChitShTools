@@ -59,7 +59,7 @@ export default {
     data() {
         return {
             sshDetails: {
-                host: '45.8.22.164',
+                host: '',
                 port: 22,
                 username: 'root',
                 password: ''
