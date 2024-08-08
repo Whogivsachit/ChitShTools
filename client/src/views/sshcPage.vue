@@ -6,7 +6,7 @@
             <headerComponent title="SSH Client" description="Login into any server straight in your browser" />
 
             <div class="flex gap-4">
-                <cardComponent v-if="!isConnected" class="w-1/2">
+                <cardComponent v-if="!isConnected" class="w-full md:w-1/2">
                     <template #response>
                         <div class="text-2xl font-bold pb-2" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
                     </template>
@@ -21,7 +21,7 @@
                             <input type="number" v-model="sshDetails.port" placeholder="22" class="border border-borders rounded-r-md bg-background/75">
                         </div>
                     </div>
-                    <div class="flex gap-4 pt-2">
+                    <div class="flex flex-col md:flex-row gap-4 pt-2">
                         <div class="flex flex-col w-full text-white">
                             <span class="text-sm pl-1 pb-1">Username</span>
                             <input type="text" v-model="sshDetails.username" placeholder="Username" class="border border-borders rounded-l-md bg-background/75">
@@ -59,7 +59,7 @@ export default {
     data() {
         return {
             sshDetails: {
-                host: '45.8.22.164',
+                host: '',
                 port: 22,
                 username: 'root',
                 password: ''
@@ -90,7 +90,11 @@ export default {
                 return this.errorMessage = 'Please enter a valid host';
             }
 
-            this.socket = io(this.$socketUrl);            
+            this.socket = io(this.$appUrl, {
+                path: '/socket.io',
+                transports: ['polling', 'websocket'], // Allows both polling and websocket
+            });         
+
             this.socket.on('connect', () => {
                 console.log(`[WebSocket] connected: (${this.sshDetails.host}:${this.sshDetails.port})`);
                 this.socket.emit('connectSSH', this.sshDetails);

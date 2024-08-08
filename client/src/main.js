@@ -37,7 +37,7 @@ app.directive('click-outside', clickOutside)
 app.config.globalProperties.$apiUrl = '/api'
 app.config.globalProperties.$appName = 'ChitShTools'
 app.config.globalProperties.$appUrl = 'http://localhost:5173'
-app.config.globalProperties.$socketUrl = 'http://localhost:3000'
+app.config.globalProperties.$socketUrl = '/socket'
 
 app.mount('#app')
 

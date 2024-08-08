@@ -5,8 +5,8 @@
 
             <headerComponent title="Nmap Scanner" description="Scan for opened ports on your networks" />
 
-            <div class="flex gap-4">
-                <cardComponent title="Scan your network" class="w-2/3">
+            <div class="flex flex-col md:flex-row gap-4">
+                <cardComponent title="Scan your network" class="w-full md:w-2/3">
                     <template #buttons>
                         <button @click="scan" class="bg-green-500 hover:bg-red-600 text-white rounded-md px-5 py-2">Scan</button>
                     </template>
@@ -51,7 +51,7 @@
                     </div>
                 </cardComponent>
 
-                <cardComponent title="Result" class="w-2/3">
+                <cardComponent title="Result" class="w-full md:w-2/3">
                     <template #response>
                         <div class="text-2xl font-bold pb-2" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
                     </template>
@@ -61,14 +61,14 @@
                 </cardComponent>
             </div>
 
-            <div class="flex pt-4 gap-4">
-                <cardComponent title="What Is Nmap?" :divider="true" class="w-1/2 space-y-4">
+            <div class="flex flex-col md:flex-row pt-4 gap-4">
+                <cardComponent title="What Is Nmap?" :divider="true" class="w-full md:w-1/2 space-y-4">
                     <p>Nmap is a powerful network exploration and security auditing tool. It can be used to identify hosts and services on a network, as well as security issues. Nmap is widely used in the cyber security community and is an essential tool for penetration testing.</p>
                     <p>Nmap can easily identify open ports on the target host making it easy for you to audit your own website security. Nmap is also frequently used to scan for vulnerable open ports on systems.</p>
                     <p>Nmap is available for free and runs on all major platforms including Windows, Linux, and OS X.</p>
                 </cardComponent>
 
-                <cardComponent title="Disclaimer" :divider="true" class="w-1/2 space-y-4">
+                <cardComponent title="Disclaimer" :divider="true" class="w-full md:w-1/2 space-y-4">
                     <p>WARNING: This utility is for educational purposes only and should only be used on your own infrastructure. Use of this tool for any other reason is strictly prohibited.</p>
                     <p>By using this utility, you understand that you are solely responsible for any and all consequences that may arise from its use and agree to hold harmless the creator of this tool from any and all liability. This tool is provided "as is" with no warranty of any kind, express or implied.</p>
                 </cardComponent>

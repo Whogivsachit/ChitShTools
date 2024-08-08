@@ -31,7 +31,7 @@
                     <button @click="copyToClipboard" class="bg-green-600 text-white rounded-md px-4 py-1 mt-3">Copy</button>
                     <button @click="downloadFile" class="bg-blue-500 text-white rounded-md px-4 py-1 mt-3">Download</button>
                 </template>
-                <pre class="bg-background p-5 rounded-md">
+                <pre class="bg-background p-5 rounded-md overflow-x-scroll">
                     <code class="text-muted block" v-html="highlightedCode"></code>
                 </pre>
             </cardComponent>

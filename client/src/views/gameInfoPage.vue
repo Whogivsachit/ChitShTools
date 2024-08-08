@@ -8,7 +8,7 @@
             <cardComponent :divider="false" class="w-full">
                 <div class="flex">
                     <input type="text" v-model="ip" placeholder="ip:port / mc.hypixel.net:25565 / 192.168.1.1:25565" class="text-white border border-borders rounded-l-md bg-background/75 w-5/6">
-                    <button @click="fetchServer" class="bg-accent hover:bg-blue-800 text-white rounded-r-md w-1/6">Get Server Status</button>
+                    <button @click="fetchServer" class="bg-accent hover:bg-blue-800 text-white rounded-r-md md:w-1/6">Get Server Status</button>
                 </div>
                 <div class="flex flex-col mt-2">
                     <select v-model="game" class="text-white border border-borders rounded-md p-2 my-2 bg-background/75 w-1/2">

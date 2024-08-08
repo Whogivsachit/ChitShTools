@@ -19,7 +19,7 @@
                     <template #response>
                         <div class="text-2xl font-bold" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ message }}</div>
                     </template>
-                    <pre class="bg-background p-5 rounded-md pt-0 h-fit">
+                    <pre class="bg-background p-5 rounded-md pt-0 h-fit overflow-x-scroll">
                         <code class="text-muted block">{{ fancyJson }}</code>
                     </pre>   
                 </cardComponent>

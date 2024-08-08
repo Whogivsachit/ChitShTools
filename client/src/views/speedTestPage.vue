@@ -5,7 +5,7 @@
 
             <headerComponent title="Speedtest" description="Test your speed!" />
 
-            <cardComponent class="w-1/2">
+            <cardComponent class="w-full md:w-1/2">
                 <div v-if="result" class="flex place-content-evenly pt-5">
                     <div class="flex flex-col text-center">
                         <div class="text-white text-xl">Download <span class="text-muted text-sm">Mbps</span></div>

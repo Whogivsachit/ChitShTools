@@ -23,7 +23,7 @@
                     <div class="text-2xl font-bold" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
                 </template>
                 <div class="flex flex-col gap-2 text-white">
-                    <pre class="bg-background p-5 rounded-md mt-5">
+                    <pre class="bg-background p-5 rounded-md mt-5 overflow-x-scroll">
                         <code class="text-muted block">{{ result }}</code>
                     </pre>
                 </div>

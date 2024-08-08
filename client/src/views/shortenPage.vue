@@ -14,13 +14,15 @@
                 </cardComponent>
 
                 <cardComponent title="Instructions" class="w-full md:w-1/2">
-                    <p>Enter the URL you wish to create a shortened link for and click generate. <br/>Impressions will update every 5 seconds.</p>
+                    <p>Enter the URL you wish to create a shortened link for and click generate.</p>
+                    <p>Impressions will update every 5 seconds.</p>
+                    <p>If at a later date you want to view the impressions of a url you generated you can retype it into the field and click generate</p>
                 </cardComponent>
             </div>
 
             <cardComponent title="Link Information" class="w-full mt-5">
                 <template #response>
-                    <div class="text-2xl font-bold" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
+                    <div class="text-lg md:text-2xl font-bold text-right w-1/2" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
                 </template>
                 <div class="flex flex-col gap-2 text-white">
                     <div>Original Url: <span class="text-muted">{{ originalUrl }}</span></div>
