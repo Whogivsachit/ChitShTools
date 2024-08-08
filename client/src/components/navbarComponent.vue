@@ -21,7 +21,7 @@
             <div class="flex flex-col md:flex-row gap-6 mx-auto text-white w-full">
                 <div class="w-full md:w-full">
                     <hr class="border-t border-borders">
-                    <div class="grid grid-cols-5">
+                    <div class="grid grid-cols-2 md:grid-cols-5">
                         <router-link v-for="route in routes" :key="route.path" :to="route.path" class="block px-4 py-2 text-muted hover:text-white">{{ route.name }}</router-link>
                     </div>
                 </div>

@@ -9,8 +9,6 @@
                     <button @click="minify('minify')" class="border border-green-600 text-white rounded-md px-4 py-1 mt-3">Minify</button>
                     <button @click="minify('unminify')" class="border border-blue-600 text-white rounded-md px-4 py-1 mt-3">Unminify</button>
                     <button @click="minify('unminify')" class="border border-orange-600 text-white rounded-md px-4 py-1 mt-3">Beautify</button>
-                    <button @click="clear" class="border border-red-600 text-white rounded-md px-4 py-1 mt-3">Clear</button>
-                    
                 </template>
                 <textarea v-model="css" class="w-full border border-borders rounded p-4 bg-foreground h-96 mt-5" placeholder="Enter CSS code here"></textarea>
             </cardComponent>
@@ -21,8 +19,9 @@
                 </template>
                 <template #buttons>
                     <button @click="copyToClipboard(result)" class="border border-blue-600 text-white rounded-md px-4 py-1 mt-3">Copy</button>
+                    <button @click="clear" class="border border-red-600 text-white rounded-md px-4 py-1 mt-3">Clear</button>
                 </template>
-                <pre ref="scrollableContainer" class="bg-background p-5 rounded-md overflow-y-scroll mt-3">
+                <pre ref="scrollableContainer" class="bg-background p-5 rounded-md overflow-scroll mt-3">
                     <code class="text-muted block">{{ result }}</code>
                 </pre>
             </cardComponent>

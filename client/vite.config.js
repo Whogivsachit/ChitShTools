@@ -13,12 +13,16 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-  server: {
+  server: { // Vite proxies only work for the local development. We use nginx config for production.
     proxy: {
       '/api': {
-        target: 'http://localhost:3000', // update to https on prod
+        target: 'http://localhost:3000',
         changeOrigin: true,
         rewrite: path => path.replace(/^\/api/, '')
+      },
+      '/socket': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
       }
     }
   }
