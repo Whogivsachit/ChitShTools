@@ -35,8 +35,8 @@ app.directive('click-outside', clickOutside)
 
 // Global Variables
 app.config.globalProperties.$apiUrl = '/api'
-app.config.globalProperties.$appName = 'ChitShTools'
-app.config.globalProperties.$appUrl = 'http://localhost:5173'
+app.config.globalProperties.$appName = 'ChitShTools' // Change this to your own app name
+app.config.globalProperties.$appUrl = 'http://localhost:5173' // Change this to your own domain
 app.config.globalProperties.$socketUrl = '/socket'
 
 app.mount('#app')
