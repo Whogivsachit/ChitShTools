@@ -57,11 +57,19 @@ export default {
                 return this.isLoading = false;
             }
 
-            const response = await coreService.dns({ domain: this.domain });
-            console.log(`[Dns] ${response.message}`);
+            try {
+                const response = await coreService.dns({ domain: this.domain });
+                if(response.status !== 200) return push.error(response.message);
+                
+                console.log(`[Dns] ${response.message}`);
+                this.result = response.data
 
-            this.result = response.data
-            this.isLoading = false;
+            } catch (error) {
+                console.error(error);
+                push.error('An error occurred while trying to lookup the dns information');
+            } finally {
+                this.isLoading = false;
+            }
         }
     }
 }

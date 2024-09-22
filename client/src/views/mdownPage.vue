@@ -119,12 +119,10 @@ export default {
                     fileType: this.fileType, 
                     quality: this.quality
                 });
-                console.log(`[Media Downloader]: ${response.message}`);
 
-                if(response.status === 413 ) {
-                    push.error(response.message)
-                    return this.isLoading = false;
-                }
+                if(response.status !== 200) return push.error(response.message);
+                
+                console.log(`[Media Downloader]: ${response.message}`);
 
                 if(response.playlist) {
                     const blob = this.createBlobFromBase64(response.file, 'application/zip');
@@ -133,11 +131,12 @@ export default {
                     const blob = this.createBlobFromBase64(response.file, response.type);
                     this.downloadBlob(blob, response.message);
                 }
-                
-                this.isLoading = false;  
+                  
             } catch (error) {
+                console.error(error);
                 push.error(error.message);
-                this.isLoading = false;  
+            } finally {
+                this.isLoading = false;
             }
         }
     }

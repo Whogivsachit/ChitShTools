@@ -95,22 +95,28 @@ export default {
     methods: {
         async sendEmail() {
             if(!this.smtpServer || !this.smtpPort || !this.username || !this.password || !this.to || !this.from || !this.smtpSecurity) return push.error('Please fill out all fields');
-            
             this.isLoading = true;
 
-            const response = await coreService.sendEmail({
-                smtpServer: this.smtpServer,
-                smtpPort: this.smtpPort,
-                smtpSecurity: this.smtpSecurity,
-                username: this.username,
-                password: this.password,
-                to: this.to,
-                from: this.from,
-            });
-            
-            response.status !== 200 ? push.error(`${response.status} - ${response.message}`) : push.success(`${response.status} - ${response.message}`);
-            console.log(`[SMTP Sender]: ${response.message}`);
-            this.isLoading = false;
+            try {
+                const response = await coreService.sendEmail({
+                    smtpServer: this.smtpServer,
+                    smtpPort: this.smtpPort,
+                    smtpSecurity: this.smtpSecurity,
+                    username: this.username,
+                    password: this.password,
+                    to: this.to,
+                    from: this.from,
+                });
+                if(response.status !== 200) return push.error(response.message);
+
+                console.log(`[SMTP Sender]: ${response.message}`);
+                push.success(response.message);
+            } catch (error) {
+                console.error(error);
+                push.error('Error sending email');
+            } finally {
+                this.isLoading = false;
+            }
         }
     }
 

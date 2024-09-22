@@ -92,14 +92,16 @@ export default {
 
             try {
                 const response = await coreService.convertVideo(formData);
+                if(response.status !== 200) return push.error(response.message);
                 if(!response) throw new Error('Error converting image.');
+
                 console.log(`[Video Transcoder]: ${response.message}`);
 
                 const blob = this.createBlobFromBase64(response.file, response.message.split('.')[1]);
                 this.downloadBlob(blob, `${this.file.name.split('.')[0]}.${this.fileType}`);
-
                 push.success('Successfully transcoded Video.');
             } catch (error) {
+                console.error(error);
                 push.error('Error transcoding video.');
             } finally {
                 this.isLoading = false;

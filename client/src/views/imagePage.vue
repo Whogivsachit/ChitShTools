@@ -92,7 +92,8 @@ export default {
 
             try {
                 const response = await coreService.convertImage(formData);
-                if(!response) throw new Error('Error converting image.');
+                if(response.status !== 200) return push.error(response.message);
+                
                 console.log(`[Image Converter]: Success: ${response.message}`);
 
                 const blob = this.createBlobFromBase64(response.file, response.message.split('.')[1]);
@@ -100,6 +101,7 @@ export default {
 
                 push.success('Successfully converted image.');
             } catch (error) {
+                console.error(error);
                 push.error('An error occurred while converting the image.');
             } finally {
                 this.isLoading = false;

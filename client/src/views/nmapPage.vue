@@ -103,13 +103,15 @@ export default {
             try {
                 const response = await coreService.nmap({host: this.host, flags: this.flags});
                 if(response.status !== 200) return push.error(response.message);
+                
                 console.log(`[nmapScanner] Executed`);
 
                 this.results = response.data;
                 push.success(response.message)
-                this.isLoading = false;
             } catch (error) {
+                console.error(error);
                 push.error(error)
+            } finally {
                 this.isLoading = false;
             }
         }

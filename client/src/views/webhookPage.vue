@@ -207,11 +207,20 @@ export default {
                 authorIcon: this.authorIcon,
             };
 
-            const response = await coreService.sendWebhook({webhookUrl: this.webhookUrl, webhook, contentOnly: true});
-            console.log(`[Webhook Sender]: ${response.response}`);
-            
-            response.status === 200 ? push.success(response.response) : push.error(response.response); // Set response based on status
-            this.isLoading = false;
+
+            try {
+                const response = await coreService.sendWebhook({webhookUrl: this.webhookUrl, webhook, contentOnly: true});
+                if(response.status !== 200) return push.error(response.message);
+
+                console.log(`[Webhook Sender]: ${response.response}`);
+                response.status === 200 ? push.success(response.response) : push.error(response.response); // Set response based on status
+
+            } catch (error) {
+                console.error(error);
+                push.error('An error occurred while trying to send the content');
+            } finally {
+                this.isLoading = false;
+            }
         },
 
         addField() {

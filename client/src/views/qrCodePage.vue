@@ -99,20 +99,26 @@ export default {
             }
 
             // Thanks fro for abusing this now we have to add a check for it.
-            if(text.length >= 64) {
+            if(this.text.length >= 64) {
                 push.error('Text/Url is too long');
                 return this.isLoading = false;
             }
 
-            const response = await coreService.generateQrCode({ text: this.text, colors: { foreground: this.foregroundColor, background: this.backgroundColor} });
-            if(response.status !== 200 ) {
-                push.error(response.message);
-                return this.isLoading = false;
-            }
-            console.log(`[QrCodeGenerator]: ${response.message}`);
 
-            this.qrCode = response.data;
-            this.isLoading = false;
+            try {
+                const response = await coreService.generateQrCode({ text: this.text, colors: { foreground: this.foregroundColor, background: this.backgroundColor} });
+                if(response.status !== 200) return push.error(response.message);
+
+                console.log(`[QrCodeGenerator]: ${response.message}`);
+
+                this.qrCode = response.data;
+                push.success('Qr Code generated successfully');
+            } catch (error) {
+                console.error(error);
+                push.error(error.message);
+            } finally {
+                this.isLoading = false;
+            }
         },
 
         setTheme(foreground, background) {

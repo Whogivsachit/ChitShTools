@@ -66,16 +66,20 @@ export default {
             if (!this.workshopID) return push.error('Please enter a workshop id.');
             this.isLoading = true;
 
-            const response = await coreService.generateWorkshop({workshopID: this.workshopID});
-            if(response.status !== 200) {
-                push.error(response.message);
-                return this.isLoading = false;
-            }
-            console.log(`[Workshop Generator]: ${response.message}`);
+            try {
+                const response = await coreService.generateWorkshop({workshopID: this.workshopID});
+                if(response.status !== 200) return push.error(response.message);
 
-            push.success(response.message);
-            this.generatedCode = response.code;
-            this.isLoading = false;
+                console.log(`[Workshop Generator]: ${response.message}`);
+
+                this.generatedCode = response.code;
+                push.success(response.message);
+            } catch (error) {
+                console.error(error);
+                push.error('An error occurred while trying to generate the workshop code.');
+            } finally {
+                this.isLoading = false;
+            }
         },
 
         async resetFields() {

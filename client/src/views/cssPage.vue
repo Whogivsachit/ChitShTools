@@ -42,15 +42,16 @@ export default {
     methods: {
         async minify(type) {
             this.isLoading = true;
-
-            const response = await coreService.css({ css: this.css, type });
-            if(response.status !== 200) {
-                push.error(response.message)
-                return this.isLoading = false;
+            try {
+                const response = await coreService.css({ css: this.css, type });
+                if(response.status !== 200) return push.error(response.message);
+                
+                this.result = response.result;
+            } catch (error) {
+                push.error(error.message)
+            } finally {
+                this.isLoading = false;
             }
-
-            this.result = response.result;
-            this.isLoading = false;
         },
 
         async clear() {

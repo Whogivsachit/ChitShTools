@@ -61,11 +61,20 @@ export default {
                 return this.isLoading = false;
             }
 
-            const response = await coreService.whois({ domain: this.domain });
-            console.log(`[whoIs] ${response.message}`);
+            try {
+                const response = await coreService.whois({ domain: this.domain });
+                if(response.status !== 200) return push.error(response.message);
 
-            this.result = response.data
-            this.isLoading = false;
+                console.log(`[whoIs] ${response.message}`);
+
+                this.result = response.data
+                push.success('WhoIs lookup successful');
+            } catch(error) {
+                console.error(error);
+                push.error('An error occurred');
+            } finally {
+                this.isLoading = false;
+            }
         }
     }
 }

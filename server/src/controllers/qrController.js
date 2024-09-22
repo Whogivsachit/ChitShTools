@@ -25,7 +25,7 @@ exports.generateQrCode = async (req, res) => {
 
     // Check if QR Code already exists
     const qrCodeExists = await qrCodes.findOne({ where: { body: text, theme: colors } });
-    if(qrCodeExists) return res.send({ status: 200, message: 'QR Code Already Exists', data: qrCodeExists });
+    if(qrCodeExists) return res.send({ status: 200, message: 'QR Code Already Exists', data: qrCodeExists.qrCode });
 
     await qrCodes.create({ body: text, qrCode: qrCodeData, theme: colors, creator: creator });
     res.status(200).send({ status: 200, message: 'QR Code Generated', data: qrCodeData });

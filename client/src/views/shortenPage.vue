@@ -77,17 +77,21 @@ export default {
                 return this.isLoading = false;
             }
 
-            const response = await coreService.generateShortUrl({ originalUrl: this.originalUrl});
-            if(response.status !== 200 ) {
-                push.error(response.message)
-                return this.isLoading = false;
-            }
-            console.log(`[UrlShortener]: ${response.message}`);
+            try {
+                const response = await coreService.generateShortUrl({ originalUrl: this.originalUrl});
+                if(response.status !== 200 ) return push.error(response.message);
 
-            this.shortUrl = `${this.$appUrl}/api/shorten/${response.shortUrl}`;
-            this.impressions = response.impressions;
-            push.success('Shortened URL generated successfully!');
-            this.isLoading = false;
+                console.log(`[UrlShortener]: ${response.message}`);
+
+                this.shortUrl = `${this.$appUrl}/api/shorten/${response.shortUrl}`;
+                this.impressions = response.impressions;
+                push.success('Shortened URL generated successfully!');
+            } catch (error) {
+                console.error(error);
+                push.error(error.message);
+            } finally {
+                this.isLoading = false;
+            }
         },
 
         async copyShortUrl() {

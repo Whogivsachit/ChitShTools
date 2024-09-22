@@ -87,14 +87,17 @@ export default {
 
             try {
                 const response = await coreService.fetchServerInfo({ game: this.game, ip: this.ip });
-                console.log(`[GameServerInfo]: ${response.data.name}`);
+                if (response.status === 500) return push.error('Server is offline or not reachable');
+                if(response.status !== 200) return push.error(response.message);
 
-                if (response.status === 500) return push.error('Server is offline or not reachable'); // Api returns 500 on unreachable servers
+                console.log(`[GameServerInfo]: ${response.data.name}`);
+                
                 this.data = response.data;
                 push.success('Server information retrieved successfully');
-                this.isLoading = false;
             } catch (error) {
+                console.error(error);
                 push.error('An error occurred while fetching the server information');
+            } finally {
                 this.isLoading = false;
             }
         }

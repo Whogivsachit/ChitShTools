@@ -75,12 +75,15 @@ export default {
 
             try {
                 const response = await coreService.convertToPdf(formData);
+                if(response.status !== 200) return push.error(response.message);
                 if(!response) return push.error('Error converting file.');
+
                 console.log(`[PDF Converter]: PDF file created successfully.`);
 
                 this.downloadBlob(response, `[${this.$appName}] ${this.file.name.split('.')[0]}.pdf`);
                 push.success('Successfully converted file to PDF.');
             } catch (error) {
+                console.error(error);
                 push.error('An error occurred while converting the file to PDF.');
             } finally {
                 this.isLoading = false;
