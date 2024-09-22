@@ -16,7 +16,7 @@
             <div class="flex">
                 <cardComponent title="Tools" description="Collection of useful tools and scripts making everyday life easier." :divider="true" class="w-full md:w-full">
                     <div class="grid grid-cols-2 md:grid-cols-5 gap-3 pt-2 text-md md:text-xl">
-                        <router-link v-for="route in routes" :key="route.path" :to="route.path" class="capitalize">{{ route.name }}</router-link>
+                        <router-link v-for="route in routes" :key="route.path" :to="route.path" class="capitalize hover:text-accent">{{ route.name }}</router-link>
                     </div>
                 </cardComponent>
             </div>

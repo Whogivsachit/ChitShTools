@@ -1,7 +1,7 @@
 <template>
     <footer class="bg-foreground text-center lg:text-left mt-10 w-full relative bottom-0">
         <div class="text-center p-4">
-            <a href="https://chit.sh/" class="text-white">Copyright 2024 ©{{ $appName }}. All rights reserved.</a>
+            <span class="text-white">Copyright ChitSh | <a href="https://chit.sh/">Portfolio</a> | <a href="https://github.com/Whogivsachit/ChitShTools">Github</a></span>
         </div>
     </footer>
 </template>
@@ -11,3 +11,7 @@ export default {
     name: 'footerComponent',
 }
 </script>
+
+<style scoped>
+    a:hover { @apply text-accent; }
+</style>

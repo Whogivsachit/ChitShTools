@@ -9,9 +9,9 @@
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
                 </button>
                 <div class="hidden md:block space-x-0 md:space-x-8 text-xl text-muted">
-                    <router-link to="/" active-class="active" class="hover:text-white" >Home</router-link>
-                    <a href="#" @click="toggleDropdown($event)" class="hover:text-white" >Tools</a>
-                    <a class="hover:text-white" :href="$appUrl + `/api/docs/`" >Api</a>
+                    <router-link to="/" active-class="active" class="hover:text-accent" >Home</router-link>
+                    <a href="#" @click="toggleDropdown($event)" class="hover:text-accent" >Tools</a>
+                    <a class="hover:text-accent" :href="$appUrl + `/api/docs/`" >Api</a>
                 </div>
             </div>
         </div>
@@ -22,7 +22,7 @@
                 <div class="w-full md:w-full">
                     <hr class="border-t border-borders">
                     <div class="grid grid-cols-2 md:grid-cols-5">
-                        <router-link v-for="route in routes" :key="route.path" :to="route.path" class="block px-4 py-2 text-muted hover:text-white">{{ route.name }}</router-link>
+                        <router-link v-for="route in routes" :key="route.path" :to="route.path" class="block px-4 py-2 text-muted hover:text-accent">{{ route.name }}</router-link>
                     </div>
                 </div>
             </div>
