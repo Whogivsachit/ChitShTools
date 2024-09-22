@@ -3,6 +3,7 @@ import App from './App.vue';
 import router from './router';
 import './assets/index.css';
 import store from './store/store';
+import { createNotivue } from 'notivue'
 
 // Components and Directives
 import clickOutside from './directives/clickOutside'; // Click Outside directive
@@ -17,9 +18,25 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 
+// Notification System
+const notivue = createNotivue({
+    position: 'top-right',
+    max: 5,
+    transition: 'slide',
+    notifications: {
+        global: {
+            duration: 2000,
+        }
+    }
+})
+import 'notivue/notification.css'
+import 'notivue/animations.css'
+import 'notivue/notification-progress.css'
+
 const app = createApp(App)
 app.use(router)
 app.use(store)
+app.use(notivue)
 library.add(fas, fab)
 
 // Define global components

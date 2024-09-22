@@ -6,9 +6,6 @@
             <headerComponent title="PDF Converter" description="Quickly and easily convert any file to a pdf." />
 
             <cardComponent title="Upload File" class="w-full md:w-2/3">
-                <template #response>
-                    <div class="text-2xl font-bold" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
-                </template>
                 <div class="space-y-3 pt-5">
                     <div @click="fileUpload" class="flex text-2xl bg-background rounded-full p-5 mx-auto w-full md:w-2/6 hover:cursor-pointer">
                         <faIcon :icon="['fas', 'plus']" class="self-center"/>
@@ -44,14 +41,8 @@ export default {
     data() {
         return {
             file: null,
-            successMessage: '',
-            errorMessage: '',
             isLoading: false,
         }
-    },
-
-    computed: {
-        showMessage() { return this.successMessage || this.errorMessage; }
     },
 
     methods: {
@@ -75,9 +66,7 @@ export default {
         },
 
         async convertToPdf() {
-            if (!this.file) return this.errorMessage = 'Please select a file first.';
-            this.successMessage = '';
-            this.errorMessage = '';
+            if (!this.file) return push.error('Please select a file first.');
             this.isLoading = true;
 
             // Create a new FormData instance
@@ -86,13 +75,13 @@ export default {
 
             try {
                 const response = await coreService.convertToPdf(formData);
-                if(!response) return this.errorMessage = 'Error converting file.';
+                if(!response) return push.error('Error converting file.');
                 console.log(`[PDF Converter]: PDF file created successfully.`);
 
                 this.downloadBlob(response, `[${this.$appName}] ${this.file.name.split('.')[0]}.pdf`);
-                this.successMessage = 'Successfully converted file to PDF.';
+                push.success('Successfully converted file to PDF.');
             } catch (error) {
-                this.errorMessage = 'Error converting file.';
+                push.error('An error occurred while converting the file to PDF.');
             } finally {
                 this.isLoading = false;
                 this.$refs.fileInput.value = null;

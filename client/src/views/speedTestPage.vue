@@ -45,14 +45,11 @@ export default {
             downloadDuration: '',
             uploadSpeed: '',
             uploadDuration: '',
-            successMessage: '',
-            errorMessage: '',
             isLoading: false,
         }
     },
 
     computed: {
-        showMessage() { return this.successMessage || this.errorMessage; },
         result() { return this.downloadSpeed && this.uploadSpeed; },
         btnText() { return this.result ? 'Re-Run Speedtest' : 'Run Speedtest'; }
     },
@@ -61,13 +58,11 @@ export default {
         async runSpeedTest() {
             this.downloadSpeed = '';
             this.uploadSpeed = '';
-            this.successMessage = '';
-            this.errorMessage = '';
             this.isLoading = true;
 
             const downResponse = await this.testDownloadSpeed();
             const upResponse = await this.testUploadSpeed();
-            if(!downResponse || !upResponse) return this.errorMessage = 'SpeedTest Failed';
+            if(!downResponse || !upResponse) return push.error('SpeedTest Failed');
             console.log(`[SpeedTest Download]: ${downResponse.message}`, `\n[SpeedTest Upload]: ${upResponse.message}`);
 
             this.downloadSpeed = downResponse.speed;
@@ -75,7 +70,7 @@ export default {
             this.uploadSpeed = upResponse.speed;
             this.uploadDuration = upResponse.duration;
 
-            this.successMessage = 'SpeedTest Completed';
+            push.success('SpeedTest Completed');
             this.isLoading = false;
         },
 
@@ -84,7 +79,7 @@ export default {
                 const response = await coreService.testDownload();
                 return response;
             } catch (error) {
-                this.errorMessage = error.message;
+                push.error(error.message);
             }
         },
 
@@ -101,7 +96,7 @@ export default {
                 return response;
 
             } catch (error) {
-                this.errorMessage = error.message;
+                push.error(error.message);
             }
         }
     }

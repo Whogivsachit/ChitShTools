@@ -9,12 +9,16 @@ const fs = require('fs');
 const http = require('http');
 require('dotenv').config()
 
+// Middleware
+const { rateLimit } = require('./middleware/rateLimit.js');
+
 // Setup Our App
 const app = express();
 const server = http.createServer(app);
 app.use(morgan(':method :url :status :response-time ms - :res[content-length] \n'));
 app.use(bodyParser.json());
 app.use(cors({ origin: process.env.ORGIN }));
+app.use(rateLimit);
 
 // Setup Sockets and Routes
 require('./sockets')(server);

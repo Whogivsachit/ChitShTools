@@ -52,9 +52,6 @@
                 </cardComponent>
 
                 <cardComponent title="Result" class="w-full md:w-2/3">
-                    <template #response>
-                        <div class="text-2xl font-bold pb-2" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
-                    </template>
                     <pre class="bg-background p-5 rounded-md mt-2 h-[23rem] overflow-y-scroll">
                         <code class="text-muted block">{{ results }}</code>
                     </pre>
@@ -88,39 +85,31 @@ export default {
             host: '',
             flags: '-Pn',
             results: '',
-            successMessage: '',
-            errorMessage: '',
             isLoading: false
         }
-    },
-
-    computed: {
-        showMessage() { return this.successMessage || this.errorMessage; }
     },
 
     methods: {
         async scan() {
             this.results = '';
-            this.successMessage = '';
-            this.errorMessage = '';
             this.isLoading = true;
 
             const localPatterns = ['localhost', '192.168', '127.0', '172.16', '10.10', '0.0'];
             if (localPatterns.some(pattern => this.host.startsWith(pattern))) {
                 this.isLoading = false;
-                return this.errorMessage = 'Please enter a valid host';
+                return push.error('Please enter a valid host');
             }
 
             try {
                 const response = await coreService.nmap({host: this.host, flags: this.flags});
-                if(response.status !== 200) return this.errorMessage = response.message;
+                if(response.status !== 200) return push.error(response.message);
                 console.log(`[nmapScanner] Executed`);
 
                 this.results = response.data;
-                this.successMessage = response.message;
+                push.success(response.message)
                 this.isLoading = false;
             } catch (error) {
-                this.errorMessage = error;
+                push.error(error)
                 this.isLoading = false;
             }
         }

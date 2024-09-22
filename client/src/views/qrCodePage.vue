@@ -23,9 +23,6 @@
 
             <div class="flex flex-col md:flex-row gap-5 pt-5">
                 <cardComponent title="Qr Code" class="w-full md:w-1/2">
-                    <template #response>
-                        <div class="text-2xl font-bold" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
-                    </template>
                     <div class="flex justify-center">
                         <img v-if="qrCode" :src="qrCode" alt="QR Code" class="w-1/2 p-5">
                     </div>
@@ -87,31 +84,29 @@ export default {
             qrCode: '',
             foregroundColor: '#000000',
             backgroundColor: '#ffffff',
-            successMessage: '',
-            errorMessage: '',
             isLoading: false,
         }
-    },
-
-    computed: {
-        showMessage() { return this.successMessage || this.errorMessage; }
     },
 
     methods: {
         async generateCode() {
             this.isLoading = true;
-            this.errorMessage = '';
-            this.successMessage = '';
             this.qrCode = ''
 
             if(!this.text) {
-                this.errorMessage = 'Please enter valid url or text';
+                push.error('Please enter valid url or text');
+                return this.isLoading = false;
+            }
+
+            // Thanks fro for abusing this now we have to add a check for it.
+            if(text.length >= 64) {
+                push.error('Text/Url is too long');
                 return this.isLoading = false;
             }
 
             const response = await coreService.generateQrCode({ text: this.text, colors: { foreground: this.foregroundColor, background: this.backgroundColor} });
             if(response.status !== 200 ) {
-                this.errorMessage = response.message;
+                push.error(response.message);
                 return this.isLoading = false;
             }
             console.log(`[QrCodeGenerator]: ${response.message}`);

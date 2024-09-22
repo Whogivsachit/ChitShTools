@@ -13,17 +13,14 @@
                     </div>
                 </cardComponent>
 
-                <cardComponent title="Instructions" class="w-full md:w-1/2">
+                <cardComponent title="Instructions" class="w-full md:w-1/2 space-y-2">
                     <p>Enter the URL you wish to create a shortened link for and click generate.</p>
-                    <p>Impressions will update every 5 seconds.</p>
+                    <p>Impressions will update every 15 seconds.</p>
                     <p>If at a later date you want to view the impressions of a url you generated you can retype it into the field and click generate</p>
                 </cardComponent>
             </div>
 
             <cardComponent title="Link Information" class="w-full mt-5">
-                <template #response>
-                    <div class="text-lg md:text-2xl font-bold text-right w-1/2" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
-                </template>
                 <div class="flex flex-col gap-2 text-white">
                     <div>Original Url: <span class="text-muted">{{ originalUrl }}</span></div>
                     <div>Shortened Url: <span class="text-muted underline cursor-pointer" @click="copyShortUrl">{{ shortUrl }}</span></div>
@@ -45,19 +42,13 @@ export default {
             originalUrl: '',
             shortUrl: '',
             impressions: 0,
-            successMessage: '',
-            errorMessage: '',
             isLoading: false,
             checkImpressions: null,
         }
     },
 
-    computed: {
-        showMessage() { return this.successMessage || this.errorMessage; }
-    },
-
     mounted() {
-        this.checkImpressions = setInterval(() => { this.updateImpressions(); }, 5000);
+        this.checkImpressions = setInterval(() => { this.updateImpressions(); }, 15000); // 15 seconds
     },
 
     // Cleanup
@@ -74,26 +65,34 @@ export default {
     methods: {
         async generateUrl() {
             this.isLoading = true;
-            this.errorMessage = '';
-            this.successMessage = '';
             this.shortUrl = '';
+
+            if(!this.originalUrl) {
+                push.error('Please enter a valid URL');
+                return this.isLoading = false;
+            }
+
+            if(!this.originalUrl.includes('http') || !this.originalUrl.includes('https')) {
+                push.error('Please enter a valid URL ( http:// or https:// )');
+                return this.isLoading = false;
+            }
 
             const response = await coreService.generateShortUrl({ originalUrl: this.originalUrl});
             if(response.status !== 200 ) {
-                this.errorMessage = response.message;
+                push.error(response.message)
                 return this.isLoading = false;
             }
             console.log(`[UrlShortener]: ${response.message}`);
 
             this.shortUrl = `${this.$appUrl}/api/shorten/${response.shortUrl}`;
             this.impressions = response.impressions;
-            this.successMessage = 'Shortened URL generated successfully!';
+            push.success('Shortened URL generated successfully!');
             this.isLoading = false;
         },
 
         async copyShortUrl() {
             navigator.clipboard.writeText(this.shortUrl);
-            this.successMessage = 'Shortened URL copied to clipboard!';
+            push.info('Shortened URL copied to clipboard!');
         },
 
         async updateImpressions() {
@@ -102,7 +101,6 @@ export default {
             if(response.status === 200) {
                 this.impressions = response.impressions;
             }
-
         }
 
     }

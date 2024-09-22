@@ -14,6 +14,10 @@ module.exports = (sequelize, dataTypes) => {
             type: dataTypes.TEXT('long'),
             allowNull: false
         },
+        theme: {
+            type: dataTypes.JSON,
+            allowNull: false,
+        },
         creator: {
             type: dataTypes.STRING,
             allowNull: false

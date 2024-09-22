@@ -6,9 +6,6 @@
             <headerComponent title="Video Transcoder" description="Transcode your Video files for free." />
 
             <cardComponent title="Upload Form" class="w-full md:w-2/3">
-                <template #response>
-                    <div class="text-2xl font-bold" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
-                </template>
                 <div class="space-y-3 pt-5">
                     <div class="flex mx-auto w-full md:w-2/6">
                         <span class="text-white text-left self-center w-1/2">Download as: </span>
@@ -48,15 +45,12 @@ export default {
         return {
             file: null,
             fileType: 'mp4',
-            successMessage: '',
-            errorMessage: '',
             isLoading: false,
             fileTypes: ['mp4', 'mkv', 'webm', 'ogg', 'mov', 'avi', 'flv', 'mpeg', 'wav']
         }
     },
 
     computed: {
-        showMessage() { return this.successMessage || this.errorMessage; },
         acceptTypes() { return this.fileTypes.map(fileType => `.${fileType}`).join(', '); }
     },
 
@@ -88,9 +82,7 @@ export default {
         },
 
         async convertVideo() {
-            if (!this.file) return this.errorMessage = 'Please select a file first.';
-            this.successMessage = '';
-            this.errorMessage = '';
+            if (!this.file) return push.error('Please select a file first.');
             this.isLoading = true;
 
             // Create a new FormData instance
@@ -106,9 +98,9 @@ export default {
                 const blob = this.createBlobFromBase64(response.file, response.message.split('.')[1]);
                 this.downloadBlob(blob, `${this.file.name.split('.')[0]}.${this.fileType}`);
 
-                this.successMessage = 'Successfully transcoded Video.';
+                push.success('Successfully transcoded Video.');
             } catch (error) {
-                this.errorMessage = 'Error transcoding video.';
+                push.error('Error transcoding video.');
             } finally {
                 this.isLoading = false;
                 this.$refs.fileInput.value = null;

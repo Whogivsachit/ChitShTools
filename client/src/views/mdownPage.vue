@@ -8,7 +8,6 @@
             </headerComponent>
 
             <div v-if="isLoading" class="text-3xl font-bold blinking text-center text-green-600 pt-2">Downloading...</div>
-            <div class="text-2xl font-bold text-center pt-2" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
 
             <div class="flex flex-col md:flex-row gap-6 mx-auto">
                 <div class="flex flex-col gap-6 w-full md:w-full">
@@ -77,8 +76,6 @@ export default {
                 audio: ['wav', '3gp', 'aac', 'flv', 'm4a', 'mp3', 'ogg', 'webm'],
                 // video: ['mp4', 'webm'], Video has been disabled due to high BW Costs
             },
-            successMessage: '',
-            errorMessage: '',
             isLoading: false,
         }
     },
@@ -87,10 +84,6 @@ export default {
         format() {
             this.fileType = this.fileTypes[this.format][0];
         }
-    },
-
-    computed: {
-        showMessage() { return this.successMessage || this.errorMessage; }
     },
 
     methods: {
@@ -112,13 +105,11 @@ export default {
         },
 
         async downloadMedia() {
-            this.errorMessage = '';
-            this.successMessage = '';
 
             // Check if links contains youtube.com, spotify.com or soundcloud.com
             const regex = /youtube\.com|spotify\.com|soundcloud\.com|youtu\.be/;
-            if(!regex.test(this.link) || !this.link) return this.error = 'Please enter a valid Youtube, Spotify or SoundCloud link'; 
-            if(!this.link) return this.errorMessage = 'Please enter a valid link';
+            if(!regex.test(this.link) || !this.link) return push.error('Please enter a valid Youtube, Spotify or SoundCloud link') ;
+            if(!this.link) return push.error('Please enter a link');
             this.isLoading = true;           
             
             try {
@@ -131,7 +122,7 @@ export default {
                 console.log(`[Media Downloader]: ${response.message}`);
 
                 if(response.status === 413 ) {
-                    this.errorMessage = response.message;
+                    push.error(response.message)
                     return this.isLoading = false;
                 }
 
@@ -145,7 +136,7 @@ export default {
                 
                 this.isLoading = false;  
             } catch (error) {
-                this.errorMessage = error.message;
+                push.error(error.message);
                 this.isLoading = false;  
             }
         }

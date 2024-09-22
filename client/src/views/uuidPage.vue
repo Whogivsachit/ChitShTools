@@ -3,8 +3,6 @@
         <div class="container mx-auto">
             <headerComponent title="UUID Generator" description="Generate a unique UUID identifier" />
 
-            <div class="text-2xl font-bold text-center pb-2 text-red-600">{{ showMessage }}</div>
-
             <div class="flex place-content-center text-white">
                 <div class="text-2xl self-center pr-3">Version: </div>
                 <div class="flex border border-borders rounded-full p-2 space-x-2">
@@ -69,13 +67,11 @@ export default {
             uuid: '',
             nameSpace: '',
             name: '',
-            errorMessage: '',
         };
     },
 
     computed: {
         advanced() { return this.version === 3 || this.version === 5;},
-        showMessage() { return this.errorMessage; }
     },
 
     mounted() {
@@ -104,14 +100,14 @@ export default {
                     this.uuid = uuidv1();
                     break;
                 case 3:
-                    if(!this.nameSpace || !this.name ) return this.errorMessage = 'Please enter a NameSpace and Name.';
+                    if(!this.nameSpace || !this.name ) return push.error(`Please enter a NameSpace and Name.`)
                     this.uuid = uuidv3(this.name, this.nameSpace);
                     break;
                 case 4:
                     this.uuid = uuidv4();
                     break;
                 case 5:
-                    if(!this.nameSpace || !this.name ) return this.errorMessage = 'Please enter a NameSpace and Name.';
+                    if(!this.nameSpace || !this.name ) return push.error(`Please enter a NameSpace and Name.`)
                     this.uuid = uuidv5(this.name, this.nameSpace);
                     break;
             }

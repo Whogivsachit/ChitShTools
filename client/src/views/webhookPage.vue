@@ -5,8 +5,6 @@
 
             <headerComponent title="Webhook Sender" description="Quickly send indepth and beautiful embeds to any webhook" />
 
-            <div class="text-2xl font-bold" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
-
             <div class="flex flex-col md:flex-row gap-0 md:gap-6">
 
                 <cardComponent title="Webhook Sender" class="w-full md:w-1/2">
@@ -145,8 +143,6 @@ export default {
             footerIcon: 'https://cdn.chit.sh/537AYgyfHpvYQkkUErZmtRsv.jpg',
             timestamp: '',
             fields: [],
-            successMessage: '',
-            errorMessage: '',
             showProfileSection: true,
             isLoading: false,
         }
@@ -168,13 +164,11 @@ export default {
         includeFooterDivider() {
             return !!this.footer && !!this.timestampComp;
         },
-
-        showMessage() { return this.successMessage || this.errorMessage; }
     },
 
     methods: {
         async sendEmbed() {
-            if(!this.webhookUrl) return this.errorMessage = 'Please provide a webhook URL';
+            if(!this.webhookUrl) return push.error('Please provide a webhook URL');
             this.isLoading = true;
 
             const webhook = {
@@ -199,12 +193,12 @@ export default {
             const response = await coreService.sendWebhook({webhookUrl: this.webhookUrl, webhook});
             console.log(`[Webhook Sender]: ${response.response}`);
 
-            response.stauts === 200 ? this.successMessage = response.response : this.errorMessage = response.response; // Set response based on status
+            response.stauts === 200 ? push.success(response.response) : push.error(response.response); // Set response based on status
             this.isLoading = false;
         },
 
         async sendContent() {
-            if(!this.webhookUrl) return this.errorMessage = 'Please provide a webhook URL';
+            if(!this.webhookUrl) return push.error('Please provide a webhook URL');
             this.isLoading = true;
 
             const webhook = {
@@ -216,7 +210,7 @@ export default {
             const response = await coreService.sendWebhook({webhookUrl: this.webhookUrl, webhook, contentOnly: true});
             console.log(`[Webhook Sender]: ${response.response}`);
             
-            response.status === 200 ? this.successMessage = response.response : this.errorMessage = response.response; // Set response based on status
+            response.status === 200 ? push.success(response.response) : push.error(response.response); // Set response based on status
             this.isLoading = false;
         },
 

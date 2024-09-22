@@ -19,9 +19,6 @@
             </div>
 
             <cardComponent title="Dns Result" class="w-full mt-5">
-                <template #response>
-                    <div class="text-2xl font-bold" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
-                </template>
                 <div class="flex flex-col gap-2 text-white">
                     <pre class="bg-background p-5 rounded-md mt-5 overflow-x-scroll">
                         <code class="text-muted block">{{ result }}</code>
@@ -42,29 +39,21 @@ export default {
         return {
             domain: '',
             result: '',
-            errorMessage: '',
-            successMessage: '',
             isLoading: false
         }
-    },
-
-    computed: {
-        showMessage() { return this.successMessage || this.errorMessage; },
     },
 
     methods: {
         async submit() {
             this.isLoading = true;
-            this.errorMessage = '';
-            this.successMessage = '';
 
             if(!this.domain) {
-                this.errorMessage = 'Please enter a domain';
+                push.error('Please enter a domain');
                 return this.isLoading = false;
             }
 
             if(this.domain.includes('http://') || this.domain.includes('https://')) {
-                this.errorMessage = 'Please enter a domain without http or https Example: google.com';
+                push.error('Please enter a domain without http or https Example: google.com');
                 return this.isLoading = false;
             }
 

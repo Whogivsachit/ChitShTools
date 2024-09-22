@@ -5,8 +5,6 @@
 
             <headerComponent title="Password Generator" description="Generate personalized hyper-secure passwords in seconds." />
 
-            <div class="text-2xl font-bold text-center pb-2" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
-            
             <cardComponent :divider="false" class="w-full md:w-2/3 mb-5">
                 <div class="flex gap-3 place-content-between w-full items-center">
                     <div class="text-xl" v-html="password"></div>
@@ -59,8 +57,6 @@ export default {
             includeNumbers: true,
             includeSymbols: true,
             password: '',
-            successMessage: '',
-            errorMessage: '',
             isLoading: false
         };
     },
@@ -71,7 +67,6 @@ export default {
         debounceGeneratePassword() {
             return _.debounce(this.generatePassword, 500);
         },
-        showMessage() { return this.successMessage || this.errorMessage; }
     },
 
     watch: {
@@ -108,7 +103,7 @@ export default {
             el.select();
             document.execCommand('copy');
             document.body.removeChild(el);
-            this.successMessage = 'Password copied to clipboard!';
+            push.info('Password copied to clipboard!');
         }
     }
 }

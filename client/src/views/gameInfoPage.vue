@@ -15,7 +15,6 @@
                         <option v-for="gameOption in gameOptions" :key="gameOption" :value="gameOption" class="capitalize">{{ gameOption}}</option>
                     </select>
                     <span class="text-white">Don't see your game? Either use the <a href="https://api.chit.sh/#/ServerInfo/get_serverinfo__game___ip___port_" target="_blank" class="underline">API</a> Directly or request a game to be added in my discord.</span>
-                    <div class="text-2xl font-bold  pt-2" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
                 </div>
             </cardComponent>
 
@@ -59,8 +58,6 @@ export default {
         return {
             ip: '',
             game: 'minecraft',
-            errorMessage: '',
-            successMessage: '',
             data: {},
             gameOptions: [
                 'minecraft', 'garrysmod', 'csgo', 'counterstrike2', 'counterstrike16', 'counterstrike15', 
@@ -78,29 +75,26 @@ export default {
         serverHasData() { return this.data.name?.length > 0; },
         serverHasPlayers() { return this.data?.playerArray && this.data?.playerArray[0]?.name; }, // Check if playerArray exists and has atleast 1 player with a valid name
         parsedIp() { return this.serverHasData ? this.data.ip.split(':') : []; },
-        showMessage() { return this.successMessage || this.errorMessage; }
     },
 
     methods: {
         async fetchServer() {
-            this.errorMessage = '';
-            this.successMessage = '';
             this.data = {};
 
-            if(!this.ip || !this.ip.includes(':')) return this.errorMessage = 'Please enter a valid IP Address or Domain Name with port number';
-            if(!this.game) return this.errorMessage = 'Please select a game';
+            if(!this.ip || !this.ip.includes(':')) return push.error('Please enter a valid IP Address or Domain Name with port number');
+            if(!this.game) return push.error('Please select a game')
             this.isLoading = true;
 
             try {
                 const response = await coreService.fetchServerInfo({ game: this.game, ip: this.ip });
                 console.log(`[GameServerInfo]: ${response.data.name}`);
 
-                if (response.status === 500) return this.errorMessage = 'Server is offline or not reachable'; // Api returns 500 on unreachable servers
+                if (response.status === 500) return push.error('Server is offline or not reachable'); // Api returns 500 on unreachable servers
                 this.data = response.data;
-                this.successMessage = 'Server information retrieved successfully';
+                push.success('Server information retrieved successfully');
                 this.isLoading = false;
             } catch (error) {
-                this.errorMessage = 'An error occurred while fetching the server information';
+                push.error('An error occurred while fetching the server information');
                 this.isLoading = false;
             }
         }

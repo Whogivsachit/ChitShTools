@@ -7,9 +7,6 @@
 
             <div class="flex gap-4">
                 <cardComponent v-if="!isConnected" class="w-full md:w-1/2">
-                    <template #response>
-                        <div class="text-2xl font-bold pb-2" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
-                    </template>
                     <div class="flex flex-col md:flex-row gap-4">
                         <div class="flex flex-col w-full text-white">
                             <span class="text-sm pl-1 pb-1">Server Host</span>
@@ -35,7 +32,7 @@
                     <button @click="connectToSSH" class="bg-accent hover:bg-blue-800 text-white rounded-md mt-5 px-5 py-2">Connect</button>
                 </cardComponent>
 
-                <cardComponent v-if="isConnected" title="Shell" :divider="true" class="w-full h-[77vh]">
+                <cardComponent v-if="isConnected" title="Shell" :divider="true" class="w-full h-auto">
                     <template #buttons>
                         <button @click="this.disconnect" class="bg-red-500 hover:bg-red-600 text-white rounded-md px-5 py-2">Disconnect</button>
                         <button @click="sendCommand('\x03')" class="bg-blue-500 hover:bg-red-600 text-white rounded-md px-5 py-2">Send ^C</button>
@@ -69,25 +66,17 @@ export default {
             command: '',
             socket: null,
             isLoading: false,
-            successMessage: '',
-            errorMessage: '',
         };
-    },
-
-    computed: {
-        showMessage() { return this.successMessage || this.errorMessage; }
     },
 
     methods: {
         async connectToSSH() {
             this.isLoading = true;
-            this.errorMessage = '';
-            this.successMessage = '';
 
             const localPatterns = ['localhost', '192.168', '127.0', '172.16', '10.10', '0.0'];
             if (localPatterns.some(pattern => this.sshDetails.host.startsWith(pattern))) {
                 this.isLoading = false;
-                return this.errorMessage = 'Please enter a valid host';
+                return push.error('Please enter a valid host')
             }
 
             this.socket = io(this.$appUrl, {
@@ -98,6 +87,7 @@ export default {
             this.socket.on('connect', () => {
                 console.log(`[WebSocket] connected: (${this.sshDetails.host}:${this.sshDetails.port})`);
                 this.socket.emit('connectSSH', this.sshDetails);
+                push.info('Connected to SSH');
             });
 
             this.socket.on('data', (data) => {
@@ -111,6 +101,7 @@ export default {
                 this.isConnected = false;
                 this.command = '';
                 this.shellOutput = '';
+                push.info('Disconnected from SSH');
             });
 
             this.isConnected = true;
@@ -139,6 +130,7 @@ export default {
             this.socket.disconnect();
             this.isConnected = false;
             this.isLoading = false;
+            push.info('Disconnected from SSH');
         },
     }
 }

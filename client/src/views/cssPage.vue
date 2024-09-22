@@ -14,9 +14,6 @@
             </cardComponent>
 
             <cardComponent title="Result" description="The Converted result will be displayed here." class="mt-5">
-                <template #response>
-                    <div class="text-2xl font-bold" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
-                </template>
                 <template #buttons>
                     <button @click="copyToClipboard(result)" class="border border-blue-600 text-white rounded-md px-4 py-1 mt-3">Copy</button>
                     <button @click="clear" class="border border-red-600 text-white rounded-md px-4 py-1 mt-3">Clear</button>
@@ -38,25 +35,17 @@ export default {
         return {
             css: '',
             result: '',
-            errorMessage: '',
-            successMessage: '',
             isLoading: false
         }
-    },
-
-    computed: {
-        showMessage() { return this.successMessage || this.errorMessage; }
     },
 
     methods: {
         async minify(type) {
             this.isLoading = true;
-            this.errorMessage = '';
-            this.successMessage = '';
 
             const response = await coreService.css({ css: this.css, type });
             if(response.status !== 200) {
-                this.errorMessage = response.message;  
+                push.error(response.message)
                 return this.isLoading = false;
             }
 
@@ -71,7 +60,7 @@ export default {
 
         copyToClipboard(text) {
             navigator.clipboard.writeText(text)
-            this.successMessage = 'Copied to clipboard'
+            push.info('Copied to clipboard')
         }
     }
 }

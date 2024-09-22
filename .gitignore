@@ -34,3 +34,4 @@ coverage
 .vscode
 server/src/downloads/*
 !server/src/downloads/*.ttf
+server/src/helpers

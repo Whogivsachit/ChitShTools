@@ -5,8 +5,6 @@
 
             <headerComponent title="Base64 Encode/Decode" description="Encode or Decode base64 easily" />
 
-            <div class="text-2xl font-bold pt-2 text-center pb-2" :class="messageClass">{{ showMessage }}</div>
-
             <div class="flex flex-col md:flex-row gap-6">
                 <cardComponent title="Encode" :divider="true" class="w-full md:w-1/2">
                     <template #buttons>
@@ -41,29 +39,20 @@ export default {
             encodedText: '',
             decodeText: '',
             decodedText: '',
-            successMessage: '',
-            errorMessage: '',
             isLoading: false,
         };
     },
 
-    computed: {
-        showMessage() { return this.successMessage || this.errorMessage; },
-        messageClass() { return this.successMessage ? 'text-green-600' : 'text-red-600'; }
-    },
-
     methods: {
         modify(type) {
-            this.clearMessages();
-            
             if(type === 'encode') {
-                if(!this.encodeText) return this.errorMessage = 'No text to encode';
+                if(!this.encodeText) return push.error('No text to encode');
                 this.encodedText = btoa(this.encodeText);
-                this.successMessage = 'Encoded Successfuly';
+                push.success('Encoded Successfuly');
             } else {
-                if(!this.decodeText) return this.errorMessage = 'No text to decode';
+                if(!this.decodeText) return push.error('No text to decode');
                 this.decodedText = atob(this.decodeText);
-                this.successMessage = 'Decoded Successfuly';
+                push.success('Decoded Successfuly');
             }
         },
 
@@ -75,11 +64,6 @@ export default {
                 this.decodeText = '';
                 this.decodedText = '';
             }
-            this.clearMessages();
-        },
-        clearMessages() {
-            this.successMessage = '';
-            this.errorMessage = '';
         },
     },
 }

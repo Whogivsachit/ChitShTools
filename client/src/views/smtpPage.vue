@@ -51,7 +51,6 @@
                 </div>
 
                 <button @click="sendEmail" class="bg-accent hover:bg-blue-800 text-white rounded-md mt-5 px-5 py-2">Send Email</button>
-                <div class="text-2xl font-bold mt-4" :class="successMessage ? 'text-green-600' : 'text-red-600'">{{ showMessage }}</div>
             </cardComponent>
 
             <cardComponent title="Confused on how this works?" class="mt-5">
@@ -89,22 +88,13 @@ export default {
             password: '',
             to: '',
             from: '',
-            successMessage: '',
-            errorMessage: '',
             isLoading: false,
         }
     },
 
-    computed: {
-        showMessage() { return this.successMessage || this.errorMessage; }
-    },
-
     methods: {
         async sendEmail() {
-            this.successMessage = '';
-            this.errorMessage = '';
-
-            if(!this.smtpServer || !this.smtpPort || !this.username || !this.password || !this.to || !this.from || !this.smtpSecurity) return this.errorMessage = 'Please fill out all fields';
+            if(!this.smtpServer || !this.smtpPort || !this.username || !this.password || !this.to || !this.from || !this.smtpSecurity) return push.error('Please fill out all fields');
             
             this.isLoading = true;
 
@@ -118,9 +108,7 @@ export default {
                 from: this.from,
             });
             
-            response.status !== 200 ? 
-            this.errorMessage = `${response.status} - ${response.message}` : 
-            this.successMessage = `${response.status} - ${response.message}`;
+            response.status !== 200 ? push.error(`${response.status} - ${response.message}`) : push.success(`${response.status} - ${response.message}`);
             console.log(`[SMTP Sender]: ${response.message}`);
             this.isLoading = false;
         }
