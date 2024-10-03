@@ -12,13 +12,12 @@ async function generateCode(workshopID) {
     const { data } = await axios.get(URL);
     const $ = cheerio.load(data);
 
-    const rows = $(row).map((i, row) => {
+    return $(row).map((i, row) => {
         const id = $(row).find(itemID).attr('href').split('=').pop();
         const name = $(row).find(itemName).text();
         return { id, name };
     }).get();
 
-    return rows;
 }
 
 exports.generateWorkshop = async (req, res) => {

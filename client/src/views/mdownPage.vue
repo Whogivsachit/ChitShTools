@@ -120,7 +120,7 @@ export default {
                     quality: this.quality
                 });
 
-                if(response.status !== 200) return push.error(response.message);
+                if(!response.file) return push.error(response.message);
                 
                 console.log(`[Media Downloader]: ${response.message}`);
 
