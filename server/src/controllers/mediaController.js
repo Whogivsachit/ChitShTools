@@ -120,9 +120,11 @@ exports.downloadMedia = async (req, res) => {
     };
 
     try {
-
         const mediaJson = await youtubedl(link, { dumpSingleJson: true });
         const isPlaylist = mediaJson._type === 'playlist' || '';
+        const duration = mediaJson.duration;
+
+        if(duration > 300) return res.send({ status: 413, message: 'Media is too long. Please download shorter files. [Max: 5 minutes]' });
 
         if (isPlaylist) {
             if(mediaJson.entries.length > 16) return res.send({ status: 413, message: 'Playlist is too large. Please download individual files or use a smaller playlist. [Max: 16]' });

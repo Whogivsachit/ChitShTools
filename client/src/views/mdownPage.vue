@@ -63,6 +63,7 @@
 
 <script>
 import coreService from '@/services/coreService.js';
+import { push } from 'notivue';
 
 export default {
     name: 'mediaDownloader',
@@ -73,7 +74,7 @@ export default {
             quality: 'best',
             fileType: 'wav',
             fileTypes: {
-                audio: ['wav', '3gp', 'aac', 'flv', 'm4a', 'mp3', 'ogg', 'webm'],
+                audio: ['wav', '3gp', 'aac', 'flv', 'mp3', 'ogg', 'webm'],
                 // video: ['mp4', 'webm'], Video has been disabled due to high BW Costs
             },
             isLoading: false,
@@ -120,7 +121,7 @@ export default {
                     quality: this.quality
                 });
 
-                if(!response.file) return push.error(response.message);
+                if(!response.file || response.status === 413) return push.error(response.message);
                 
                 console.log(`[Media Downloader]: ${response.message}`);
 
